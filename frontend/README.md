@@ -27,10 +27,9 @@ npm run lint
 # code format check and auto fix
 npm run lint -- --fix
 
+# config
+因为依赖库默认安装位置是 /home/proj/Xueqing/fronted 所以，自己克隆项目的时候，最好创建相同的目录，否则得吧 node_modules 文件夹删掉，重新安装，并删除两个配置文件 .babelrc 和 postcssrc.js
 
-<<<<<<< HEAD
-=======
-For a detailed explanation on how things work, check out the [guide](http://vuejs-templates.github.io/webpack/) and [docs for vue-loader](http://vuejs.github.io/vue-loader).
 
 ### 6.15
 
@@ -39,4 +38,3 @@ For a detailed explanation on how things work, check out the [guide](http://vuej
 其中一些js在下载下来失效，暂时未找到原因，页面还需要微调
 
 赵正品重新整合前端文件
->>>>>>> b1497630231a79f166c464abf8ef877451c929ea

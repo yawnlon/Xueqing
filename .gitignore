@@ -144,3 +144,7 @@ dmypy.json
 *.ntvs*
 *.njsproj
 *.sln
+
+# node dependency
+#./frontend/node_modules/
+
