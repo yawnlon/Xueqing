@@ -1,0 +1,287 @@
+
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta name="robots" content="noindex, nofollow"/>
+    <title>登录界面</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8"/>
+    <link href="resources/css/axure_rp_page.css" type="text/css" rel="stylesheet"/>
+    <link href="data/styles.css" type="text/css" rel="stylesheet"/>
+    <link href="files/登录界面/styles.css" type="text/css" rel="stylesheet"/>
+    <link href="https://app.axure.cloud/sref/?d=MO4ndmEyYuXLCLeZTGOYrmcqDVf2QyiWw8MDjOsnwzME%2FMJSUEO4xKxiulNE4psxG1x1%2FiJapWDANdXAjqG7SFSo0GPHfcPUfmPSzdRQEy0%3D" type="text/css" rel="stylesheet"/>
+    <script type="text/javascript">
+        AXSHARE_HOST_URL = 'http://app.axure.cloud';
+        AXSHARE_HOST_SECURE_URL = 'https://share.axure.com';
+        ACCOUNT_SERVICE_URL = 'http://accounts.axure.com';
+        ACCOUNT_SERVICE_SECURE_URL = 'https://accounts.axure.com';
+        ON_PREM_LDAP_ENABLED = 'false';
+</script><script src="resources/scripts/jquery-3.2.1.min.js"></script>
+    <script src="resources/scripts/axure/axQuery.js"></script>
+    <script src="resources/scripts/axure/globals.js"></script>
+    <script src="resources/scripts/axutils.js"></script>
+    <script src="resources/scripts/axure/annotation.js"></script>
+    <script src="resources/scripts/axure/axQuery.std.js"></script>
+    <script src="resources/scripts/axure/doc.js"></script>
+    <script src="resources/scripts/messagecenter.js"></script>
+    <script src="resources/scripts/axure/events.js"></script>
+    <script src="resources/scripts/axure/recording.js"></script>
+    <script src="resources/scripts/axure/action.js"></script>
+    <script src="resources/scripts/axure/expr.js"></script>
+    <script src="resources/scripts/axure/geometry.js"></script>
+    <script src="resources/scripts/axure/flyout.js"></script>
+    <script src="resources/scripts/axure/model.js"></script>
+    <script src="resources/scripts/axure/repeater.js"></script>
+    <script src="resources/scripts/axure/sto.js"></script>
+    <script src="resources/scripts/axure/utils.temp.js"></script>
+    <script src="resources/scripts/axure/variables.js"></script>
+    <script src="resources/scripts/axure/drag.js"></script>
+    <script src="resources/scripts/axure/move.js"></script>
+    <script src="resources/scripts/axure/visibility.js"></script>
+    <script src="resources/scripts/axure/style.js"></script>
+    <script src="resources/scripts/axure/adaptive.js"></script>
+    <script src="resources/scripts/axure/tree.js"></script>
+    <script src="resources/scripts/axure/init.temp.js"></script>
+    <script src="resources/scripts/axure/legacy.js"></script>
+    <script src="resources/scripts/axure/viewer.js"></script>
+    <script src="resources/scripts/axure/math.js"></script>
+    <script src="resources/scripts/axure/jquery.nicescroll.min.js"></script>
+    <script src="data/document.js"></script>
+    <script src="files/登录界面/data.js"></script>
+    <script type="text/javascript">
+      $axure.utils.getTransparentGifPath = function() { return 'https://d1h0x9w88ijkiq.cloudfront.net/3653/images/transparent.gif'; };
+      $axure.utils.getOtherPath = function() { return 'resources/Other.html'; };
+      $axure.utils.getReloadPath = function() { return 'resources/reload.html'; };
+    </script>
+
+<script>
+    $(document).ready(function(){
+        $("iframe").each(function( index ) {
+            var iframeSrc = $(this).attr('src') || '';
+            if(iframeSrc.indexOf('http:') != -1){
+                $(this).attr('scrolling', 'auto');
+                $(this).css('overflow', 'auto');
+                $(this).attr('src', 'https://uftnur.axshare.com/');
+            }
+        });
+    });
+</script>
+</head>
+  <body>
+    <div id="base" class="">
+
+      <!-- 登录面板 (Dynamic Panel) -->
+      <div id="u0" class="ax_default" data-label="登录面板">
+        <div id="u0_state0" class="panel_state" data-label="State1" style="">
+          <div id="u0_state0_content" class="panel_state_content">
+
+            <!-- Unnamed (Rectangle) -->
+            <div id="u1" class="ax_default _默认样式">
+              <div id="u1_div" class=""></div>
+              <div id="u1_text" class="text " style="display:none; visibility: hidden">
+                <p></p>
+              </div>
+            </div>
+
+            <!-- Unnamed (Rectangle) -->
+            <div id="u2" class="ax_default _默认样式">
+              <img id="u2_img" class="img " src="https://d1icd6shlvmxi6.cloudfront.net/gsc/B9ZVTW/4d/8c/50/4d8c50372ed240daa5647e1dab878978/images/登录界面/u2.svg?token=a9fd74d034674ce4ba80921daa779bbaf7a340516e4357b15edadf8c81f089ba"/>
+              <div id="u2_text" class="text ">
+                <p><span style="text-decoration:none;">学清书院单词速记</span></p>
+              </div>
+            </div>
+
+            <!-- 登录按纽 (Rectangle) -->
+            <div id="u3" class="ax_default _默认样式" data-label="登录按纽" selectiongroup="按纽组-9">
+              <div id="u3_div" class=""></div>
+              <div id="u3_text" class="text ">
+                <p><span style="text-decoration:none;">登录</span></p>
+              </div>
+            </div>
+
+            <!-- 输入框 (Group) -->
+            <div id="u4" class="ax_default" data-label="输入框" data-left="25" data-top="230" data-width="300" data-height="50">
+
+              <!-- 边框 (Rectangle) -->
+              <div id="u5" class="ax_default _默认样式" data-label="边框">
+                <img id="u5_img" class="img " src="https://d1icd6shlvmxi6.cloudfront.net/gsc/B9ZVTW/4d/8c/50/4d8c50372ed240daa5647e1dab878978/images/登录界面/边框_u5.svg?token=435b5581aab00c599169f1a996e521c3b0351056560da71589875e78efb51980"/>
+                <div id="u5_text" class="text ">
+                  <p><span style="text-decoration:none;"></span></p>
+                </div>
+              </div>
+
+              <!-- 密码 (Text Field) -->
+              <div id="u6" class="ax_default _默认样式" data-label="密码">
+                <div id="u6_div" class=""></div>
+                <input id="u6_input" type="password" value="" class="u6_input" maxlength="20"/>
+              </div>
+
+              <!-- 清除 (Rectangle) -->
+              <div id="u7" class="ax_default _默认样式 ax_default_hidden" data-label="清除" style="display:none; visibility: hidden">
+                <div id="u7_div" class=""></div>
+                <div id="u7_text" class="text ">
+                  <p><span style="text-decoration:none;"></span></p>
+                </div>
+              </div>
+            </div>
+
+            <!-- 输入框 (Group) -->
+            <div id="u8" class="ax_default" data-label="输入框" data-left="25" data-top="160" data-width="300" data-height="50">
+
+              <!-- 边框 (Rectangle) -->
+              <div id="u9" class="ax_default _默认样式" data-label="边框">
+                <img id="u9_img" class="img " src="https://d1icd6shlvmxi6.cloudfront.net/gsc/B9ZVTW/4d/8c/50/4d8c50372ed240daa5647e1dab878978/images/登录界面/边框_u5.svg?token=435b5581aab00c599169f1a996e521c3b0351056560da71589875e78efb51980"/>
+                <div id="u9_text" class="text " style="display:none; visibility: hidden">
+                  <p></p>
+                </div>
+              </div>
+
+              <!-- 用户名 (Text Field) -->
+              <div id="u10" class="ax_default _默认样式" data-label="用户名">
+                <div id="u10_div" class=""></div>
+                <input id="u10_input" type="text" value="" class="u10_input" maxlength="20"/>
+              </div>
+
+              <!-- 清除 (Rectangle) -->
+              <div id="u11" class="ax_default _默认样式 ax_default_hidden" data-label="清除" style="display:none; visibility: hidden">
+                <div id="u11_div" class=""></div>
+                <div id="u11_text" class="text ">
+                  <p><span style="text-decoration:none;"></span></p>
+                </div>
+              </div>
+            </div>
+
+            <!-- Unnamed (Shape) -->
+            <div id="u12" class="ax_default _默认样式">
+              <img id="u12_img" class="img " src="https://d1icd6shlvmxi6.cloudfront.net/gsc/B9ZVTW/4d/8c/50/4d8c50372ed240daa5647e1dab878978/images/登录界面/u12.svg?token=f7cc7c61a20f137a81b4f4da02d6197888deebca9ad5b4a9ca8eddc08697b13a"/>
+              <div id="u12_text" class="text " style="display:none; visibility: hidden">
+                <p></p>
+              </div>
+            </div>
+
+            <!-- Unnamed (Shape) -->
+            <div id="u13" class="ax_default _默认样式">
+              <img id="u13_img" class="img " src="https://d1icd6shlvmxi6.cloudfront.net/gsc/B9ZVTW/4d/8c/50/4d8c50372ed240daa5647e1dab878978/images/登录界面/u13.svg?token=0e7e4bb7c672fc36cd4a5ee49063a3162fb663ebbbe650812059b9029922edc6"/>
+              <div id="u13_text" class="text " style="display:none; visibility: hidden">
+                <p></p>
+              </div>
+            </div>
+
+            <!-- 警告提示 (Dynamic Panel) -->
+            <div id="u14" class="ax_default ax_default_hidden" data-label="警告提示" style="display:none; visibility: hidden">
+              <div id="u14_state0" class="panel_state" data-label="用户名或密码不正确" style="">
+                <div id="u14_state0_content" class="panel_state_content">
+
+                  <!-- Unnamed (Rectangle) -->
+                  <div id="u15" class="ax_default _默认样式">
+                    <div id="u15_div" class=""></div>
+                    <div id="u15_text" class="text ">
+                      <p style="font-size:12px;"><span style="font-family:'FontAwesome';font-weight:400;font-size:16px;text-decoration:none;"></span><span style="font-family:'微软雅黑';font-weight:400;text-decoration:none;"> 用户名或密码不正确</span></p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div id="u14_state1" class="panel_state" data-label="请填写用户名称" style="visibility: hidden;">
+                <div id="u14_state1_content" class="panel_state_content">
+
+                  <!-- Unnamed (Rectangle) -->
+                  <div id="u16" class="ax_default _默认样式">
+                    <div id="u16_div" class=""></div>
+                    <div id="u16_text" class="text ">
+                      <p style="font-size:12px;"><span style="font-family:'FontAwesome';font-weight:400;font-size:16px;text-decoration:none;"></span><span style="font-family:'微软雅黑';font-weight:400;text-decoration:none;"> 请填写用户账号</span></p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div id="u14_state2" class="panel_state" data-label="请填写登录密码" style="visibility: hidden;">
+                <div id="u14_state2_content" class="panel_state_content">
+
+                  <!-- Unnamed (Rectangle) -->
+                  <div id="u17" class="ax_default _默认样式">
+                    <div id="u17_div" class=""></div>
+                    <div id="u17_text" class="text ">
+                      <p style="font-size:12px;"><span style="font-family:'FontAwesome';font-weight:400;font-size:16px;text-decoration:none;"></span><span style="font-family:'微软雅黑';font-weight:400;text-decoration:none;"> 请填写登录密码</span></p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Unnamed (Image) -->
+            <div id="u18" class="ax_default image">
+              <img id="u18_img" class="img " src="https://d1icd6shlvmxi6.cloudfront.net/gsc/B9ZVTW/4d/8c/50/4d8c50372ed240daa5647e1dab878978/images/登录界面/u18.png?token=b1274b5d98d8d275cbca05e356543dcf1fc6fa25cb92888608e05d92a3759862"/>
+              <div id="u18_text" class="text " style="display:none; visibility: hidden">
+                <p></p>
+              </div>
+            </div>
+
+            <!-- Unnamed (Rectangle) -->
+            <div id="u19" class="ax_default _文本段落">
+              <div id="u19_div" class=""></div>
+              <div id="u19_text" class="text ">
+                <p><span style="text-decoration:none;">注册新账号&gt;&gt;</span></p>
+              </div>
+            </div>
+
+            <!-- Unnamed (Rectangle) -->
+            <div id="u20" class="ax_default _文本段落">
+              <div id="u20_div" class=""></div>
+              <div id="u20_text" class="text ">
+                <p><span style="text-decoration:none;">忘记密码？</span></p>
+              </div>
+            </div>
+
+            <!-- 独立复选框 (Group) -->
+            <div id="u21" class="ax_default" data-label="独立复选框" data-left="25" data-top="277" data-width="240" data-height="40">
+
+              <!-- text (Rectangle) -->
+              <div id="u22" class="ax_default _默认样式" data-label="text">
+                <div id="u22_div" class=""></div>
+                <div id="u22_text" class="text ">
+                  <p style="font-size:12px;"><span style="text-decoration:none;">&nbsp;</span><span style="font-size:10px;text-decoration:none;">记住登录状态</span></p>
+                </div>
+              </div>
+
+              <!-- 复选图标 (Rectangle) -->
+              <div id="u23" class="ax_default _默认样式" data-label="复选图标">
+                <img id="u23_img" class="img " src="https://d1icd6shlvmxi6.cloudfront.net/gsc/B9ZVTW/4d/8c/50/4d8c50372ed240daa5647e1dab878978/images/登录界面/复选图标_u23.svg?token=8cfbd47933831f54920a06f3e546fa94c797784ae6861ccf1d9fd184c5a8942e"/>
+                <div id="u23_text" class="text ">
+                  <p><span style="font-family:'LastResort', '.LastResort';text-decoration:none;"></span><span style="font-family:'Helvetica';text-decoration:none;"> </span></p>
+                </div>
+              </div>
+            </div>
+
+            <!-- Unnamed (Rectangle) -->
+            <div id="u24" class="ax_default _文本段落">
+              <div id="u24_div" class=""></div>
+              <div id="u24_text" class="text ">
+                <p><span style="text-decoration:none;">手机验证码登录&gt;&gt;</span></p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 底部版权 (Dynamic Panel) -->
+      <div id="u25" class="ax_default" data-label="底部版权">
+        <div id="u25_state0" class="panel_state" data-label="State1" style="">
+          <div id="u25_state0_content" class="panel_state_content">
+
+            <!-- footer (Group) -->
+            <div id="u26" class="ax_default" data-label="footer" data-left="0" data-top="0" data-width="1100" data-height="100">
+
+              <!-- Unnamed (Rectangle) -->
+              <div id="u27" class="ax_default _默认样式">
+                <img id="u27_img" class="img " src="https://d1icd6shlvmxi6.cloudfront.net/gsc/B9ZVTW/4d/8c/50/4d8c50372ed240daa5647e1dab878978/images/登录界面/u27.svg?token=513c96abb98c61257e7b3e5e0bab72ced9fb5962476a35fd47d4e506cffaedfb"/>
+                <div id="u27_text" class="text ">
+                  <p><span style="font-family:'Arial';text-decoration:none;">Copyright © </span><a id="u28" class="link" title="点击打开www.AxureUX.com"><span style="font-family:'PingFangSC-Regular', 'PingFang SC';text-decoration:none;">学清书院</span></a><span style="font-family:'Arial';text-decoration:none;">, All Rights Reserved.</span></p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <script src="resources/scripts/axure/ios.js"></script>
+  </body>
+</html>
