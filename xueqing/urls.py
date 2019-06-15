@@ -19,11 +19,15 @@ from django.views.generic.base import TemplateView
 from django.conf.urls import url, include
 from django.contrib.auth.models import User
 from rest_framework import routers
-from users import views as uv
+from rest_framework.authtoken import views as rfauth_views
+from rest_framework_jwt import views as rfjwt_views
+from users import views as users_views
 
 router = routers.DefaultRouter()
-router.register(r'users', uv.UserViewSet)
-router.register(r'groups', uv.GroupViewSet)
+# router.register(r'login', rfjwt_views.obtain_jwt_token)
+router.register(r'users', users_views.UserViewSet, base_name='users')
+router.register(r'account', users_views.AccountViewSet, base_name='account')
+router.register(r'sms', users_views.SmsCodeViewSet, base_name='sms')
 
 # 一件很重要的事情是：不要在后端写 Redirect，这回让前端路由不知所措
 
@@ -31,5 +35,7 @@ urlpatterns = [
     # path('admin/', admin.site.urls),
     path(r'', TemplateView.as_view(template_name="index.html")),
     url(r'^api/v1/', include(router.urls)),
-    url(r'^api-auth/', include('rest_framework.urls'))
+    # url(r'^api-auth/', include('rest_framework.urls')),
+    # path('api-token-auth/', rfauth_views.obtain_auth_token),
+    path('api-jwt-auth/', rfjwt_views.obtain_jwt_token)
 ]

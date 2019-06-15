@@ -8,5 +8,8 @@
 4. npm(cnpm) install(npm会被墙，最好用cnpm或类似镜像命令)
 5. 修改xueqing/settings.py DATABASES的相关配置
 
+# 第三方账号
+* 阿里云: 601748004lyx Xueqing2019.
+
 # TODO
 1. mysql 划分用户权限
