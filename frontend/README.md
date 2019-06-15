@@ -1,30 +1,30 @@
-# frontend
+Xueqing frontend
 
-> A Vue.js project
-
-## Build Setup
-
-``` bash
-# install dependencies
+# install dependency
 npm install
 
-# serve with hot reload at localhost:8080
+# develop
 npm run dev
 
-# build for production with minification
-npm run build
+Build
+# build for test environment
+npm run build:stage
 
-# build for production and view the bundle analyzer report
-npm run build --report
+# build for production environment
+npm run build:prod
 
-# run unit tests
-npm run unit
 
-# run e2e tests
-npm run e2e
+Advanced
+# preview the release environment effect
+npm run preview
 
-# run all tests
-npm test
-```
+# preview the release environment effect + static resource analysis
+npm run preview -- --report
 
-For a detailed explanation on how things work, check out the [guide](http://vuejs-templates.github.io/webpack/) and [docs for vue-loader](http://vuejs.github.io/vue-loader).
+# code format check
+npm run lint
+
+# code format check and auto fix
+npm run lint -- --fix
+
+
