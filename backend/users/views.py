@@ -131,8 +131,19 @@ class AccountViewSet(viewsets.GenericViewSet):
             "token": token
         })
 
-    def change_password(self):
-        pass
+    @list_route(methods=['POST'],
+    serializer_class = UserVerifySerializer,
+    permission_classes=[permissions.AllowAny],
+    url_path="reset-password")
+    def reset_password(self, request, *args, **kwargs):
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        mobile = serializer.validated_data["mobile"]
+        password = serializer.validated_data["password"]
+        user = User.objects.get(mobile=mobile)
+        user.set_password(password)
+        user.save()
+        return utils_http.gen_success_response("密码修改成功，请重新登录")
 
     def change_name(self):
         pass
