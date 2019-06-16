@@ -23,7 +23,7 @@ from rest_framework.authtoken import views as rfauth_views
 from rest_framework_jwt import views as rfjwt_views
 from users import views as users_views
 
-router = routers.DefaultRouter()
+router = routers.DefaultRouter(trailing_slash=False)
 # router.register(r'login', rfjwt_views.obtain_jwt_token)
 router.register(r'users', users_views.UserViewSet, base_name='users')
 router.register(r'account', users_views.AccountViewSet, base_name='account')

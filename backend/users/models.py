@@ -8,8 +8,14 @@ class SmsCode(models.Model):
     短信验证码
     """
     code = models.CharField(_("短信验证码"), max_length = 10)
-    mobile = models.CharField(_("手机号"), max_length = 11)
-    add_time = models.DateTimeField(_("添加时间"), default = datetime.now)
+    mobile = models.CharField(
+        _("手机号"), 
+        max_length = 11,
+        unique=True,
+        error_messages={
+            'unique': _("A user with that mobile number already exists."),
+        })
+    add_time = models.DateTimeField(_("添加时间"), auto_now=True)
 
     class Meta:
         verbose_name = _("短信验证")
@@ -25,7 +31,7 @@ class BaseInfo(AbstractUser):
     """
 
     TYPE_CHOICES = [
-        (0, 'normal'),
+        (0, 'student'),
         (1, 'admin'),
         (2, 'school'),
         (3, 'agent')
@@ -36,8 +42,9 @@ class BaseInfo(AbstractUser):
         max_length=11,# 只支持国内的11位手机号
         unique=True,
         error_messages={
-            'unique': _("A user with that mobile number already exists."),
-        }
+            'unique': _("该手机号已经存在"),
+        },
+        db_index = True
     )
 
     type = models.IntegerField(
@@ -45,3 +52,31 @@ class BaseInfo(AbstractUser):
         choices=TYPE_CHOICES,
         default=0
     )
+
+GENDER_CHOICES = [
+    (0, "未知"),
+    (1, "男"),
+    (2, "女")
+]
+
+class StudentInfo(models.Model):
+
+    name = models.CharField(
+        _('name'),
+        max_length=50,
+    )
+
+    # head = models.CharField(
+    #     _('head_image_url'),
+    #     max_length = 500
+    # )
+
+    gender = models.IntegerField(
+        _('gender'),
+        choices=GENDER_CHOICES,
+        default=0
+    )
+
+    user = models.OneToOneField('BaseInfo', 
+        on_delete=models.CASCADE,
+        db_index=True)
