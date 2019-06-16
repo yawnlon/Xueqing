@@ -5,7 +5,7 @@ npm install
 npm run dev
 
 
-#Build
+# Build
 ## build for test environment
 npm run build:stage
 
@@ -13,7 +13,7 @@ npm run build:stage
 npm run build:prod
 
 
-#Advanced
+# Advanced
 ## preview the release environment effect
 npm run preview
 
