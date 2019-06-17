@@ -61,7 +61,7 @@ REST_FRAMEWORK = {
 AUTH_USER_MODEL = 'users.BaseInfo'
 
 JWT_AUTH = {
-    'JWT_EXPIRATION_DELTA': datetime.timedelta(seconds=60),    #也可以设置seconds=20
+    'JWT_EXPIRATION_DELTA': datetime.timedelta(days=1),    #也可以设置seconds=20
     'JWT_AUTH_HEADER_PREFIX': 'JWT',                       #JWT跟前端保持一致，比如“token”这里设置成JWT
 }
 

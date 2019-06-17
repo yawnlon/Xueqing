@@ -129,20 +129,3 @@ class UserRegisterSerializer(UserVerifySerializer):
     '''
     name = serializers.CharField(max_length=50, default="学清用户", label="用户名")
     check_mobile_exist = serializers.BooleanField(default=False)      
-
-    # def validate_mobile(self, mobile):
-    #     super().validate_mobile(mobile)
-    #     if User.objects.filter(mobile__exact=mobile).count():
-    #         raise utils_http.APIException400("您请求的手机号码已经注册")
-    #     return mobile
-
-# class UserResetPasswordSerializer(UserVerifySerializer):
-#     '''
-#     用户忘记密码
-#     '''
-
-    # def validate_mobile(self, mobile):
-    #     super().validate_mobile(mobile)
-    #     if not User.objects.filter(mobile__exact=mobile).count():
-    #         raise utils_http.APIException400("您请求的手机号码尚未注册")
-    #     return mobile
