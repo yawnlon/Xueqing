@@ -12,12 +12,12 @@
 * 修改xueqing/settings.py DATABASES的相关配置（root, 123QWEasd!@#）
 * python manage.py makemigrations
 * python manage.py migrate
-* python manage.py createsuperuser # 可选，创建超级用户，例如用户名(admin)
-  用户名: admin
-  密码: super-admin
-  登录mysql
-  use xueqing;
-  update users_baseinfo set mobile="13051975811", type=1 where username="admin"; #修改超级用户的手机号
+* python manage.py createsuperuser # 可选，创建超级用户，例如用户名(admin)  
+  用户名: admin  
+  密码: super-admin  
+  登录mysql  
+  use xueqing;  
+  update users_baseinfo set mobile="13051975811", type=1 where username="admin"; #修改超级用户的手机号  
 * 安装Nginx（sudo apt-get install nginx）
 
 # 第三方账号
