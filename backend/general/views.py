@@ -31,7 +31,7 @@ class WebhookView(WebHookView):
     secret = utils_webhook.SECRET
 
     def push(self, payload, request):
-        ''' Do something with the payload and return a JSON serializeable value. '''
+        utils_webhook.do_reload()
         return {'status': 'received'}
 
 web_hook_view = WebhookView.as_view()
