@@ -27,9 +27,11 @@ def handler_404(request):
 #         serializer.is_valid(raise_exception=True)
 #         return utils_http.gen_success_response()
 
-class WebhookApiView(WebHookView):
+class WebhookView(WebHookView):
     secret = 'foobar'
 
     def push(self, payload, request):
         ''' Do something with the payload and return a JSON serializeable value. '''
         return {'status': 'received'}
+
+web_hook_view = WebhookView.as_view()

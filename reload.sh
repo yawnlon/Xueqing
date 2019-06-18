@@ -7,7 +7,7 @@ echo 'pull code'
 # git pull && git checkout master
 git pull
 source /root/anaconda3/bin/activate django
-pip install -r pip.pkg
+# pip install -r pip.pkg 好像没用
 python manage.py makemigrations
 python manage.py migrate
 uwsgi --reload uwsgi.pid

@@ -22,6 +22,7 @@ from rest_framework import routers
 from rest_framework.authtoken import views as rfauth_views
 from rest_framework_jwt import views as rfjwt_views
 from users import views as users_views
+from general import views as general_views
 
 router = routers.DefaultRouter(trailing_slash=False)
 # router.register(r'login', rfjwt_views.obtain_jwt_token)
@@ -37,5 +38,6 @@ urlpatterns = [
     url(r'^api/v1/', include(router.urls)),
     # url(r'^api-auth/', include('rest_framework.urls')),
     # path('api-token-auth/', rfauth_views.obtain_auth_token),
-    path('api-jwt-auth/', rfjwt_views.obtain_jwt_token)
+    path('api-jwt-auth/', rfjwt_views.obtain_jwt_token),
+    path('api-webhook/', general_views.web_hook_view)
 ]
