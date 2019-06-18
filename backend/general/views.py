@@ -28,7 +28,7 @@ def handler_404(request):
 #         return utils_http.gen_success_response()
 
 class WebhookView(WebHookView):
-    secret = 'foobar'
+    secret = utils_webhook.SECRET
 
     def push(self, payload, request):
         ''' Do something with the payload and return a JSON serializeable value. '''

@@ -1,2 +1,2 @@
-PASSWORD = "YzfCGkrIIWZUtnkU4RiFkBdO4Eyjrrm9"
+SECRET = "YzfCGkrIIWZUtnkU4RiFkBdO4Eyjrrm9"
 
