@@ -32,6 +32,6 @@ class WebhookView(WebHookView):
 
     def push(self, payload, request):
         utils_webhook.do_reload()
-        return {'status': 'received'}
+        return {'detail': 'Success!!'}
 
 web_hook_view = WebhookView.as_view()

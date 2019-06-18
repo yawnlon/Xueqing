@@ -40,4 +40,5 @@ urlpatterns = [
     # path('api-token-auth/', rfauth_views.obtain_auth_token),
     path('api-jwt-auth/', rfjwt_views.obtain_jwt_token),
     path('api-webhook/', general_views.web_hook_view)
+    path('test-webhook/', include(router.urls))
 ]
