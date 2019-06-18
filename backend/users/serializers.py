@@ -74,7 +74,7 @@ class SmsVerifySerializer(SmsCodeSerializer):
         if not success:
             raise utils_http.APIException400(msg)
         return attrs
-
+        
 class UserLoginSerializer(MobileSerializer):
     '''
     用户登录

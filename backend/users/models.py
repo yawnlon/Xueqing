@@ -17,6 +17,8 @@ class SmsCode(models.Model):
         })
     add_time = models.DateTimeField(_("添加时间"), auto_now=True)
 
+    used = models.BooleanField(_("是否使用过"), default=False)
+
     class Meta:
         verbose_name = _("短信验证")
         verbose_name_plural = verbose_name

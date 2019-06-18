@@ -24,7 +24,7 @@ sys.path.insert(0, os.path.join(BASE_DIR, 'backend'))
 SECRET_KEY = '1@xw2$o1aq3b_szmfn224m8wi9ritco23%m#hql@m$7luu&@c-'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 APPEND_SLASH=False
 

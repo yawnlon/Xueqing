@@ -49,6 +49,10 @@ def verify_random_code(mobile, code):
             return False, "验证码已经过期"
         if last.code != code:
             return False, "验证码错误"
+        if last.used:
+            return False, "验证码失效"
+        last.used = True
+        last.save()
         return True, None
     except SmsCode.DoesNotExist:
         return False, "验证码不存在，请发送手机验证码"

@@ -36,6 +36,7 @@ class SmsCodeViewSet(viewsets.GenericViewSet):
             if SmsCode.objects.filter(mobile=mobile).count():
                 model = SmsCode.objects.get(mobile=mobile)
                 model.code = res
+                model.used = False
                 model.save()
             else:
                 model = SmsCode(code=res, mobile=mobile)
