@@ -1,12 +1,14 @@
 from aliyunsdkcore.client import AcsClient
 from aliyunsdkcore.request import CommonRequest
 import json, random
+from users.models import SmsCode
+from datetime import datetime, timedelta
 
 ACCESSKEY_ID = "LTAIcVDWhhluB0vg"
 ACCESSKEY_SECRET = "Zf2l7WRYUMCaEpeIGiFwsH5KbikUuv"
 REGION_ID = "default"
 
-SMS_SIGN_NAME = "学清书院"
+SMS_SIGN_NAME = "好学知"
 SMS_TEPLATE_CODE_USER_AUTH = "SMS_167655084" #身份验证
 SMS_TEPLATE_CODE_LOGIN_AUTH = "SMS_167655083" #登录验证
 SMS_TEPLATE_CODE_LOGIN_EXCEPTION = "SMS_167655082" #登录异常
@@ -23,6 +25,7 @@ SMS_TEPLATE_CODE_SET.add(SMS_TEPLATE_CODE_CHANGE_PASSWORD)
 
 SMS_RANDOM_CODE_SEEDS = "0123456789"
 SMS_RANDOM_CODE_LENGTH = 6
+SMS_RANDOM_CODE_EXPIRED_TIME = 5 * 60 # 单位 sec
 
 SMS_RESPONSE_CODE_SUCCESS = "OK"
 SMS_RESPONSE_CODE_FAIL = {
@@ -38,6 +41,18 @@ SMS_RESPONSE_CODE_FAIL = {
 
 def send_ramdom_code(mobile, template):
     return AliyunSMS().send_random_code(mobile, template)
+
+def verify_random_code(mobile, code):
+    try:
+        last = SmsCode.objects.get(mobile=mobile)
+        if datetime.now() > last.add_time + timedelta(seconds=SMS_RANDOM_CODE_EXPIRED_TIME):
+            return False, "验证码已经过期"
+        if last.code != code:
+            return False, "验证码错误"
+        return True, None
+    except SmsCode.DoesNotExist:
+        return False, "验证码不存在，请发送手机验证码"
+
 
 class AliyunSMS(object):
 
@@ -70,7 +85,7 @@ class AliyunSMS(object):
         request.add_query_param('TemplateParam', param)
         response = self.client.do_action(request)
         res = json.loads(str(response, encoding = 'utf-8'))
-        print(res)
+        # print(res)
         code = res["Code"]
         if code == SMS_RESPONSE_CODE_SUCCESS:
             return True, sms_code
