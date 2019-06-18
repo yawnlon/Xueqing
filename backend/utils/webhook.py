@@ -6,8 +6,8 @@ SECRET = "YzfCGkrIIWZUtnkU4RiFkBdO4Eyjrrm9"
 RELOAD_CMD = "bash reload.sh"
 
 def reload():
-    Thread(target=do_reload).start()
+    Thread(target=__reload).start()
 
-def do_reload():
+def __reload():
     os.chdir(BASE_DIR)
     os.system(RELOAD_CMD)
