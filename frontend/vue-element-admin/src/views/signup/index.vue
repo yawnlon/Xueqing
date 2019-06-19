@@ -106,7 +106,7 @@
 </template>
 <script>
 import { validUsername } from '@/utils/validate'
-import logo_img from '@assets/front/logo-part3.png'
+import logo_img from '@/assets/front/logo-part3.png'
 export default {
   name: 'Signup',
   // components: { SocialSign },
