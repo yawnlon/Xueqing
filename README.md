@@ -23,6 +23,9 @@
 # 第三方账号
 * 阿里云: 601748004lyx Xueqing2019.
 
+# 产品原型
+https://b9zvtw.axshare.com/
+
 # TODO
 * mysql 划分用户权限
 * 短信验证码一次一密

@@ -111,6 +111,7 @@ class UserVerifySerializer(SmsVerifySerializer):
 
     '''
     用户忘记密码或注册，用于验证code和密码是否合法
+    密码是新设的密码
     '''
 
     password = serializers.CharField(
@@ -122,6 +123,48 @@ class UserVerifySerializer(SmsVerifySerializer):
         if not valid:
             raise utils_http.APIException400(msg)
         return password
+
+class UserChangePasswordSerializer(SmsVerifySerializer):
+    password_old = serializers.CharField(
+        style={'input_type': 'password'}, label=True, write_only=True, required=True
+    )
+
+    password_new = serializers.CharField(
+        style={'input_type': 'password'}, label=True, write_only=True, required=True
+    )
+
+    def validate_mobile(self, mobile):
+        super().validate_mobile(mobile)
+        request = self.context.get("request")
+        if request and hasattr(request, "user"):
+            user = request.user
+            if user.mobile != mobile:
+                raise utils_http.APIException400("您输入的手机号不是当前账号")
+        else:
+            raise utils_http.APIException400("未知错误")
+        return mobile
+
+
+    def validate_password_old(self, password_old):
+        valid, msg = utils_string.check_password_valid(password_old)
+        if not valid:
+            raise utils_http.APIException400(msg)
+        return password_old
+
+    def validate_password_new(self, password_new):
+        valid, msg = utils_string.check_password_valid(password_new)
+        if not valid:
+            raise utils_http.APIException400(msg)
+        return password_new
+
+    def validate(self, attrs):
+        mobile = attrs["mobile"]
+        password_old = attrs["password_old"]
+        user = User.objects.get(mobile=mobile)
+        if not user.check_password(password_old):
+            raise utils_http.APIException400("您输入的旧密码错误")
+        super().validate(attrs)
+        return attrs
 
 class UserRegisterSerializer(UserVerifySerializer):
     '''

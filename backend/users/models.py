@@ -15,7 +15,7 @@ class SmsCode(models.Model):
         error_messages={
             'unique': _("A user with that mobile number already exists."),
         })
-    add_time = models.DateTimeField(_("添加时间"), auto_now=True)
+    add_time = models.DateTimeField(_("添加时间"), auto_now_add=True)
 
     used = models.BooleanField(_("是否使用过"), default=False)
 

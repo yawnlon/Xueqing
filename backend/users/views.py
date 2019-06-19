@@ -6,7 +6,7 @@ from rest_framework import viewsets, mixins
 from rest_framework import permissions
 from rest_framework import status
 from django.db.models import Q
-from .serializers import UserSerializer, UserLoginSerializer
+from .serializers import UserSerializer, UserLoginSerializer, UserChangePasswordSerializer
 from .serializers import UserRegisterSerializer, UserVerifySerializer
 from .serializers import SmsSendSerializer, SmsVerifySerializer
 from rest_framework.decorators import list_route, detail_route
@@ -37,6 +37,7 @@ class SmsCodeViewSet(viewsets.GenericViewSet):
                 model = SmsCode.objects.get(mobile=mobile)
                 model.code = res
                 model.used = False
+                model.add_time = timezone.now()
                 model.save()
             else:
                 model = SmsCode(code=res, mobile=mobile)
@@ -146,5 +147,16 @@ class AccountViewSet(viewsets.GenericViewSet):
         user.save()
         return utils_http.gen_success_response("密码修改成功，请重新登录")
 
-    def change_name(self):
-        pass
+    @list_route(methods=['POST'],
+    serializer_class = UserChangePasswordSerializer,
+    authentication_classes = [JSONWebTokenAuthentication],
+    permission_classes=[permissions.IsAuthenticated],
+    url_path="change-password")
+    def change_password(self, request, *args, **kwargs):
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        password_new = serializer.validated_data["password_new"]
+        request.user.set_password(password_new)
+        request.user.save()
+        return utils_http.gen_success_response("密码修改成功")
+
