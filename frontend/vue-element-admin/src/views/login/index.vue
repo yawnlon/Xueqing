@@ -94,7 +94,7 @@
 </template>
 
 <script>
-import log_img from '@/assets/u18.png'
+import log_img from '@/assets/front/u18.png'
 import { validUsername } from '@/utils/validate'
 import SocialSign from './components/SocialSignin'
 
