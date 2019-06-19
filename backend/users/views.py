@@ -6,7 +6,8 @@ from rest_framework import viewsets, mixins
 from rest_framework import permissions
 from rest_framework import status
 from django.db.models import Q
-from .serializers import UserSerializer, UserLoginSerializer, UserChangePasswordSerializer
+from .serializers import UserSerializer, UserLoginSerializer, UserChangeNameSerializer
+from .serializers import UserChangePasswordSerializer, UserChangeMobileSerializer
 from .serializers import UserRegisterSerializer, UserVerifySerializer
 from .serializers import SmsSendSerializer, SmsVerifySerializer
 from rest_framework.decorators import list_route, detail_route
@@ -113,12 +114,13 @@ class AccountViewSet(viewsets.GenericViewSet):
         password = serializer.validated_data["password"]
         name = serializer.validated_data["name"]
         user = User(mobile=mobile, 
-            username="xq_" + mobile,
+            username=utils_string.gen_time_username(mobile),
             password=password,
-            last_login=timezone.now())
+            last_login=timezone.now(),
+            name=name)
         user.set_password(password)
         user.save()
-        student = StudentInfo.objects.create(user=user, name=name)
+        student = StudentInfo.objects.create(user=user)
         payload = jwt_payload_handler(student.user)
         token = jwt_encode_handler(payload)
         return utils_http.gen_success_response("注册成功", {
@@ -128,7 +130,7 @@ class AccountViewSet(viewsets.GenericViewSet):
                 "mobile": user.mobile,
                 "type": user.get_type_display(),
                 "is_active": user.is_active,
-                "name": student.name
+                "name": user.name
             },
             "token": token
         })
@@ -159,4 +161,32 @@ class AccountViewSet(viewsets.GenericViewSet):
         request.user.set_password(password_new)
         request.user.save()
         return utils_http.gen_success_response("密码修改成功")
+
+    @list_route(methods=['POST'],
+    serializer_class = UserChangeMobileSerializer,
+    authentication_classes = [JSONWebTokenAuthentication],
+    permission_classes=[permissions.IsAuthenticated],
+    url_path="change-mobile")
+    def change_mobile(self, request, *args, **kwargs):
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        mobile = serializer.validated_data["mobile"]
+        request.user.mobile = mobile
+        # request.user.username = "xq_" + mobile
+        request.user.save()
+        return utils_http.gen_success_response("手机号修改成功")
+
+    @list_route(methods=['POST'],
+    serializer_class = UserChangeNameSerializer,
+    authentication_classes = [JSONWebTokenAuthentication],
+    permission_classes=[permissions.IsAuthenticated],
+    url_path="change-name")
+    def change_name(self, request, *args, **kwargs):
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        name = serializer.validated_data["name"]
+        request.user.name = name
+        # request.user.username = "xq_" + mobile
+        request.user.save()
+        return utils_http.gen_success_response("姓名修改成功")
 

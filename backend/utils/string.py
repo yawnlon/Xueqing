@@ -1,4 +1,5 @@
 import re
+from datetime import datetime
 
 MOBILE_TYPE_HOME = 0
 MOBILE_TYPE_FOREIGN = 1
@@ -13,3 +14,8 @@ def check_password_valid(password):
     if len(password) < 6:
         return False, "密码长度不能少于6位"
     return True, None
+
+def gen_time_username(mobile):
+    # 根据时间和手机号生成唯一username
+    now = datetime.now().strftime("%Y%m%d%H%M%S")
+    return "xq_{}_{}".format(mobile, now)

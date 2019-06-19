@@ -55,6 +55,12 @@ class BaseInfo(AbstractUser):
         default=0
     )
 
+    name = models.CharField(
+        _('name'),
+        max_length=50,
+        default="学清用户"
+    )
+
 GENDER_CHOICES = [
     (0, "未知"),
     (1, "男"),
@@ -62,11 +68,6 @@ GENDER_CHOICES = [
 ]
 
 class StudentInfo(models.Model):
-
-    name = models.CharField(
-        _('name'),
-        max_length=50,
-    )
 
     # head = models.CharField(
     #     _('head_image_url'),

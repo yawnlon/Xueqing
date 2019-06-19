@@ -17,8 +17,9 @@
   密码: super-admin  
   登录mysql  
   use xueqing;  
-  update users_baseinfo set mobile="13051975811", type=1 where username="admin"; #修改超级用户的手机号  
+  update users_baseinfo set mobile="13051975811", type=1, name="admin" where username="admin"; #修改超级用户的手机号  
 * 安装Nginx（sudo apt-get install nginx）
+* 修改Nginx的配置文件
 
 # 第三方账号
 * 阿里云: 601748004lyx Xueqing2019.

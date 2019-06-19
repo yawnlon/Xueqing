@@ -124,6 +124,29 @@ class UserVerifySerializer(SmsVerifySerializer):
             raise utils_http.APIException400(msg)
         return password
 
+class UserRegisterSerializer(UserVerifySerializer):
+    '''
+    用户注册
+    '''
+    name = serializers.CharField(max_length=50, default="学清用户", label="用户名")
+    check_mobile_exist = serializers.BooleanField(default=False)    
+
+class UserChangeMobileSerializer(UserVerifySerializer):
+    '''
+    用户修改手机号
+    密码是用户的密码
+    '''
+    check_mobile_exist = serializers.BooleanField(default=False)
+
+    def validate_password(self, password):
+        super().validate_password(password)
+        request = self.context.get("request")
+        if request and hasattr(request, "user"):
+            user = request.user
+            if not user.check_password(password):
+                raise utils_http.APIException400("您输入的密码错误")
+        return password
+
 class UserChangePasswordSerializer(SmsVerifySerializer):
     password_old = serializers.CharField(
         style={'input_type': 'password'}, label=True, write_only=True, required=True
@@ -164,11 +187,11 @@ class UserChangePasswordSerializer(SmsVerifySerializer):
         if not user.check_password(password_old):
             raise utils_http.APIException400("您输入的旧密码错误")
         super().validate(attrs)
-        return attrs
+        return attrs  
 
-class UserRegisterSerializer(UserVerifySerializer):
+class UserChangeNameSerializer(serializers.Serializer):
     '''
-    用户注册
+    用户修改姓名
     '''
-    name = serializers.CharField(max_length=50, default="学清用户", label="用户名")
-    check_mobile_exist = serializers.BooleanField(default=False)      
+    name = serializers.CharField(max_length=50, required=True, label="用户名")
+
