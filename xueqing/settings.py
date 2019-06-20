@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'corsheaders',
     'rest_framework',
     'rest_framework.authtoken',
     'users'
@@ -81,8 +82,10 @@ MIDDLEWARE = [
 ]
 
 CORS_ORIGIN_WHITELIST = (
- '127.0.0.1:8080', #Frontend on dev mode
- '127.0.0.1:8000', #BACKEND
+    '*', #DEBUG模式，方便前端调试
+    '127.0.0.1:8080', #Frontend on dev mode
+    '127.0.0.1:9527', #Frontend on dev mode
+    '127.0.0.1:8000', #BACKEND
 )
 
 ROOT_URLCONF = 'xueqing.urls'
