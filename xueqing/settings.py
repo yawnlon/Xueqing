@@ -81,11 +81,14 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
+CORS_ORIGIN_ALLOW_ALL = True
+# https://www.jianshu.com/p/1fd744512d83
+
 CORS_ORIGIN_WHITELIST = (
-    '*', #DEBUG模式，方便前端调试
-    '127.0.0.1:8080', #Frontend on dev mode
-    '127.0.0.1:9527', #Frontend on dev mode
-    '127.0.0.1:8000', #BACKEND
+    # '*', #DEBUG模式，方便前端调试
+    # '127.0.0.1:8080', #Frontend on dev mode
+    # '127.0.0.1:9527', #Frontend on dev mode
+    # '127.0.0.1:8000', #BACKEND
 )
 
 ROOT_URLCONF = 'xueqing.urls'
