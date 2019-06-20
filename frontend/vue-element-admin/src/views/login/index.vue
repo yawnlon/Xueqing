@@ -97,10 +97,11 @@
 import log_img from '@/assets/front/u18.png'
 import { validUsername } from '@/utils/validate'
 import SocialSign from './components/SocialSignin'
+import axios from 'axios'
 
 export default {
   name: 'Login',
-  components: { SocialSign },
+  // components: { SocialSign },
   data() {
     const validateUsername = (rule, value, callback) => {
       if (!validUsername(value)) {
@@ -155,6 +156,7 @@ export default {
     } else if (this.loginForm.password === '') {
       this.$refs.password.focus()
     }
+
   },
   destroyed() {
     // window.removeEventListener('storage', this.afterQRScan)
@@ -184,7 +186,13 @@ export default {
     },
     handleLogin() {
       this.$refs.loginForm.validate(valid => {
-        // alert(this.redirect)
+      axios
+      .get('/api/mobile/18262610835/password/123456')
+      .then(response => (console.log(response)))
+      .catch(function (error) { // 请求失败处理
+        console.log(error);
+      })
+      return 
         if (valid) {
           this.loading = true
           this.$store.dispatch('user/login', this.loginForm)
