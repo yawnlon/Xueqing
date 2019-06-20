@@ -19,6 +19,9 @@ import './utils/error-log' // error log
 
 import * as filters from './filters' // global filters
 
+// import 'bootstrap/dist/css/bootstrap.min.css';
+// import 'bootstrap/dist/js/bootstrap.min.js';
+
 /**
  * If you don't want to use mock-server
  * you want to use MockJs for mock api
