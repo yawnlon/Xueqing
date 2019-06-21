@@ -4,7 +4,7 @@
       <img class="logo-img" :src="logo_img"/>
       <el-form-item prop="username">
         <span class="svg-container">
-          <svg-icon icon-class="user" />rm ~/miniconda.sh
+          <svg-icon icon-class="user" />
         </span>
         <el-inputt
           ref="username"
@@ -109,7 +109,7 @@ import { validUsername } from '@/utils/validate'
 import logo_img from '@/assets/front/logo-part3.png'
 export default {
   name: 'Signup',
-  // components: { SocialSign },
+  // components: { logo_img },
   data() {
     const validateUsername = (rule, value, callback) => {
       if (!validUsername(value)) {
@@ -138,7 +138,8 @@ export default {
       loading: false,
       showDialog: false,
       redirect: undefined,
-      otherQuery: {}
+      otherQuery: {},
+      logo_img:logo_img+ '?' + +new Date(),
     }
   },
   watch: {

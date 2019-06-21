@@ -1,7 +1,7 @@
 <template>
   <div class="success-container">
     <el-form  class="success-form" label-position="left">
-      <img class="logo-img" src="https://d1icd6shlvmxi6.cloudfront.net/gsc/B9ZVTW/b0/9d/72/b09d72ea0aea4dfb8d84e2cd7dfc8743/images/登录界面/u17.png?token=4d192c476443f1295dab09fddbfdf13f043173a91298ee0f795dfcbea1871641"/>
+      <img class="logo-img" :src="suc"/>
       <img class="bingo" src=""/>
       <h3 class="tip1">{{tip}}</h3>
       <p class="tip2">请妥善保管您的账户信息</p>
@@ -15,12 +15,13 @@
   </div>
 </template>
 <script>
-
+import suc from '@/assets/front/logo-part3.png'
 export default {
   name: 'Success',
   data() {
     return {
-      tip: '恭喜您注册成功'
+      tip: '恭喜您注册成功',
+      suc:suc+'?'+new Date()
     }
   },
   watch: {

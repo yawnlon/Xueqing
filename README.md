@@ -8,7 +8,7 @@
 * 登录mysql并 create schema xueqing default character set utf8 collate utf8_general_ci;
 * 从conda.yaml配置文件中创建或更新Django环境(conda env create/update -f conda.yaml)
 * 激活环境(conda activate django)
-* 从pip.pkg文件中创建或更新Django环境(pip install -f pip.pkg)
+* 从pip.pkg文件中创建或更新Django环境(pip install -r pip.pkg)
 * 修改xueqing/settings.py DATABASES的相关配置（root, 123QWEasd!@#）
 * python manage.py makemigrations
 * python manage.py migrate

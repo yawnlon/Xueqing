@@ -67,7 +67,7 @@ export const constantRoutes = [
   },
   {
     path: '/success',
-    component: () => import('@/views/signup/success'),
+    component: () => import('@/views/common/success'),
     hidden: true
   },
   {

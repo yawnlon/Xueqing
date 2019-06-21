@@ -49,12 +49,12 @@
             @keyup.enter.native="handleLogin"
           />
           
-          <span class="show-pwd" @click="showPwd">
+          <!-- <span class="show-pwd" @click="showPwd">
             <svg-icon :icon-class="passwordType === 'password' ? 'eye' : 'eye-open'" />
-          </span>
-          <!-- <span class="show-pwd" style="font-size:0.8em" @click="showPwd">
-            发送验证码
           </span> -->
+          <span class="show-pwd" style="font-size:0.8em" @click="sendCode">
+            发送验证码
+          </span>
         </el-form-item>
       </el-tooltip>
       <el-row class="login_font lgn_row_top">
@@ -63,8 +63,8 @@
       </el-row>
       <el-button :loading="loading" type="primary" class="u3_div" @click.native.prevent="handleLogin">登录</el-button>
       <el-row class="login_font lgn_row_bottom">
-        <el-col :span="12"><div class="grid-content bg-purple left">手机验证码登录>></div></el-col>
-        <el-col :span="12"><div class="grid-content bg-purple-light right">注册新账号>></div></el-col>
+        <el-col :span="12"><div class="grid-content bg-purple left">手机验证码登录></div></el-col>
+        <el-col :span="12"><div class="grid-content bg-purple-light right">注册新账号></div></el-col>
       </el-row>
 
       <!--<div style="position:relative">
@@ -97,10 +97,12 @@
 import log_img from '@/assets/front/u18.png'
 import { validUsername } from '@/utils/validate'
 import SocialSign from './components/SocialSignin'
+import axios from 'axios'
+import { MessageBox, Message } from 'element-ui'
 
 export default {
   name: 'Login',
-  components: { SocialSign },
+  // components: { SocialSign },
   data() {
     const validateUsername = (rule, value, callback) => {
       if (!validUsername(value)) {
@@ -109,9 +111,25 @@ export default {
         callback()
       }
     }
+    let m = null
     const validatePassword = (rule, value, callback) => {
-      if (value.length < 6) {
-        callback(new Error('The password can not be less than 6 digits'))
+      if (value.length < 6&&value.length>0) {
+        // callback(new Error('The password can not be less than 6 digits'))
+        let error_msg = '密码不能低于6位'
+        if(m){
+          m.close()
+          m = Message({
+            message:error_msg,
+            type:'error',
+            duration: 5 * 1000
+          })
+        }else{
+          m = Message({
+            message:error_msg,
+            type:'error',
+            duration: 5 * 1000
+          })
+        }
       } else {
         callback()
       }
@@ -155,6 +173,7 @@ export default {
     } else if (this.loginForm.password === '') {
       this.$refs.password.focus()
     }
+
   },
   destroyed() {
     // window.removeEventListener('storage', this.afterQRScan)
@@ -182,9 +201,35 @@ export default {
         this.$refs.password.focus()
       })
     },
+    sendCode(){
+      axios
+      .post('/api/sms/send',{'mobile':'18262610835','template':'SMS_167655084'})
+      .then(response => (console.log(response)))
+      .catch(function (error) { // 请求失败处理
+            Message({
+              message: error.response.data.detail,
+              type: 'error',
+              duration: 5 * 1000
+            })
+            // console.log(error.response.data.detail)
+      })
+    },
     handleLogin() {
       this.$refs.loginForm.validate(valid => {
-        // alert(this.redirect)
+      // axios
+      // .post('/api/account/login',{'mobile':'18262610835',})
+      // .then(response => (console.log(response)))
+      // .catch(function (error) { // 请求失败处理
+      //     error => {
+      //       Message({
+      //         message: error.message,
+      //         type: 'error',
+      //         duration: 5 * 1000
+      //       })
+      //     }
+      // })
+      // return
+
         if (valid) {
           this.loading = true
           this.$store.dispatch('user/login', this.loginForm)

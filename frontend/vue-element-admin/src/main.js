@@ -19,6 +19,9 @@ import './utils/error-log' // error log
 
 import * as filters from './filters' // global filters
 
+// import 'bootstrap/dist/css/bootstrap.min.css';
+// import 'bootstrap/dist/js/bootstrap.min.js';
+
 /**
  * If you don't want to use mock-server
  * you want to use MockJs for mock api
@@ -31,6 +34,9 @@ import { mockXHR } from '../mock'
 if (process.env.NODE_ENV === 'production') {
   mockXHR()
 }
+
+console.log('current_ENV: '+process.env.NODE_ENV)
+
 
 Vue.use(Element, {
   size: Cookies.get('size') || 'medium' // set element-ui default size
