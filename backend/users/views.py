@@ -190,3 +190,16 @@ class AccountViewSet(viewsets.GenericViewSet):
         request.user.save()
         return utils_http.gen_success_response("姓名修改成功")
 
+    @list_route(methods=['GET'],
+    authentication_classes = [JSONWebTokenAuthentication],
+    permission_classes=[permissions.IsAuthenticated])
+    def info(self, request, *args, **kwargs):     
+        user = request.user   
+        return utils_http.gen_success_response(data={
+            "id": user.id,
+            "username": user.username,
+            "mobile": user.mobile,
+            "type": user.get_type_display(),
+            "is_active": user.is_active,
+            "name": user.name
+        })
