@@ -1,9 +1,9 @@
 <template>
   <div class="success-container">
-    <el-form  class="success-form" label-position="left">
-      <img class="logo-img" :src="suc"/>
-      <img class="bingo" src=""/>
-      <h3 class="tip1">{{tip}}</h3>
+    <el-form class="success-form" label-position="left">
+      <img class="logo-img" :src="logo_img">
+      <img class="bingo" src="">
+      <h3 class="tip1">{{ tip }}</h3>
       <p class="tip2">请妥善保管您的账户信息</p>
       <el-button style="width:100%;margin-bottom:10px;margin-top:10px;background:#02a7f0" type="primary" @click.native.prevent="goHome">进入首页</el-button>
     </el-form>
@@ -15,13 +15,13 @@
   </div>
 </template>
 <script>
-import suc from '@/assets/front/logo-part3.png'
+
 export default {
   name: 'Success',
   data() {
     return {
-      tip: '恭喜您注册成功',
-      suc:suc+'?'+new Date()
+      tip: '',
+      logo_img: require('@/assets/front/logo-part3.png')
     }
   },
   watch: {
@@ -40,6 +40,7 @@ export default {
     // window.addEventListener('storage', this.afterQRScan)
   },
   mounted() {
+    this.tip = this.$route.query.tip
   },
   destroyed() {
     // window.removeEventListener('storage', this.afterQRScan)

@@ -1,12 +1,12 @@
 <template>
   <div class="signup-container">
     <el-form ref="signupForm" :model="signupForm" :rules="signupRules" class="signup-form" autocomplete="on" label-position="left">
-      <img class="logo-img" :src="logo_img"/>
+      <img class="logo-img" :src="logo_img">
       <el-form-item prop="username">
         <span class="svg-container">
           <svg-icon icon-class="user" />
         </span>
-        <el-inputt
+        <el-input
           ref="username"
           v-model="signupForm.username"
           placeholder="请输入姓名"
@@ -41,10 +41,11 @@
           name="valicode"
           type="text"
           tabindex="3"
-          autocomplete="off"/>
-        <span class="show-pwd" style="font-size:0.8em;color:#02a7f0" @click="sendCode">
-          发送验证码
-        </span>
+          autocomplete="off"
+        />
+        <el-button type="text" class="show-pwd" style="font-size:0.8em;" :disabled="codeDisabled" @click.native.prevent="sendCode">
+          {{ codeMsg }}
+        </el-button>
       </el-form-item>
       <el-tooltip v-model="capsTooltip" content="Caps lock is On" placement="right" manual>
         <el-form-item prop="password1">
@@ -98,29 +99,46 @@
         </router-link>
       </el-checkbox>
       <el-button :loading="loading" type="primary" style="width:100%;margin-bottom:10px;margin-top:10px;" @click.native.prevent="handleSignup">注册</el-button>
-      <div  class="login-container">
-          <p><router-link to="/login"><span>已有账号，立即登录</span></router-link></p>
+      <div class="login-container">
+        <p><router-link to="/login"><span>已有账号，立即登录</span></router-link></p>
       </div>
     </el-form>
   </div>
 </template>
 <script>
 import { validUsername } from '@/utils/validate'
-import logo_img from '@/assets/front/logo-part3.png'
+import axios from 'axios'
+import { MessageBox, Message } from 'element-ui'
 export default {
   name: 'Signup',
   // components: { logo_img },
   data() {
     const validateUsername = (rule, value, callback) => {
       if (!validUsername(value)) {
-        callback(new Error('Please enter the correct user name'))
+        callback(new Error('请输入正确的用户名'))
       } else {
         callback()
       }
     }
     const validatePassword = (rule, value, callback) => {
       if (value.length < 6) {
-        callback(new Error('The password can not be less than 6 digits'))
+        callback(new Error('密码不能少于6位'))
+      } else {
+        callback()
+      }
+    }
+    const validatePhonenumber = (rule, value, callback) => {
+      if (value.length !== 11) {
+        callback(new Error('手机号错误'))
+      } else {
+        callback()
+      }
+    }
+    var validatePass2 = (rule, value, callback) => {
+      if (value === '') {
+        callback(new Error('请再次输入密码'))
+      } else if (value !== this.ruleForm2.pass) {
+        callback(new Error('两次输入密码不一致!'))
       } else {
         callback()
       }
@@ -130,8 +148,11 @@ export default {
         checked: false
       },
       signupRules: {
+        phonenumber: [{ required: true, trigger: 'blur', validator: validatePhonenumber }],
         username: [{ required: true, trigger: 'blur', validator: validateUsername }],
-        password: [{ required: true, trigger: 'blur', validator: validatePassword }]
+        password1: [{ required: true, trigger: 'blur', validator: validatePassword }],
+        password2: [{ required: true, trigger: 'blur', validator: validatePass2 }],
+        valicode: [{ required: true, trigger: 'blur', validator: validatePassword }]
       },
       passwordType: 'password',
       capsTooltip: false,
@@ -139,7 +160,15 @@ export default {
       showDialog: false,
       redirect: undefined,
       otherQuery: {},
-      logo_img:logo_img+ '?' + +new Date(),
+      logo_img: require('@/assets/front/logo-part3.png'),
+      // 是否禁用按钮
+      codeDisabled: false,
+      // 倒计时秒数
+      countdown: 60,
+      // 按钮上的文字
+      codeMsg: '发送验证码',
+      // 定时器
+      timer: null
     }
   },
   watch: {
@@ -199,25 +228,94 @@ export default {
       })
     },
     sendCode() {
-
+      // 检查手机号
+      if (!this.signupForm.phonenumber) {
+        this.$refs['signupForm'].fields[1].validateMessage = '请输入手机号'
+        this.$refs['signupForm'].fields[1].validateState = 'error'
+        return
+      }
+      // 验证码60秒倒计时
+      if (!this.timer) {
+        this.codeDisabled = true
+        this.timer = setInterval(() => {
+          if (this.countdown > 0 && this.countdown <= 60) {
+            this.countdown--
+            if (this.countdown !== 0) {
+              this.codeMsg = '重新发送(' + this.countdown + ')'
+            } else {
+              clearInterval(this.timer)
+              this.codeMsg = '重发验证码'
+              this.countdown = 60
+              this.timer = null
+              this.codeDisabled = false
+            }
+          }
+        }, 1000)
+        axios
+          .post('/api/sms/send', { 'mobile': this.signupForm.phonenumber, 'check_mobile_exist': false, 'template': 'SMS_167655084' })
+          .then(response => (console.log(response)))
+          .catch(function(error) { // 请求失败处理
+            Message({
+              message: error.response.data.detail,
+              type: 'error',
+              duration: 5 * 1000
+            })
+            // console.log(error.response.data.detail)
+          })
+      }
     },
     handleSignup() {
-      this.$refs.signupForm.validate(valid => {
-        if (valid) {
-          this.loading = true
-          this.$store.dispatch('user/signup', this.signupForm)
-            .then(() => {
-              this.$router.push({ path: this.redirect || '/', query: this.otherQuery })
+      if (!this.signupForm.checked) {
+        Message({
+          message: '注册请同意《用户服务协议》',
+          type: 'error',
+          duration: 5 * 1000
+        })
+        return
+      }
+      if (this.signupForm.password1 === this.signupForm.password2) {
+        // this.loading = true
+        axios
+          .post('/api/account/register', { 'name': this.signupForm.username, 'mobile': this.signupForm.phonenumber, 'code': this.signupForm.valicode, 'password': this.signupForm.password1 })
+          .then(
+            (response) => {
+              console.log(response)
               this.loading = false
+              this.$router.push({ path: '/success', query: { tip: '恭喜您注册成功' }})
             })
-            .catch(() => {
-              this.loading = false
+          .catch(function(error) { // 请求失败处理
+            Message({
+              message: error.response.data.detail,
+              type: 'error',
+              duration: 5 * 1000
             })
-        } else {
-          console.log('error submit!!')
-          return false
-        }
-      })
+          })
+        // axios
+        // .post('/api/account/register',{'name':this.signupForm.username,'mobile':this.signupForm.phonenumber,'code':this.signupForm.valicode,'password':this.signupForm.password1})
+        // .then(function (response) {
+        //   response => {
+        //     console.log("1111111111")
+        //     console.log(response)
+        //     this.loading = false
+        //     this.$router.push({ path: '/success', query: {tip:'恭喜您注册成功'} })
+        //   }
+        // })
+        // .catch(function (error) { // 请求失败处理
+        //   error => {
+        //     Message({
+        //       message: error.response.data.detail,
+        //       type: 'error',
+        //       duration: 5 * 1000
+        //     })
+        //   }
+        // })
+      } else {
+        Message({
+          message: '两次输入密码不一致',
+          type: 'error',
+          duration: 5 * 1000
+        })
+      }
     },
     getOtherQuery(query) {
       return Object.keys(query).reduce((acc, cur) => {
