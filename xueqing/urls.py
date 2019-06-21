@@ -22,6 +22,7 @@ from rest_framework import routers
 from rest_framework.authtoken import views as rfauth_views
 from rest_framework_jwt import views as rfjwt_views
 from users import views as users_views
+from files import views as files_views
 from general import views as general_views
 
 router = routers.DefaultRouter(trailing_slash=False)
@@ -29,6 +30,7 @@ router = routers.DefaultRouter(trailing_slash=False)
 router.register(r'users', users_views.UserViewSet, base_name='users')
 router.register(r'account', users_views.AccountViewSet, base_name='account')
 router.register(r'sms', users_views.SmsCodeViewSet, base_name='sms')
+router.register(r'qiniu', users_views.SmsCodeViewSet, base_name='qiniu')
 
 # 一件很重要的事情是：不要在后端写 Redirect，这回让前端路由不知所措
 

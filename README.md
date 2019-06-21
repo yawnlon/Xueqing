@@ -23,6 +23,7 @@
 
 # 第三方账号
 * 阿里云: 601748004lyx Xueqing2019.
+* 七牛云: juicecwc@qq.com Xueqing.
 
 # 产品原型
 https://b9zvtw.axshare.com/

@@ -10,7 +10,7 @@ from .serializers import UserSerializer, UserLoginSerializer, UserChangeNameSeri
 from .serializers import UserChangePasswordSerializer, UserChangeMobileSerializer
 from .serializers import UserRegisterSerializer, UserVerifySerializer
 from .serializers import SmsSendSerializer, SmsVerifySerializer
-from rest_framework.decorators import list_route, detail_route
+from rest_framework.decorators import list_route
 from rest_framework.response import Response
 from rest_framework_jwt.serializers import jwt_encode_handler,jwt_payload_handler
 from rest_framework_jwt.authentication import JSONWebTokenAuthentication
