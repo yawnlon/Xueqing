@@ -3,7 +3,6 @@
         <el-row class="main" type='flex' justify='center'>
             <el-form ref="loginForm" :model="loginForm" :rules="loginRules" class="login-form u1_div ax_default" autocomplete="on" label-position="left">
                 <el-row class="r_logo" type='flex' justify='center' align='middle' style="margin:auto;margin-top:-70px;overflow:hidden">
-                    <!-- <el-col style="text-decoration:none;text-align:center;"></el-col> -->
                     <img id="u18_img" class="img" :src="log_img" style="width:9em">
                 </el-row>
 

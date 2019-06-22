@@ -2,19 +2,20 @@
     <el-row class="container" type='flex' justify='center' align='middle'>
         <el-row class="main" type='flex' justify='center'>
             <el-form ref="loginForm" :model="loginForm" :rules="loginRules" class="login-form u1_div ax_default" autocomplete="on" label-position="left">
-                <el-row class="r_logo" type='flex' justify='center' align='middle' style="margin:auto;margin-top:-70px;">
-                    <el-col style="text-decoration:none;text-align:center;"></el-col>
+                <el-row class="r_logo" type='flex' justify='center' align='middle' style="margin:auto;margin-top:-70px;overflow:hidden">
+                    <img id="u18_img" class="img" :src="log_img" style="width:9em">
                 </el-row>
 
                 <el-col type='flex' class="r_title" justify='center'>重置密码</el-col>
 
                 
                 <el-col class="r_input">
-                    <el-form-item prop="username">
+                    <el-form-item prop="mobile">
                         <i class="el-icon-mobile-phone"></i>
                         <el-input
-                v-model="loginForm.username"
-                name='username'
+                v-model="loginForm.mobile"
+                name='mobile'
+                ref='mobile'
                 placeholder="请输入账号手机号码"></el-input></el-form-item>
                 </el-col>
 
@@ -24,7 +25,7 @@
                 v-model="loginForm.code"
                 placeholder="请输入短信验证码"
                 name='code'
-                /><span class="show-pwd" style="font-size:0.8em;margin-right:0.8em" @click="reset">
+                /><span class="show-pwd" style="font-size:0.8em;margin-right:0.8em" @click="sendCode">
                 发送验证码
             </span></el-form-item>
             </el-col>
@@ -42,11 +43,17 @@
 import axios from 'axios'
 import { MessageBox, Message } from 'element-ui'
 import { validUsername, isPhone } from '@/utils/validate'
+import log_img from '@/assets/front/logo-part4.png'
 export default {
   data() {
-    const validateUsername = (rule, value, callback) => {
-      if (!validUsername(value)) {
-        // callback(new Error('Please enter the correct user name'))
+    const validateMobile = (rule, value, callback) => {
+      if (!isPhone(value)) {
+        this.message&&this.message.close()
+        this.message=Message({
+              message: '手机格式错误',
+              type: 'error',
+              duration: 3 * 1000
+            })
         callback()
       } else {
         callback()
@@ -68,39 +75,67 @@ export default {
     }
     return {
         loginForm: {
-            username: '18262610835',
+            mobile: '18262610835',
             code: '111111',
         },
         loginRules: {
-        username: [{ required: true, trigger: 'blur', validator: validateUsername }],
+        mobile: [{ required: true, trigger: 'blur', validator: validateMobile }],
         code: [{ required: true, trigger: 'blur', validator: validateCode,len:6 }]
       },
       message:"",
       disable:false,
-
+      log_img:log_img+ '?' + +new Date(),
+      codeMsg : '重发验证码',
+      countdown : 60,
+      timer : null,
+      codeDisabled : false,
     }
   },
   methods:{
-      reset(){
-          axios
-          .post('/api/sms/send',{mobile:this.loginForm.username,template:'SMS_167655080'})
-          .then(response=>(console.log(response)))
-          .catch(error=>{
-              this.message&&this.message.close()
-              this.message=Message({
-                  message:error.response.data.detail,
-                  type:'error',
-                  duration:3*1000,
-              })
-          })
-      },
       nextStep(){
           this.$refs['loginForm'].validate(valid=>{
               if(valid){
                 this.$router.push({ name: 'reset_input',params:{code:this.loginForm.code,mobile:this.loginForm.mobile} })
               }
           })
+      },
+      sendCode() {
+      // 检查手机号
+      if (!this.loginForm.mobile) {
+        this.$refs['loginForm'].fields[1].validateMessage = '请输入手机号'
+        this.$refs['loginForm'].fields[1].validateState = 'error'
+        return
       }
+      // 验证码60秒倒计时
+      if (!this.timer) {
+        this.codeDisabled = true
+        this.timer = setInterval(() => {
+          if (this.countdown > 0 && this.countdown <= 60) {
+            this.countdown--
+            if (this.countdown !== 0) {
+              this.codeMsg = '重新发送(' + this.countdown + ')'
+            } else {
+              clearInterval(this.timer)
+              this.codeMsg = '重发验证码'
+              this.countdown = 60
+              this.timer = null
+              this.codeDisabled = false
+            }
+          }
+        }, 1000)
+        axios
+          .post('/api/sms/send', {mobile:this.loginForm.mobile,template:'SMS_167655080'})
+          .then(response => (console.log(response)))
+          .catch(function(error) { // 请求失败处理
+            Message({
+              message: error.response.data.detail,
+              type: 'error',
+              duration: 3 * 1000
+            })
+            // console.log(error.response.data.detail)
+          })
+      }
+    }
   },
     watch:{
         'loginForm.code':{
