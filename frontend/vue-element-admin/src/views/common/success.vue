@@ -1,5 +1,5 @@
 <template>
-  <div class="success-container">
+  <div class="success-container" :style="{backgroundImage: 'url(' + bg_img + ')' }">
     <el-form class="success-form" label-position="left">
       <img class="logo-img" :src="logo_img">
       <img class="bingo" src="">
@@ -7,22 +7,22 @@
       <p class="tip2">请妥善保管您的账户信息</p>
       <el-button style="width:100%;margin-bottom:10px;margin-top:10px;background:#02a7f0" type="primary" @click.native.prevent="goHome">进入首页</el-button>
     </el-form>
-    <div class="footer-container">
-      <span style="font-family:'ArialMT', 'Arial';text-decoration:none;">Copyright © </span>
-      <span style="font-family:'PingFangSC-Regular', 'PingFang SC';text-decoration:none;">好学知</span>
-      <span style="font-family:'ArialMT', 'Arial';text-decoration:none;">, All Rights Reserved.</span>
-    </div>
+    <app-footer></app-footer>
   </div>
 </template>
 <script>
-
+import Footer from '@/views/common/footer'
 export default {
   name: 'Success',
   data() {
     return {
       tip: '',
-      logo_img: require('@/assets/front/logo-part3.png')
+      logo_img: require('@/assets/front/logo-part3.png'),
+      bg_img: require('@/assets/front/bg-01.png'),
     }
+  },
+  components: {
+    'app-footer':Footer,
   },
   watch: {
     $route: {
@@ -85,7 +85,6 @@ export default {
   min-height: 100%;
   width: 100%;
   overflow: hidden;
-  background-image: url(https://d1icd6shlvmxi6.cloudfront.net/gsc/B9ZVTW/b0/9d/72/b09d72ea0aea4dfb8d84e2cd7dfc8743/images/%E7%99%BB%E5%BD%95%E7%95%8C%E9%9D%A2/bg.png?token=06b4db5a27e8c8c7cdc1c704144ea1d83295329eb44f59066ba132011bcd237d);
   background-color: rgba(2, 167, 240, 1);
   background-position: left top;
   background-repeat: repeat;
@@ -126,15 +125,6 @@ export default {
     vertical-align: middle;
     width: 30px;
     display: inline-block;
-  }
-  .footer-container {
-    width: 100%;
-    position: fixed;
-    bottom: 20px;
-    text-align: center;
-    font-size: 12px;
-    color: #FFFFFF;
-    line-height: 24px;
   }
 }
 </style>
