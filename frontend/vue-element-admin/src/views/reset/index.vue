@@ -1,14 +1,10 @@
 <template>
-    <el-row class="container" type='flex' justify='center' align='middle'>
+    <el-row class="container" :style="bg_img" type='flex' justify='center' align='middle'>
         <el-row class="main" type='flex' justify='center'>
             <el-form ref="loginForm" :model="loginForm" :rules="loginRules" class="login-form u1_div ax_default" autocomplete="on" label-position="left">
-                <el-row class="r_logo" type='flex' justify='center' align='middle' style="margin:auto;margin-top:-70px;overflow:hidden">
-                    <img id="u18_img" class="img" :src="log_img" style="width:9em">
-                </el-row>
 
-                <el-col type='flex' class="r_title" justify='center'>重置密码</el-col>
-
-                
+                <el-col class="r_title"><img id="u18_img" class="img" :src="log_img" style="width:16em"></el-col>
+                <el-col class="r_button"><el-button type="primary">重置密码</el-button></el-col>
                 <el-col class="r_input">
                     <el-form-item prop="mobile">
                         <i class="el-icon-mobile-phone"></i>
@@ -43,7 +39,7 @@
 import axios from 'axios'
 import { MessageBox, Message } from 'element-ui'
 import { validUsername, isPhone } from '@/utils/validate'
-import log_img from '@/assets/front/logo-part4.png'
+import log_img from '@/assets/front/logo-part3.png'
 export default {
   data() {
     const validateMobile = (rule, value, callback) => {
@@ -75,8 +71,8 @@ export default {
     }
     return {
         loginForm: {
-            mobile: '18262610835',
-            code: '111111',
+            mobile: '',
+            code: '',
         },
         loginRules: {
         mobile: [{ required: true, trigger: 'blur', validator: validateMobile }],
@@ -89,6 +85,7 @@ export default {
       countdown : 60,
       timer : null,
       codeDisabled : false,
+      bg_img:'background-image:url('+require('@/assets/front/bg-01.png')+');background-repeat: no-repeat;background-size:100% 100%;-moz-background-size:100% 100%;',
     }
   },
   methods:{
@@ -124,7 +121,7 @@ export default {
           }
         }, 1000)
         axios
-          .post('/api/sms/send', {mobile:this.loginForm.mobile,template:'SMS_167655080'})
+          .post('/api/v1/sms/send', {mobile:this.loginForm.mobile,template:'SMS_167655080'})
           .then(response => (console.log(response)))
           .catch(function(error) { // 请求失败处理
             Message({
@@ -168,19 +165,19 @@ $cursor: #fff;
     background-color: $bg;
 
     .main{
-        width: 460px;
-        height: 460px;
+        width: 350px;
+        height: 420px;
         font-family: '微软雅黑';
         font-weight: 400;
         font-style: normal;
         // text-align: left;
         line-height: 20px;
-        background-color:rgba(255, 255, 255, 1);
+        background-color:transparent;
         
 
         div.r_input{
-            margin-left:30px;
-            margin-top:20px;
+            // margin-left:30px;
+            // margin-top:20px;
 
             .el-input {
                 display: inline-block;
@@ -223,7 +220,7 @@ $cursor: #fff;
             text-align: center;
             margin:0px;
             width:100%;
-            height:70px;
+            // height:70px;
             font-weight: 700;
             font-style: normal;
             font-size: 20px;
@@ -234,32 +231,27 @@ $cursor: #fff;
 
         .r_logo{
             border-width: 0px;
-            width: 140px;
-            height: 140px;
+
             display: flex;
             font-weight: 700;
             font-style: normal;
             font-size: 20px;
             color: #999999;
             line-height: 36px;
-            border-radius: 284px;
             background-color:rgba(255, 255, 255, 1);
         }
         
         
 
     }
-     div{
-            display: block;
-            width:350px;
-
-    }
+     
      div.r_button{
-            width: 100%;
             text-align: center;
-            
+            margin-bottom: 1em;
+
             button{
-                width: 350px;
+                width: 300px;
+                height: 36px;
             }
     }
     .show-pwd {
@@ -271,7 +263,29 @@ $cursor: #fff;
         cursor: pointer;
         user-select: none;
     }
-    
+    .u1_div {
+        border-width: 0px;
+        position: absolute;
+        left: 0px;
+        top: 0px;
+        width: 350px;
+        height: 420px;
+        // background: inherit;
+        background-color: rgba(255, 255, 255, 1);
+        border: none;
+        border-radius: 10px;
+        -moz-box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.349019607843137);
+        -webkit-box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.349019607843137);
+        box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.349019607843137);
+        // font-family: '寰蒋闆呴粦 Bold', '寰蒋闆呴粦 Regular', '寰蒋闆呴粦';
+        font-weight: 700;
+        font-style: normal;
+        font-size: 16px;
+        // color: #999999;
+        color:black;
+        text-align: left;
+        line-height: 20px;
+    }
     
 }
 

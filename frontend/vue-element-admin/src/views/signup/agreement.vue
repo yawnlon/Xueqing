@@ -1,5 +1,5 @@
 <template>
-    <el-main>
+    <el-main :style="bg_img">
         <el-row>
             <p>
 
@@ -189,3 +189,24 @@ Copyright © 好学知, All Rights Reserved.
         </el-row>
     </el-main>
 </template>
+
+<script>
+export default {
+    data(){
+
+        return {
+            bg_img:'background-image:url('+require('@/assets/front/bg-01.png')+');background-repeat: no-repeat;background-size:100% 100%;-moz-background-size:100% 100%;',
+        }
+    }
+}
+    
+</script>
+
+<style lang='scss'>
+    .el-main{
+        height: 100%;
+        p{
+            background-color: white;
+        }
+    }
+</style>

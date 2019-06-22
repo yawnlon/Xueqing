@@ -8,7 +8,7 @@ import getPageTitle from '@/utils/get-page-title'
 
 NProgress.configure({ showSpinner: false }) // NProgress Configuration
 
-const whiteList = ['/login', '/auth-redirect','/reset','/input','/success','/signup'] // no redirect whitelist
+const whiteList = ['/login', '/auth-redirect','/reset','/input','/success','/signup','/signin','/aggree'] // no redirect whitelist
 
 router.beforeEach(async(to, from, next) => {
   // start progress bar
@@ -28,7 +28,7 @@ router.beforeEach(async(to, from, next) => {
     } else {
       // determine whether the user has obtained his permission roles through getInfo
       const hasRoles = store.getters.roles && store.getters.roles.length > 0
-      console.log(hasRoles)
+      // console.log(hasRoles)
       if (hasRoles) {
         next()
       } else {
@@ -39,7 +39,7 @@ router.beforeEach(async(to, from, next) => {
 
           // generate accessible routes map based on roles
           const accessRoutes = await store.dispatch('permission/generateRoutes', roles)
-          console.log('aaaaa')
+          // console.log('aaaaa')
 
           // dynamically add accessible routes
           router.addRoutes(accessRoutes)
