@@ -7,7 +7,6 @@ class StudyCard(models.Model):
     name = models.CharField(
         _('name'),
         max_length=50,
-        required=True
     )
 
     code = models.CharField(

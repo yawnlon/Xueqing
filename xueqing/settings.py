@@ -102,7 +102,7 @@ ROOT_URLCONF = 'xueqing.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': ['frontend/dist'],
+        'DIRS': ['frontend/release'],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -117,7 +117,7 @@ TEMPLATES = [
 
 # Add for vue.js
 STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, "frontend/dist/static"),
+    os.path.join(BASE_DIR, "frontend/release/static"),
 ]
 
 WSGI_APPLICATION = 'xueqing.wsgi.application'
