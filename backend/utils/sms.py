@@ -42,7 +42,7 @@ SMS_RESPONSE_CODE_FAIL = {
 def send_ramdom_code(mobile, template):
     return AliyunSMS().send_random_code(mobile, template)
 
-def verify_random_code(mobile, code):
+def verify_random_code(mobile, code, invalid=True):
     try:
         last = SmsCode.objects.get(mobile=mobile)
         if datetime.now() > last.add_time + timedelta(seconds=SMS_RANDOM_CODE_EXPIRED_TIME):
@@ -51,8 +51,9 @@ def verify_random_code(mobile, code):
             return False, "验证码错误"
         if last.used:
             return False, "验证码失效"
-        last.used = True
-        last.save()
+        if invalid:
+            last.used = True
+            last.save()
         return True, None
     except SmsCode.DoesNotExist:
         return False, "验证码不存在，请发送手机验证码"

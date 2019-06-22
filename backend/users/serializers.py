@@ -61,7 +61,7 @@ class SmsSendSerializer(SmsCodeSerializer):
 
 class SmsVerifySerializer(SmsCodeSerializer):
     '''
-    短信验证码验证
+    短信验证码验证，目前这个接口不会让验证码失效
     '''
     code = serializers.CharField(min_length=utils_sms.SMS_RANDOM_CODE_LENGTH,
         max_length=utils_sms.SMS_RANDOM_CODE_LENGTH, label="验证码", required=True)
@@ -70,7 +70,7 @@ class SmsVerifySerializer(SmsCodeSerializer):
         super().validate(attrs)
         mobile = attrs["mobile"]
         code = attrs["code"]
-        success, msg = utils_sms.verify_random_code(mobile, code)
+        success, msg = utils_sms.verify_random_code(mobile, code, invalid=False)
         if not success:
             raise utils_http.APIException400(msg)
         return attrs
