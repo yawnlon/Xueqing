@@ -18,5 +18,5 @@ class QiniuViewSet(viewsets.GenericViewSet):
     def upload_token(self, request, *args, **kwargs):
         token = utils_qn.gen_token()
         return utils_http.gen_success_response(data={
-            "qn_token": token
+            "token": token
         })

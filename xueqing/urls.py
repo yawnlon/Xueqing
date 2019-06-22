@@ -30,7 +30,7 @@ router = routers.DefaultRouter(trailing_slash=False)
 router.register(r'users', users_views.UserViewSet, base_name='users')
 router.register(r'account', users_views.AccountViewSet, base_name='account')
 router.register(r'sms', users_views.SmsCodeViewSet, base_name='sms')
-router.register(r'qiniu', users_views.SmsCodeViewSet, base_name='qiniu')
+router.register(r'files', files_views.QiniuViewSet, base_name='files')
 
 # 一件很重要的事情是：不要在后端写 Redirect，这回让前端路由不知所措
 
