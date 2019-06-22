@@ -22,6 +22,11 @@ class StudyCard(models.Model):
         default=""
     )
 
+    valid_period= models.PositiveIntegerField(
+        _('valid_period'),
+        default=0
+    )
+
     class_free = models.BooleanField(
         _('class_free'),
         default=False
