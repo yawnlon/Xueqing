@@ -51,7 +51,7 @@ module.exports = {
         target:'http://182.92.64.4',
         changeOrigin:true,
         pathRewrite:{
-          '^/':'/api/v1'
+          '^/api':'/api/v1'
         }
       }
     },

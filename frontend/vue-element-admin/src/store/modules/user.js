@@ -33,10 +33,29 @@ const actions = {
   login({ commit }, userInfo) {
     const { username, password } = userInfo
     return new Promise((resolve, reject) => {
-      login({ username: username.trim(), password: password }).then(response => {
+      login({ mobile: username.trim(), password: password }).then(response => {
+        // login({ username: username.trim(), password: password }).then(response => {  //for testing
         const { data } = response
+        // console.log('hi')
+        // console.log(response)
+        data.token='admin-token'
+
         commit('SET_TOKEN', data.token)
         setToken(data.token)
+
+        //改写，如果有detail,说明是直接登录返回的信息，而不是第三方登录，不需要用token再去获取用户信息
+        //roles: ['admin'],
+        //introduction: 'I am a super administrator',
+        //avatar: 'https://wpimg.wallstcn.com/f778738c-e4f8-4870-b634-56703b4acafe.gif',
+        //name: 'Super Admin'
+        // data.avatar='https://wpimg.wallstcn.com/f778738c-e4f8-4870-b634-56703b4acafe.gif'
+        // data.introduction='I am a super administrator'
+        // if(data.user.id){
+        //   commit('SET_ROLES', [data.user.type])
+        //   commit('SET_NAME', data.user.username)
+        //   commit('SET_AVATAR', data.avatar)//菜单栏，导航栏管理
+        //   commit('SET_INTRODUCTION', data.introduction)//介绍信息
+        // }
         resolve()
       }).catch(error => {
         reject(error)
@@ -46,10 +65,16 @@ const actions = {
 
   // get user info
   getInfo({ commit, state }) {
+    
     return new Promise((resolve, reject) => {
+      // if(state.roles.length>0){
+      //   //已经登录，不再用token去获取用户信息，直接跳转
+      //   resolve({roles:state.roles})
+      // }
+
       getInfo(state.token).then(response => {
         const { data } = response
-
+        console.log(data)
         if (!data) {
           reject('Verification failed, please Login again.')
         }

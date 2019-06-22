@@ -26,6 +26,9 @@ export default {
     if (!this.roles.includes('admin')) {
       this.currentRole = 'editorDashboard'
     }
+    console.log(this.currentRole)
+
   }
+
 }
 </script>

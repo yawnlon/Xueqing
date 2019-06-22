@@ -39,6 +39,14 @@ import nestedRouter from './modules/nested'
  * all roles can be accessed
  */
 export const constantRoutes = [
+  //for testing
+  {
+    path: '/test',
+    component: ()=>import('@/views/test/index'),
+    hidden: true,
+  },
+
+  //main routers
   {
     path: '/redirect',
     component: Layout,
@@ -53,12 +61,20 @@ export const constantRoutes = [
   {
     path: '/login',
     component: () => import('@/views/login/index'),
-    hidden: true
+    hidden: true,
   },
   {
     path: '/reset',
     component: () => import('@/views/reset/index'),
-    hidden: true
+    hidden: true,
+    meta:{ title:'hello' }
+  },
+  {
+    path:'/input',
+    name:'reset_input',
+    component:() => import('@/views/reset/reset'),
+    meta: { title: 'Dashboard'},
+    hidden:true
   },
   {
     path: '/signup',

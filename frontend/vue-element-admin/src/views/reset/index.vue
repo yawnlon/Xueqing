@@ -3,7 +3,7 @@
         <el-row class="main" type='flex' justify='center'>
             <el-form ref="loginForm" :model="loginForm" :rules="loginRules" class="login-form u1_div ax_default" autocomplete="on" label-position="left">
                 <el-row class="r_logo" type='flex' justify='center' align='middle' style="margin:auto;margin-top:-70px;">
-                    <el-col style="text-decoration:none;text-align:center;">LOGO</el-col>
+                    <el-col style="text-decoration:none;text-align:center;"></el-col>
                 </el-row>
 
                 <el-col type='flex' class="r_title" justify='center'>重置密码</el-col>
@@ -13,38 +13,109 @@
                     <el-form-item prop="username">
                         <i class="el-icon-mobile-phone"></i>
                         <el-input
-                v-model="input"
+                v-model="loginForm.username"
+                name='username'
                 placeholder="请输入账号手机号码"></el-input></el-form-item>
                 </el-col>
-                
 
-                
-                <el-col class="r_input"><el-form-item prop="username">
+                <el-col class="r_input"><el-form-item prop="code">
                         <i class="el-icon-message"></i>
                     <el-input
-                v-model="input"
-                placeholder="请输入短信验证码"><span class="show-pwd" style="font-size:0.8em" @click="function(){}">
+                v-model="loginForm.code"
+                placeholder="请输入短信验证码"
+                name='code'
+                /><span class="show-pwd" style="font-size:0.8em;margin-right:0.8em" @click="reset">
                 发送验证码
-            </span></el-input></el-form-item>
+            </span></el-form-item>
             </el-col>
 
-                
-                <el-col class="r_button"><el-button type="primary">下一步</el-button></el-col>
+                <el-col class="r_button"><el-button type="primary"
+                :disabled="disable"
+                @click="nextStep">下一步</el-button></el-col>
+                <!-- <router-link :to="{ name: 'reset_input', params: { username:'asdfasd' }}"></router-link> -->
             </el-form>
         </el-row>
     </el-row>
 </template>
 
 <script>
-
-
+import axios from 'axios'
+import { MessageBox, Message } from 'element-ui'
+import { validUsername, isPhone } from '@/utils/validate'
 export default {
   data() {
-    return {
-      input: ''
+    const validateUsername = (rule, value, callback) => {
+      if (!validUsername(value)) {
+        // callback(new Error('Please enter the correct user name'))
+        callback()
+      } else {
+        callback()
+      }
     }
-  }
+    const validateCode = (rule, value, callback) => {
+      if (value.length!=6) {
+        // callback(new Error('The password can not be less than 6 digits'))
+        let error_msg = '验证码位数应为6位'
+        this.message&&this.message.close()
+        this.message = Message({
+        message:error_msg,
+        type:'error',
+        duration: 3 * 1000
+        })
+      } else {
+        callback()
+      }
+    }
+    return {
+        loginForm: {
+            username: '18262610835',
+            code: '111111',
+        },
+        loginRules: {
+        username: [{ required: true, trigger: 'blur', validator: validateUsername }],
+        code: [{ required: true, trigger: 'blur', validator: validateCode,len:6 }]
+      },
+      message:"",
+      disable:false,
+
+    }
+  },
+  methods:{
+      reset(){
+          axios
+          .post('/api/sms/send',{mobile:this.loginForm.username,template:'SMS_167655080'})
+          .then(response=>(console.log(response)))
+          .catch(error=>{
+              this.message&&this.message.close()
+              this.message=Message({
+                  message:error.response.data.detail,
+                  type:'error',
+                  duration:3*1000,
+              })
+          })
+      },
+      nextStep(){
+          this.$refs['loginForm'].validate(valid=>{
+              if(valid){
+                this.$router.push({ name: 'reset_input',params:{code:this.loginForm.code,mobile:this.loginForm.mobile} })
+              }
+          })
+      }
+  },
+    watch:{
+        'loginForm.code':{
+            deep:true,
+            handler(n,o){
+                if(n.length==6){
+                    this.disable=false
+                }else{
+                    this.disable=true
+                }
+            }
+        }
+    }
 }
+
 
 </script>
 

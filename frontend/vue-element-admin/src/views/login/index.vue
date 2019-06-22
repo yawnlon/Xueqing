@@ -58,13 +58,13 @@
         </el-form-item>
       </el-tooltip>
       <el-row class="login_font lgn_row_top">
-        <el-col :span="12"><div class="grid-content bg-purple left">记住登录状态</div></el-col>
-        <el-col :span="12"><div class="grid-content bg-purple-light right">忘记密码？</div></el-col>
+        <el-col :span="12"><div class="grid-content bg-purple left"><el-checkbox v-model="checked"></el-checkbox>&nbsp;记住登录状态</div></el-col>
+        <el-col :span="12"><div class="grid-content bg-purple-light right"><router-link to="/reset">忘记密码？</router-link></div></el-col>
       </el-row>
       <el-button :loading="loading" type="primary" class="u3_div" @click.native.prevent="handleLogin">登录</el-button>
       <el-row class="login_font lgn_row_bottom">
         <el-col :span="12"><div class="grid-content bg-purple left">手机验证码登录></div></el-col>
-        <el-col :span="12"><div class="grid-content bg-purple-light right">注册新账号></div></el-col>
+        <el-col :span="12"><div class="grid-content bg-purple-light right"><router-link to="/signup">注册新账号</router-link></div></el-col>
       </el-row>
 
       <!--<div style="position:relative">
@@ -95,7 +95,7 @@
 
 <script>
 import log_img from '@/assets/front/u18.png'
-import { validUsername } from '@/utils/validate'
+import { validUsername, isPhone } from '@/utils/validate'
 import SocialSign from './components/SocialSignin'
 import axios from 'axios'
 import { MessageBox, Message } from 'element-ui'
@@ -106,7 +106,8 @@ export default {
   data() {
     const validateUsername = (rule, value, callback) => {
       if (!validUsername(value)) {
-        callback(new Error('Please enter the correct user name'))
+        // callback(new Error('Please enter the correct user name'))
+        callback()
       } else {
         callback()
       }
@@ -136,8 +137,10 @@ export default {
     }
     return {
       loginForm: {
-        username: 'admin',
-        password: ''//'111111'
+        // username: 'admin',
+        // password: '111111',
+        username: '13051975811',
+        password: 'super_admin',
       },
       loginRules: {
         username: [{ required: true, trigger: 'blur', validator: validateUsername }],
@@ -150,6 +153,7 @@ export default {
       redirect: undefined,
       otherQuery: {},
       log_img:log_img+ '?' + +new Date(),
+      checked:false,
     }
   },
   watch: {
@@ -203,8 +207,11 @@ export default {
     },
     sendCode(){
       axios
-      .post('/api/sms/send',{'mobile':'18262610835','template':'SMS_167655084'})
-      .then(response => (console.log(response)))
+      .post('/api/sms/send',{'mobile':this.loginForm.username,'template':'SMS_167655083'})
+      .then(response => {
+        this.$router.push({ path: this.redirect || '/', query: this.otherQuery })
+        this.loading = false
+      })
       .catch(function (error) { // 请求失败处理
             Message({
               message: error.response.data.detail,
@@ -216,21 +223,26 @@ export default {
     },
     handleLogin() {
       this.$refs.loginForm.validate(valid => {
-      // axios
-      // .post('/api/account/login',{'mobile':'18262610835',})
-      // .then(response => (console.log(response)))
-      // .catch(function (error) { // 请求失败处理
-      //     error => {
-      //       Message({
-      //         message: error.message,
-      //         type: 'error',
-      //         duration: 5 * 1000
-      //       })
-      //     }
-      // })
-      // return
 
         if (valid) {
+          // this.loading = true
+          // axios
+          // .post('/api/account/login',{'mobile':this.loginForm.username,'password':this.loginForm.password})
+          // .then(response => {
+          //   this.$router.push({ path: this.redirect || '/', query: this.otherQuery })
+          //   this.loading = false
+          // })
+          // .catch(function (error) { // 请求失败处理
+          //     error => {
+          //       Message({
+          //         message: error.message,
+          //         type: 'error',
+          //         duration: 5 * 1000
+          //       })
+          //       this.loading = false
+          //     }
+          // })
+
           this.loading = true
           this.$store.dispatch('user/login', this.loginForm)
             .then(() => {
