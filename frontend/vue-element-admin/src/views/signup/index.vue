@@ -158,7 +158,8 @@ export default {
           { required: true, trigger: 'blur', validator: validateCPassword }
         ],
         valicode: [
-          { required: true, trigger: 'blur', message: '请输入短信验证码' }
+          { required: true, trigger: 'blur', message: '请输入短信验证码' },
+          { len:6, message: '短信验证码为6位数字', trigger: 'blur' }
         ]
       },
       passwordType: 'password',
@@ -280,11 +281,7 @@ export default {
               (response) => {
                 console.log(response)
                 this.loading = false
-                this.$store.dispatch('user/registerSucc', response.data)
-                .then(()=>{
-                    this.$router.push({ path: '/success', query: { tip: '恭喜您注册成功',content:'进入首页',redirect:'/' }})
-                })
-                
+                this.$router.push({ path: '/success', query: { tip: '恭喜您注册成功' }})
               })
             .catch(function(error) { // 请求失败处理
               Message({

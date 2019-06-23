@@ -46,8 +46,8 @@ import log_img from '@/assets/front/logo-part3.png'
 export default {
   data() {
     const validatePassword = (rule, value, callback) => {
-      if (value.length < 6&&value.length>0) {
-        callback(new Error( '密码不能低于6位'))
+      if (value.length < 6||value.length>20) {
+        callback(new Error( '密码为6-20位字符'))
       } else {
         callback()
       }

@@ -44,32 +44,26 @@
 <script>
 import axios from 'axios'
 import { MessageBox, Message } from 'element-ui'
-import { validUsername, isPhone } from '@/utils/validate'
+// import { validUsername, isPhone } from '@/utils/validate'
 import log_img from '@/assets/front/logo-part3.png'
 export default {
   data() {
-    const validateMobile = (rule, value, callback) => {
-      if (!isPhone(value)) {
-        callback(new Error('手机格式错误'))
-      } else {
-        callback()
-      }
-    }
-    const validateCode = (rule, value, callback) => {
-      if (value.length!=6) {
-        callback(new Error('验证码位数应为6位'))
-      } else {
-        callback()
-      }
-    }
+    
+
     return {
         loginForm: {
             mobile: '',
             code: '',
         },
         loginRules: {
-        mobile: [{ required: true, trigger: 'blur', validator: validateMobile }],
-        code: [{ required: true, trigger: 'blur', validator: validateCode,len:6 }]
+          mobile: [
+          { required: true, trigger: 'blur', message: '请输入手机号码' },
+          { pattern: /^((1[3,5,8][0-9])|(14[5,7])|(17[0,5,6,7,8])|(19[7]))\d{8}$/, message: '请检查手机号是否正确', trigger: 'blur' }
+          ],
+        code: [
+          { required: true, trigger: 'blur', message: '请输入短信验证码'},
+          { len:6, message: '短信验证码为6位数字', trigger: 'blur' }
+          ]
       },
       message:"",
       disable:true,
@@ -103,24 +97,25 @@ export default {
           if (!error) {
           // 验证码60秒倒计时
             if (!this.timer) {
-              this.codeDisabled = true
-              this.timer = setInterval(() => {
-                if (this.countdown > 0 && this.countdown <= 60) {
-                  this.countdown--
-                  if (this.countdown !== 0) {
-                    this.codeMsg = '重新发送(' + this.countdown + ')'
-                  } else {
-                    clearInterval(this.timer)
-                    this.codeMsg = '重发验证码'
-                    this.countdown = 60
-                    this.timer = null
-                    this.codeDisabled = false
-                  }
-                }
-              }, 1000)
+              
               axios
                 .post('/api/v1/sms/send',{mobile:this.loginForm.mobile,template:'SMS_167655080'})
                 .then(response => {
+                  this.codeDisabled = true
+                  this.timer = setInterval(() => {
+                    if (this.countdown > 0 && this.countdown <= 60) {
+                      this.countdown--
+                      if (this.countdown !== 0) {
+                        this.codeMsg = '重新发送(' + this.countdown + ')'
+                      } else {
+                        clearInterval(this.timer)
+                        this.codeMsg = '重发验证码'
+                        this.countdown = 60
+                        this.timer = null
+                        this.codeDisabled = false
+                      }
+                    }
+                  }, 1000)
                   // this.$router.push({ path: this.redirect || '/', query: this.otherQuery })
                   // this.loading = false
                   self.message&&self.message.close()

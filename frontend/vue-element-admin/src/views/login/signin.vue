@@ -76,7 +76,6 @@
           <span style="margin-right:18px;">Username : editor</span>
           <span>Password : any</span>
         </div>
-
          <el-button class="thirdparty-button" type="primary" @click="showDialog=true">
           Or connect with
         </el-button> 
@@ -95,27 +94,20 @@
 
 <script>
 import log_img from '@/assets/front/logo-part3.png'
-import { validUsername, isPhone } from '@/utils/validate'
+// import { validUsername, isPhone } from '@/utils/validate'
 import SocialSign from './components/SocialSignin'
 import axios from 'axios'
 import { MessageBox, Message } from 'element-ui'
-
 export default {
   name: 'Login',
   // components: { SocialSign },
   data() {
-    const validateUsername = (rule, value, callback) => {
-      // if (!validUsername(value)) {
-        if (value.length!=11) {
-        callback(new Error('请输入正确的手机号码格式'))
-      } else {
-        callback()
-      }
-    }
-    const validatePassword = (rule, value, callback) => {
-      if (value.length!=6) {
-        // callback(new Error('The password can not be less than 6 digits'))
-          callback(new Error('验证码格式错误'))
+    var validatePassword = (rule, value, callback) => {
+      value = value + ''
+      if (value === '') {
+        callback(new Error('请输入密码'))
+      } else if (value.length < 6 || value.length > 20) {
+        callback(new Error('密码为6-20位字符'))
       } else {
         callback()
       }
@@ -129,7 +121,10 @@ export default {
         code:''
       },
       loginRules: {
-        username: [{ required: true, len:11, trigger: 'blur', validator: validateUsername }],
+        username: [
+          { required: true, trigger: 'blur', message: '请输入手机号码' },
+          { pattern: /^((1[3,5,8][0-9])|(14[5,7])|(17[0,5,6,7,8])|(19[7]))\d{8}$/, message: '请检查手机号是否正确', trigger: 'blur' }
+        ],
         password: [{ required: true, trigger: 'blur', validator: validatePassword }]
       },
       passwordType: 'password',
@@ -180,7 +175,6 @@ export default {
     } else if (this.loginForm.password === '') {
       this.$refs.password.focus()
     }
-
   },
   destroyed() {
     // window.removeEventListener('storage', this.afterQRScan)
@@ -213,24 +207,24 @@ export default {
           if (!error) {
           // 验证码60秒倒计时
             if (!this.timer) {
-              this.codeDisabled = true
-              this.timer = setInterval(() => {
-                if (this.countdown > 0 && this.countdown <= 60) {
-                  this.countdown--
-                  if (this.countdown !== 0) {
-                    this.codeMsg = '重新发送(' + this.countdown + ')'
-                  } else {
-                    clearInterval(this.timer)
-                    this.codeMsg = '重发验证码'
-                    this.countdown = 60
-                    this.timer = null
-                    this.codeDisabled = false
-                  }
-                }
-              }, 1000)
               axios
                 .post('/api/v1/sms/send',{'mobile':this.loginForm.username,'template':'SMS_167655083'})
                 .then(response => {
+                  this.codeDisabled = true
+                  this.timer = setInterval(() => {
+                    if (this.countdown > 0 && this.countdown <= 60) {
+                      this.countdown--
+                      if (this.countdown !== 0) {
+                        this.codeMsg = '重新发送(' + this.countdown + ')'
+                      } else {
+                        clearInterval(this.timer)
+                        this.codeMsg = '重发验证码'
+                        this.countdown = 60
+                        this.timer = null
+                        this.codeDisabled = false
+                      }
+                    }
+                  }, 1000)
                   // this.$router.push({ path: this.redirect || '/', query: this.otherQuery })
                   // this.loading = false
                   this.message&&this.message.close()
@@ -254,7 +248,6 @@ export default {
       })
       
     },
-
     handleLogin() {
       this.$refs.loginForm.validate(valid => {
         console.log(valid)
@@ -276,7 +269,6 @@ export default {
           //       this.loading = false
           //     }
           // })
-
           this.loading = true
           this.$store.dispatch('user/login', this.loginForm)
             .then(() => {
@@ -325,19 +317,16 @@ export default {
 <style lang="scss">
 /* 修复input 背景不协调 和光标变色 */
 /* Detail see https://github.com/PanJiaChen/vue-element-admin/pull/927 */
-
 $bg:#283443;
 $light_gray:#fff;
 $cursor: #fff;
 $more_gray:#999999;
 $mycursor:#666;
-
 @supports (-webkit-mask: none) and (not (cater-color: $cursor)) {
   .login-container .el-input input {
     color: $cursor;
   }
 }
-
 /* reset element-ui css */
 .login-container {
   .el-input {
@@ -345,7 +334,6 @@ $mycursor:#666;
     height: 47px;
     width: 85%;
     
-
     input {
       background: transparent;
       border: 0px;
@@ -355,14 +343,12 @@ $mycursor:#666;
       color: $more_gray;
       height: 47px;
       caret-color: $mycursor;
-
       &:-webkit-autofill {
         box-shadow: 0 0 0px 1000px $bg inset !important;
         -webkit-text-fill-color: $cursor !important;
       }
     }
   }
-
   .el-form-item {
     border: 1px solid #dbdbdb;
     background: transparent;
@@ -378,14 +364,11 @@ $mycursor:#666;
 $bg:rgba(105, 43, 128, 1);
 $dark_gray:#889aa4;
 $light_gray:#eee;
-
-
 .login-container {
   min-height: 100%;
   width: 100%;
   overflow: hidden;
   cursor:black;
-
   // .login-form {
   //   position: relative;
   //   width: 520px;
@@ -486,11 +469,9 @@ $light_gray:#eee;
   .lgn_row_bottom{
     margin-top:1em;
   }
-
   #u2_text{
     margin-top: -35px
   }
-
   .login_font{
     font-family: 'PingFangSC-Regular', 'PingFang SC';
     font-weight: 400;
@@ -500,20 +481,16 @@ $light_gray:#eee;
     margin-left:25px;
     margin-right:25px;
   }
-
-
   .tips {
     font-size: 14px;
     color: #fff;
     margin-bottom: 10px;
-
     span {
       &:first-of-type {
         margin-right: 16px;
       }
     }
   }
-
   .svg-container {
     padding: 6px 5px 6px 15px;
     color: $dark_gray;
@@ -521,10 +498,8 @@ $light_gray:#eee;
     width: 30px;
     display: inline-block;
   }
-
   .title-container {
     position: relative;
-
     .title {
       font-size: 26px;
       color: $light_gray;
@@ -533,7 +508,6 @@ $light_gray:#eee;
       font-weight: bold;
     }
   }
-
   .show-pwd {
     position: absolute;
     right: 10px;
@@ -543,13 +517,11 @@ $light_gray:#eee;
     cursor: pointer;
     user-select: none;
   }
-
   .thirdparty-button {
     position: absolute;
     right: 0;
     bottom: 6px;
   }
-
   @media only screen and (max-width: 470px) {
     .thirdparty-button {
       display: none;
