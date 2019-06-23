@@ -74,7 +74,41 @@ class SmsVerifySerializer(SmsCodeSerializer):
         if not success:
             raise utils_http.APIException400(msg)
         return attrs
-        
+
+class SelfSerializer(serializers.Serializer):
+    def get_user(self):
+        request = self.context.get("request")
+        if request and hasattr(request, "user"):
+            user = request.user
+            return user
+        else:
+            raise utils_http.APIException400("未知错误")
+
+class SelfVerifySerializer(SelfSerializer):
+    '''
+    验证当前登录用户的密码和验证码是否准确
+    ''' 
+
+    password = serializers.CharField(
+        style={'input_type': 'password'}, label=True, write_only=True, default=None
+    )
+
+    code = serializers.CharField(min_length=utils_sms.SMS_RANDOM_CODE_LENGTH,
+        max_length=utils_sms.SMS_RANDOM_CODE_LENGTH, label="验证码", required=True)
+
+    def validate_code(self, code):
+        user = self.get_user()
+        success, msg = utils_sms.verify_random_code(user.mobile, code)
+        if not success:
+            raise utils_http.APIException400(msg)
+        return code
+
+    def validate_password(self, password):
+        user = self.get_user()
+        if not user.check_password(password):
+            raise utils_http.APIException400("您输入的密码错误")
+
+
 class UserLoginSerializer(MobileSerializer):
     '''
     用户登录

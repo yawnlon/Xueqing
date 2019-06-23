@@ -1,5 +1,5 @@
 <template>
-  <div class="signup-container">
+  <div class="signup-container" :style="{backgroundImage: 'url(' + bg_img + ')' }">
     <el-form ref="signupForm" :model="signupForm" :rules="signupRules" class="signup-form" autocomplete="on" label-position="left">
       <img class="logo-img" :src="logo_img">
       <el-form-item prop="username">
@@ -43,22 +43,22 @@
           tabindex="3"
           autocomplete="off"
         />
-        <el-button type="text" class="show-pwd" style="font-size:0.8em;" :disabled="codeDisabled" @click.native.prevent="sendCode">
+        <el-button type="text" class="show-pwd" style="font-size:0.8em;" :disabled="codeDisabled" @click.native.prevent="sendCode(signupForm.phonenumber)">
           {{ codeMsg }}
         </el-button>
       </el-form-item>
       <el-tooltip v-model="capsTooltip" content="Caps lock is On" placement="right" manual>
-        <el-form-item prop="password1">
+        <el-form-item prop="password">
           <span class="svg-container">
             <svg-icon icon-class="password" />
           </span>
           <el-input
             :key="passwordType"
-            ref="password1"
-            v-model="signupForm.password1"
+            ref="password"
+            v-model="signupForm.password"
             :type="passwordType"
             placeholder="设置6至20位登录密码"
-            name="password1"
+            name="password"
             tabindex="4"
             autocomplete="on"
             @keyup.native="checkCapslock"
@@ -71,17 +71,17 @@
         </el-form-item>
       </el-tooltip>
       <el-tooltip v-model="capsTooltip" content="Caps lock is On" placement="right" manual>
-        <el-form-item prop="password2">
+        <el-form-item prop="cpassword">
           <span class="svg-container">
             <svg-icon icon-class="password" />
           </span>
           <el-input
             :key="passwordType"
-            ref="password2"
-            v-model="signupForm.password2"
+            ref="cpassword"
+            v-model="signupForm.cpassword"
             :type="passwordType"
             placeholder="请再次输入登录密码"
-            name="password2"
+            name="cpassword"
             tabindex="5"
             autocomplete="on"
             @keyup.native="checkCapslock"
@@ -94,50 +94,43 @@
         </el-form-item>
       </el-tooltip>
       <el-checkbox v-model="signupForm.checked" style="color:#999999">勾选同意
-        <router-link to="/signup/agreement">
+        <router-link to="/signup/agreement" target="_blank">
           <span style="color:#666666">《用户服务协议》</span>
         </router-link>
       </el-checkbox>
-      <el-button :loading="loading" type="primary" style="width:100%;margin-bottom:10px;margin-top:10px;" @click.native.prevent="handleSignup">注册</el-button>
+      <el-button :loading="loading" type="primary" style="width:100%;margin-bottom:10px;margin-top:10px;" @click.native.prevent="handleSignup('signupForm')">注册</el-button>
       <div class="login-container">
         <p><router-link to="/login"><span>已有账号，立即登录</span></router-link></p>
       </div>
     </el-form>
+    <app-footer></app-footer>
   </div>
 </template>
 <script>
-import { validUsername } from '@/utils/validate'
 import axios from 'axios'
 import { MessageBox, Message } from 'element-ui'
+import Footer from '@/views/common/footer'
 export default {
   name: 'Signup',
-  // components: { logo_img },
   data() {
-    const validateUsername = (rule, value, callback) => {
-      if (!validUsername(value)) {
-        callback(new Error('请输入正确的用户名'))
+    var validatePassword = (rule, value, callback) => {
+      value = value + ''
+      if (value === '') {
+        callback(new Error('请输入密码'))
+      } else if (value.length < 6 || value.length >20 ) {
+        callback(new Error('密码为6-20位字符'))
       } else {
+        if (this.signupForm.cpassword !== '') {
+          this.$refs.signupForm.validateField('cpassword')
+        }
         callback()
       }
     }
-    const validatePassword = (rule, value, callback) => {
-      if (value.length < 6) {
-        callback(new Error('密码不能少于6位'))
-      } else {
-        callback()
-      }
-    }
-    const validatePhonenumber = (rule, value, callback) => {
-      if (value.length !== 11) {
-        callback(new Error('手机号错误'))
-      } else {
-        callback()
-      }
-    }
-    var validatePass2 = (rule, value, callback) => {
+    var validateCPassword = (rule, value, callback) => {
+      value = value + ''
       if (value === '') {
         callback(new Error('请再次输入密码'))
-      } else if (value !== this.ruleForm2.pass) {
+      } else if (value !== this.signupForm.password)      {
         callback(new Error('两次输入密码不一致!'))
       } else {
         callback()
@@ -148,11 +141,22 @@ export default {
         checked: false
       },
       signupRules: {
-        phonenumber: [{ required: true, trigger: 'blur', validator: validatePhonenumber }],
-        username: [{ required: true, trigger: 'blur', validator: validateUsername }],
-        password1: [{ required: true, trigger: 'blur', validator: validatePassword }],
-        password2: [{ required: true, trigger: 'blur', validator: validatePass2 }],
-        valicode: [{ required: true, trigger: 'blur', validator: validatePassword }]
+        phonenumber: [
+          { required: true, trigger: 'blur', message: '请输入手机号' },
+          { pattern: /^((1[3,5,8][0-9])|(14[5,7])|(17[0,5,6,7,8])|(19[7]))\d{8}$/, message: '请检查手机号是否正确', trigger: 'blur'  }
+        ],
+        username: [
+          { required: true, trigger: 'blur', message: '请输入用户名' }
+        ],
+        password: [
+          { required: true, trigger: 'blur', validator: validatePassword }
+        ],
+        cpassword: [
+          { required: true, trigger: 'blur', validator: validateCPassword }
+        ],
+        valicode: [
+          { required: true, trigger: 'blur', message: '请输入手机验证码' }
+        ]
       },
       passwordType: 'password',
       capsTooltip: false,
@@ -161,6 +165,7 @@ export default {
       redirect: undefined,
       otherQuery: {},
       logo_img: require('@/assets/front/logo-part3.png'),
+      bg_img: require('@/assets/front/bg-01.png'),
       // 是否禁用按钮
       codeDisabled: false,
       // 倒计时秒数
@@ -170,6 +175,9 @@ export default {
       // 定时器
       timer: null
     }
+  },
+  components: {
+    'app-footer':Footer,
   },
   watch: {
     $route: {
@@ -187,19 +195,7 @@ export default {
     // window.addEventListener('storage', this.afterQRScan)
   },
   mounted() {
-    if (this.signupForm.username === '') {
-      this.$refs.username.focus()
-    } else if (this.signupForm.phonenumber === '') {
-      this.$refs.phonenumber.focus()
-    } else if (this.signupForm.valicode === '') {
-      this.$refs.valicode.focus()
-    } else if (this.signupForm.password1 === '') {
-      this.$refs.password1.focus()
-    } else if (this.signupForm.password2 === '') {
-      this.$refs.password2.focus()
-    } else if (!this.signupForm.checked) {
-      this.$refs.checked.focus()
-    }
+
   },
   destroyed() {
     // window.removeEventListener('storage', this.afterQRScan)
@@ -227,56 +223,56 @@ export default {
         this.$refs.password.focus()
       })
     },
-    sendCode() {
-      // 检查手机号
-      if (!this.signupForm.phonenumber) {
-        this.$refs['signupForm'].fields[1].validateMessage = '请输入手机号'
-        this.$refs['signupForm'].fields[1].validateState = 'error'
-        return
-      }
-      // 验证码60秒倒计时
-      if (!this.timer) {
-        this.codeDisabled = true
-        this.timer = setInterval(() => {
-          if (this.countdown > 0 && this.countdown <= 60) {
-            this.countdown--
-            if (this.countdown !== 0) {
-              this.codeMsg = '重新发送(' + this.countdown + ')'
-            } else {
-              clearInterval(this.timer)
-              this.codeMsg = '重发验证码'
-              this.countdown = 60
-              this.timer = null
-              this.codeDisabled = false
-            }
+    sendCode(phoneNum) {
+      this.$refs.signupForm.validateField('phonenumber', (phoneError) => {
+        console.log(`${phoneError}***************************`);
+        if (!phoneError) {
+          // 验证码60秒倒计时
+          if (!this.timer) {
+            this.codeDisabled = true
+            this.timer = setInterval(() => {
+              if (this.countdown > 0 && this.countdown <= 60) {
+                this.countdown--
+                if (this.countdown !== 0) {
+                  this.codeMsg = '重新发送(' + this.countdown + ')'
+                } else {
+                  clearInterval(this.timer)
+                  this.codeMsg = '重发验证码'
+                  this.countdown = 60
+                  this.timer = null
+                  this.codeDisabled = false
+                }
+              }
+            }, 1000)
+            axios
+              .post('/api/v1/sms/send', { 'mobile': this.signupForm.phonenumber, 'check_mobile_exist': false, 'template': 'SMS_167655084' })
+              .then(response => (console.log(response)))
+              .catch(function(error) { // 请求失败处理
+                Message({
+                  message: error.response.data.detail,
+                  type: 'error',
+                  duration: 5 * 1000
+                })
+                // console.log(error.response.data.detail)
+              })
           }
-        }, 1000)
-        axios
-          .post('/api/sms/send', { 'mobile': this.signupForm.phonenumber, 'check_mobile_exist': false, 'template': 'SMS_167655084' })
-          .then(response => (console.log(response)))
-          .catch(function(error) { // 请求失败处理
+        }
+      });
+    },
+    handleSignup(formName) {
+      this.$refs[formName].validate((valid) => {
+        if (!this.signupForm.checked) {
             Message({
-              message: error.response.data.detail,
+              message: '注册请同意《用户服务协议》',
               type: 'error',
               duration: 5 * 1000
             })
-            // console.log(error.response.data.detail)
-          })
-      }
-    },
-    handleSignup() {
-      if (!this.signupForm.checked) {
-        Message({
-          message: '注册请同意《用户服务协议》',
-          type: 'error',
-          duration: 5 * 1000
-        })
-        return
-      }
-      if (this.signupForm.password1 === this.signupForm.password2) {
-        // this.loading = true
-        axios
-          .post('/api/account/register', { 'name': this.signupForm.username, 'mobile': this.signupForm.phonenumber, 'code': this.signupForm.valicode, 'password': this.signupForm.password1 })
+            return false;
+        }
+        if (valid) {
+          // this.loading = true
+          axios
+          .post('/api/v1/account/register', { 'name': this.signupForm.username, 'mobile': this.signupForm.phonenumber, 'code': this.signupForm.valicode, 'password': this.signupForm.password })
           .then(
             (response) => {
               console.log(response)
@@ -290,32 +286,11 @@ export default {
               duration: 5 * 1000
             })
           })
-        // axios
-        // .post('/api/account/register',{'name':this.signupForm.username,'mobile':this.signupForm.phonenumber,'code':this.signupForm.valicode,'password':this.signupForm.password1})
-        // .then(function (response) {
-        //   response => {
-        //     console.log("1111111111")
-        //     console.log(response)
-        //     this.loading = false
-        //     this.$router.push({ path: '/success', query: {tip:'恭喜您注册成功'} })
-        //   }
-        // })
-        // .catch(function (error) { // 请求失败处理
-        //   error => {
-        //     Message({
-        //       message: error.response.data.detail,
-        //       type: 'error',
-        //       duration: 5 * 1000
-        //     })
-        //   }
-        // })
-      } else {
-        Message({
-          message: '两次输入密码不一致',
-          type: 'error',
-          duration: 5 * 1000
-        })
-      }
+        } else {
+        console.log('error submit!!');
+        return false;
+        }
+      });
     },
     getOtherQuery(query) {
       return Object.keys(query).reduce((acc, cur) => {
@@ -379,7 +354,6 @@ export default {
   min-height: 100%;
   width: 100%;
   overflow: hidden;
-  background-image: url(https://d1icd6shlvmxi6.cloudfront.net/gsc/B9ZVTW/b0/9d/72/b09d72ea0aea4dfb8d84e2cd7dfc8743/images/%E7%99%BB%E5%BD%95%E7%95%8C%E9%9D%A2/bg.png?token=06b4db5a27e8c8c7cdc1c704144ea1d83295329eb44f59066ba132011bcd237d);
   background-color: rgba(2, 167, 240, 1);
   background-position: left top;
   background-repeat: repeat;
