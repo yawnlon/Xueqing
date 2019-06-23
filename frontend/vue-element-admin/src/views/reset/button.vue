@@ -39,9 +39,7 @@
 export default {
     name:'myButton',
     data(){
-
     }
-
 }
 </script>
 
@@ -51,12 +49,10 @@ $dark_gray:#889aa4;
 $mycursor:#666;
 $more_gray:#999999;
 $cursor: #fff;
-
     .el-input {
         display: inline-block;
-        height: 47px;
+        height: 42px;
         width: 85%;
-
         input {
         background: transparent;
         border: 0px;
@@ -64,20 +60,19 @@ $cursor: #fff;
         border-radius: 0px;
         padding: 12px 5px 12px 15px;
         color: $more_gray;
-        height: 47px;
+        height: 42px;
         caret-color: $mycursor;
-
         &:-webkit-autofill {
             box-shadow: 0 0 0px 1000px $bg inset !important;
             -webkit-text-fill-color: $cursor !important;
         }
         }
     }
-
     .el-form-item {
         border: 1px solid rgba(255, 255, 255, 0.1);
         background: rgba(0, 0, 0, 0.1);
         border-radius: 5px;
+        height: 42px;
         color: #454545;
         margin-left: 25px;
         margin-right:25px;

@@ -56,7 +56,6 @@ export default {
         loginForm: {
             pwd: '',
             newpwd: '',
-
         },
         loginRules: {
           pwd: [{ required: true, trigger: 'blur', validator: validatePassword }],
@@ -66,7 +65,6 @@ export default {
         log_img:log_img,
         bg_img:'background-image:url('+require('@/assets/front/bg-01.png')+');background-repeat: no-repeat;background-size:100% 100%;-moz-background-size:100% 100%;',
         disable:true,
-
     }
   },
   methods:{
@@ -95,7 +93,6 @@ export default {
           })
           
         }
-
       })
      
       
@@ -112,34 +109,27 @@ export default {
         }
       }
     },
-
   },
   created(){
     //Object.keys(a).length
-
     if(Object.keys(this.$route.params).length==0){
       this.$router.push({path:'/'})
     }
   }
-
 }
-
 </script>
 
 
 <style lang="scss">
-
 $bg:rgba(240, 242, 245, 1);
 $dark_gray:#889aa4;
 $mycursor:#666;
 $more_gray:#999999;
 $cursor: #fff;
-
 .container{
     
     height: inherit;
     background-color: $bg;
-
     .main{
         width: 350px;
         height: 420px;
@@ -150,16 +140,13 @@ $cursor: #fff;
         line-height: 20px;
         background-color:transparent;
         
-
         div.r_input{
             // margin-left:30px;
             // margin-top:20px;
-
             .el-input {
                 display: inline-block;
-                height: 47px;
+                height: 42px;
                 width: 85%;
-
                 input {
                 background: transparent;
                 border: 0px;
@@ -167,9 +154,8 @@ $cursor: #fff;
                 border-radius: 0px;
                 padding: 12px 5px 12px 15px;
                 color: $more_gray;
-                height: 47px;
+                height: 42px;
                 caret-color: $mycursor;
-
                 &:-webkit-autofill {
                     box-shadow: 0 0 0px 1000px $bg inset !important;
                     -webkit-text-fill-color: $cursor !important;
@@ -177,7 +163,6 @@ $cursor: #fff;
                 }
             }
         }
-
         
         
         .el-form-item {
@@ -185,13 +170,12 @@ $cursor: #fff;
             background: #ffffff;
             border-radius: 5px;
             color: #454545;
+            height: 42px;
             margin-left: 25px;
             margin-right:25px;
             padding-left:10px;
         }
-
         
-
         .r_title{
             text-align: center;
             margin:0px;
@@ -202,12 +186,9 @@ $cursor: #fff;
             font-size: 20px;
             color: #999999;
             line-height: 36px;
-
         }
-
         .r_logo{
             border-width: 0px;
-
             display: flex;
             font-weight: 700;
             font-style: normal;
@@ -218,13 +199,11 @@ $cursor: #fff;
         }
         
         
-
     }
      
      div.r_button{
             text-align: center;
             margin-bottom: 1em;
-
             button{
                 width: 300px;
                 height: 36px;
@@ -233,7 +212,7 @@ $cursor: #fff;
     .show-pwd {
         position: absolute;
         right: 10px;
-        top: 7px;
+        top: 3px;
         font-size: 16px;
         color: $dark_gray;
         cursor: pointer;
@@ -264,5 +243,4 @@ $cursor: #fff;
     }
     
 }
-
 </style>

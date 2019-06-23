@@ -98,7 +98,7 @@
           <span style="color:#666666">《用户服务协议》</span>
         </router-link>
       </el-checkbox>
-      <el-button :loading="loading" type="primary" style="width:100%;margin-bottom:10px;margin-top:10px;" @click.native.prevent="handleSignup('signupForm')">注册</el-button>
+      <el-button :loading="loading" type="primary" class="btn" @click.native.prevent="handleSignup('signupForm')">注册</el-button>
       <div class="login-container">
         <p><router-link to="/login"><span>已有账号，立即登录</span></router-link></p>
       </div>
@@ -145,11 +145,11 @@ export default {
       },
       signupRules: {
         phonenumber: [
-          { required: true, trigger: 'blur', message: '请输入手机号' },
+          { required: true, trigger: 'blur', message: '请输入手机号码' },
           { pattern: /^((1[3,5,8][0-9])|(14[5,7])|(17[0,5,6,7,8])|(19[7]))\d{8}$/, message: '请检查手机号是否正确', trigger: 'blur' }
         ],
         username: [
-          { required: true, trigger: 'blur', message: '请输入用户名' }
+          { required: true, trigger: 'blur', message: '请输入姓名' }
         ],
         password: [
           { required: true, trigger: 'blur', validator: validatePassword }
@@ -158,7 +158,7 @@ export default {
           { required: true, trigger: 'blur', validator: validateCPassword }
         ],
         valicode: [
-          { required: true, trigger: 'blur', message: '请输入手机验证码' }
+          { required: true, trigger: 'blur', message: '请输入短信验证码' }
         ]
       },
       passwordType: 'password',
@@ -275,16 +275,12 @@ export default {
         if (valid) {
           // this.loading = true
           axios
-            .post('/mock/account/register', { 'name': this.signupForm.username, 'mobile': this.signupForm.phonenumber, 'code': this.signupForm.valicode, 'password': this.signupForm.password })
+            .post('/api/v1/account/register', { 'name': this.signupForm.username, 'mobile': this.signupForm.phonenumber, 'code': this.signupForm.valicode, 'password': this.signupForm.password })
             .then(
               (response) => {
                 console.log(response)
                 this.loading = false
-                // this.$router.push({ path: '/success', query: { tip: '恭喜您注册成功' }})
-                this.$store.dispatch('user/registerSucc',response.data)
-                .then(()=>{
-                  this.$router.push({ path: this.redirect || '/', query: this.otherQuery })
-                })
+                this.$router.push({ path: '/success', query: { tip: '恭喜您注册成功' }})
               })
             .catch(function(error) { // 请求失败处理
               Message({
@@ -411,9 +407,20 @@ export default {
     height: auto;
     margin: 0;
   }
+  .btn {
+    width:100%;
+    margin-bottom:10px;
+    margin-top:10px;
+    background: inherit;
+    background-color: rgba(2, 167, 240, 1);
+  }
+  .btn:hover {
+    background-color: rgba(2, 167, 240, 0.8);
+  }
   .svg-container {
     padding: 0px 7px;
     vertical-align: middle;
+    color: #889aa4;
     width: 30px;
     height: 42px;
     display: inline-block;
@@ -425,6 +432,7 @@ export default {
     font-size: 16px;
     cursor: pointer;
     user-select: none;
+    color: #889aa4;
   }
 }
 </style>
