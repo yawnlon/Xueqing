@@ -16,6 +16,13 @@ class Course(models.Model):
         max_length=50,
     )
 
+    code = models.CharField(
+        _('code'),
+        max_length=10,
+        unique=True,
+        default="000000"
+    )
+
     introduction = models.CharField(
         _('introduction'),
         max_length=1000,
@@ -28,3 +35,8 @@ class Course(models.Model):
         choices=TYPE_CHOICES,
         default=0
     )
+
+    def save(self, *args, **kwargs):
+        super().save(*args, **kwargs)
+        self.code = str(self.id).zfill(6)
+        super().save(update_fields=['code'])

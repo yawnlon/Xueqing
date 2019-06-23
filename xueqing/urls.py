@@ -24,6 +24,7 @@ from rest_framework_jwt import views as rfjwt_views
 from users import views as users_views
 from files import views as files_views
 from cards import views as cards_views
+from courses import views as courses_views
 from general import views as general_views
 
 router = routers.DefaultRouter(trailing_slash=False)
@@ -33,6 +34,7 @@ router.register(r'account', users_views.AccountViewSet, base_name='account')
 router.register(r'sms', users_views.SmsCodeViewSet, base_name='sms')
 router.register(r'files', files_views.QiniuViewSet, base_name='files')
 router.register(r'cards', cards_views.StudyCardViewSet, base_name='cards')
+router.register(r'courses', courses_views.CourseViewSet, base_name='courses')
 
 # 一件很重要的事情是：不要在后端写 Redirect，这回让前端路由不知所措
 
