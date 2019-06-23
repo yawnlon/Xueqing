@@ -156,22 +156,25 @@ const actions = {
   //register successfuly
   registerSucc({ commit, dispatch }, data){
     return new Promise(async resolve => {
-      let roles = data.type
+      // const roles = data.data.user.type //学生类型，暂时先写死为admin类型，后期写权限的时候，在修改
+      const roles = 'admin'
 
       const token = roles + '-token'
       commit('SET_TOKEN', token)
       setToken(token)
 
       commit('SET_ROLES', roles)
-      commit('SET_NAME', data.name)
+      commit('SET_NAME', data.data.user.username)
       commit('SET_AVATAR', 'https://wpimg.wallstcn.com/f778738c-e4f8-4870-b634-56703b4acafe.gif')
       commit('SET_INTRODUCTION', 'I am super admin')
 
+      // resetRouter()
+
       // generate accessible routes map based on roles
-      const accessRoutes = await dispatch('permission/generateRoutes')
+      // const accessRoutes = await dispatch('permission/generateRoutes',roles,{root: true})
 
       // dynamically add accessible routes
-      router.addRoutes(accessRoutes)
+      // router.addRoutes(accessRoutes)
 
       resolve()
     })

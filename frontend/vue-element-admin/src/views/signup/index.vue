@@ -275,12 +275,16 @@ export default {
         if (valid) {
           // this.loading = true
           axios
-            .post('/api/v1/account/register', { 'name': this.signupForm.username, 'mobile': this.signupForm.phonenumber, 'code': this.signupForm.valicode, 'password': this.signupForm.password })
+            .post('/mock/account/register', { 'name': this.signupForm.username, 'mobile': this.signupForm.phonenumber, 'code': this.signupForm.valicode, 'password': this.signupForm.password })
             .then(
               (response) => {
                 console.log(response)
                 this.loading = false
-                this.$router.push({ path: '/success', query: { tip: '恭喜您注册成功' }})
+                this.$store.dispatch('user/registerSucc', response.data)
+                .then(()=>{
+                    this.$router.push({ path: '/success', query: { tip: '恭喜您注册成功',content:'进入首页',redirect:'/' }})
+                })
+                
               })
             .catch(function(error) { // 请求失败处理
               Message({
