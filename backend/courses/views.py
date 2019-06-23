@@ -14,4 +14,5 @@ from general.views import AdminModelViewSet
 
 class CourseViewSet(AdminModelViewSet):
     queryset = Course.objects.all()
-    serializer_class = CourseSerializer    
+    serializer_class = CourseSerializer 
+    search_fields = ('name', 'code')   

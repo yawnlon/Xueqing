@@ -45,7 +45,8 @@ INSTALLED_APPS = [
     'users',
     'general',
     'files',
-    'cards'
+    'cards',
+    'courses'
 ]
 
 REST_FRAMEWORK = {

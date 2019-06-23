@@ -2,8 +2,10 @@ from django.shortcuts import render
 from utils import http as utils_http
 from utils import webhook as utils_webhook
 from utils import permissions as utils_permissions
+from utils import paginations as utils_paginations
 from users.serializers import SelfVerifySerializer
 from rest_framework import status
+from rest_framework import filters
 from rest_framework.exceptions import NotFound
 from rest_framework import viewsets
 from rest_framework import permissions
@@ -32,7 +34,9 @@ web_hook_view = WebhookView.as_view()
 
 class XQModelViewSet(viewsets.ModelViewSet):
     authentication_classes=[JSONWebTokenAuthentication]
-
+    pagination_class = utils_paginations.XQPagination
+    filter_backends = (filters.SearchFilter,)
+    
     def create(self, request, *args, **kwargs):
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
@@ -65,6 +69,17 @@ class XQModelViewSet(viewsets.ModelViewSet):
     def retrieve(self, request, *args, **kwargs):
         instance = self.get_object()
         serializer = self.get_serializer(instance)
+        return utils_http.gen_success_response(data=serializer.data)
+
+    def list(self, request, *args, **kwargs):
+        queryset = self.filter_queryset(self.get_queryset())
+
+        page = self.paginate_queryset(queryset)
+        if page is not None:
+            serializer = self.get_serializer(page, many=True)
+            return self.get_paginated_response(serializer.data)
+
+        serializer = self.get_serializer(queryset, many=True)
         return utils_http.gen_success_response(data=serializer.data)
 
     def get_permissions(self):
