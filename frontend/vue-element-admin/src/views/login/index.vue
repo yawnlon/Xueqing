@@ -94,11 +94,14 @@
 </template>
 
 <script>
+// 引入
 import log_img from '@/assets/front/logo-part3.png'
 import { validUsername, isPhone } from '@/utils/validate'
 import SocialSign from './components/SocialSignin'
 import axios from 'axios'
 import { MessageBox, Message } from 'element-ui'
+const Base64 = require('js-base64').Base64
+
 
 export default {
   name: 'Login',
@@ -153,7 +156,7 @@ export default {
       redirect: undefined,
       otherQuery: {},
       log_img:log_img,//+ '?' + new Date(),
-      checked:false,
+      checked:Boolean(window.localStorage.getItem('checked')),
       bgImg:'background-image:url('+require('@/assets/front/bg-01.png')+');background-repeat: no-repeat;background-size:100% 100%;-moz-background-size:100% 100%;',
     }
   },
@@ -167,10 +170,28 @@ export default {
         }
       },
       immediate: true
+    },
+    
+    checked(){
+      if(!this.checked){
+        window.localStorage.setItem('user','')
+        window.localStorage.setItem('pass','')
+        window.localStorage.setItem('checked','')
+      }
     }
+
   },
   created() {
     // window.addEventListener('storage', this.afterQRScan)
+    console.log(window.localStorage)
+    let username = window.localStorage.getItem('user')
+    let pwdstr = window.localStorage.getItem('pass')
+    if(pwdstr){
+      pwdstr = Base64.decode(pwdstr)
+    }
+    this.username = username
+    this.password = pwdstr
+
   },
   mounted() {
     if (this.loginForm.username === '') {
@@ -223,13 +244,18 @@ export default {
       })
     },
     handleLogin() {
+      let self = this
       this.$refs.loginForm.validate(valid => {
-
         if (valid) {
-
           this.loading = true
           this.$store.dispatch('user/login', this.loginForm)
             .then(() => {
+              if(self.checked){
+                window.localStorage.setItem('user',self.loginForm.username)
+                window.localStorage.setItem('pass',Base64.encode(self.loginForm.password))
+                window.localStorage.setItem('checked',true)
+              }
+              
               this.$router.push({ path: this.redirect || '/', query: this.otherQuery })
               this.loading = false
             })

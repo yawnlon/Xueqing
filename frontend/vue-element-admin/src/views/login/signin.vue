@@ -1,6 +1,6 @@
 <template>
   <div :style="bgImg" class="login-container">
-    <el-form ref="loginForm" :model="loginForm" :rules="loginRules" class="login-form u1_div ax_default" autocomplete="on" label-position="left">
+    <el-form ref="loginForm" :model="loginForm" :show-message='false' :rules="loginRules" class="login-form u1_div ax_default" autocomplete="on" label-position="left">
 
       <!-- <div class="title-container">
         <h3 class="title">Login Form</h3>
@@ -38,7 +38,7 @@
           <el-input
             :key="passwordType"
             ref="password"
-            v-model="loginForm.code"
+            v-model="loginForm.password"
             :type="passwordType"
             placeholder="请输入短信验证"
             name="password"
@@ -52,9 +52,9 @@
           <!-- <span class="show-pwd" @click="showPwd">
             <svg-icon :icon-class="passwordType === 'password' ? 'eye' : 'eye-open'" />
           </span> -->
-          <span class="show-pwd" style="font-size:0.8em" @click="sendCode">
-            发送验证码
-          </span>
+          <el-button type="text" class="show-pwd" style="font-size:0.8em;" :disabled="codeDisabled" @click.native.prevent="sendCode()">
+          {{ codeMsg }}
+        </el-button>
         </el-form-item>
       </el-tooltip>
       <el-row class="login_font lgn_row_top">
@@ -63,7 +63,7 @@
       </el-row>
       <el-button :loading="loading" type="primary" class="u3_div" @click.native.prevent="handleLogin">登录</el-button>
       <el-row class="login_font lgn_row_bottom">
-        <el-col :span="12"><div class="grid-content bg-purple left">手机验证码登录></div></el-col>
+        <el-col :span="12"><div class="grid-content bg-purple left"><router-link to='/login'>密码登录>></router-link></div></el-col>
         <el-col :span="12"><div class="grid-content bg-purple-light right"><router-link to="/signup">注册新账号</router-link></div></el-col>
       </el-row>
 
@@ -105,32 +105,30 @@ export default {
   // components: { SocialSign },
   data() {
     const validateUsername = (rule, value, callback) => {
-      if (!validUsername(value)) {
-        // callback(new Error('Please enter the correct user name'))
-        callback()
+      // if (!validUsername(value)) {
+        if (value.length!=11) {
+        this.message && this.message.close()
+          this.message = Message({
+            message:'请输入正确的手机号码格式',
+            type:'error',
+            duration: 5 * 1000
+          })
+        callback(true)
       } else {
         callback()
       }
     }
-    let m = null
     const validatePassword = (rule, value, callback) => {
       if (value.length!=6) {
         // callback(new Error('The password can not be less than 6 digits'))
         let error_msg = '验证码格式错误'
-        if(m){
-          m.close()
-          m = Message({
+        this.message && this.message.close()
+          this.message = Message({
             message:error_msg,
             type:'error',
             duration: 5 * 1000
           })
-        }else{
-          m = Message({
-            message:error_msg,
-            type:'error',
-            duration: 5 * 1000
-          })
-        }
+          callback(true)
       } else {
         callback()
       }
@@ -144,8 +142,8 @@ export default {
         code:''
       },
       loginRules: {
-        username: [{ required: true, trigger: 'blur', validator: validateUsername }],
-        code: [{ required: true, trigger: 'blur', validator: validatePassword }]
+        username: [{ required: true, len:11, trigger: 'blur', validator: validateUsername }],
+        password: [{ required: true, trigger: 'blur', validator: validatePassword }]
       },
       passwordType: 'password',
       capsTooltip: false,
@@ -156,6 +154,15 @@ export default {
       log_img:log_img,//+ '?' + new Date(),
       checked:false,
       bgImg:'background-image:url('+require('@/assets/front/bg-01.png')+');background-repeat: no-repeat;background-size:100% 100%;-moz-background-size:100% 100%;',
+      message:"",
+      // 是否禁用按钮
+      codeDisabled: false,
+      // 倒计时秒数
+      countdown: 60,
+      // 按钮上的文字
+      codeMsg: '发送验证码',
+      // 定时器
+      timer: null
     }
   },
   watch: {
@@ -168,6 +175,13 @@ export default {
         }
       },
       immediate: true
+    },
+    'loginForm.password':{
+      deep:true,
+      handler(n,o){
+        this.loginForm.code=n
+      }
+      
     }
   },
   created() {
@@ -208,24 +222,55 @@ export default {
       })
     },
     sendCode(){
-      axios
-      .post('/api/v1/sms/send',{'mobile':this.loginForm.username,'template':'SMS_167655083'})
-      .then(response => {
-        this.$router.push({ path: this.redirect || '/', query: this.otherQuery })
-        this.loading = false
+      this.$refs.loginForm.validateField('username',(error)=>{
+          if (!error) {
+          // 验证码60秒倒计时
+            if (!this.timer) {
+              this.codeDisabled = true
+              this.timer = setInterval(() => {
+                if (this.countdown > 0 && this.countdown <= 60) {
+                  this.countdown--
+                  if (this.countdown !== 0) {
+                    this.codeMsg = '重新发送(' + this.countdown + ')'
+                  } else {
+                    clearInterval(this.timer)
+                    this.codeMsg = '重发验证码'
+                    this.countdown = 60
+                    this.timer = null
+                    this.codeDisabled = false
+                  }
+                }
+              }, 1000)
+              axios
+                .post('/api/v1/sms/send',{'mobile':this.loginForm.username,'template':'SMS_167655083'})
+                .then(response => {
+                  // this.$router.push({ path: this.redirect || '/', query: this.otherQuery })
+                  // this.loading = false
+                  this.message&&this.message.close()
+                  this.message=Message({
+                        message: '验证码发送成功',
+                        type: 'sucess',
+                        duration: 5 * 1000
+                      })
+                })
+                .catch(function (error) { // 请求失败处理
+                      this.message&&this.message.close()
+                      this.message=Message({
+                            message: error.response.data.detail,
+                            type: 'error',
+                            duration: 5 * 1000
+                          })
+                      // console.log(error.response.data.detail)
+                })
+            }
+        }
       })
-      .catch(function (error) { // 请求失败处理
-            Message({
-              message: error.response.data.detail,
-              type: 'error',
-              duration: 5 * 1000
-            })
-            // console.log(error.response.data.detail)
-      })
+      
     },
+
     handleLogin() {
       this.$refs.loginForm.validate(valid => {
-
+        console.log(valid)
         if (valid) {
           // this.loading = true
           // axios
@@ -434,7 +479,7 @@ $light_gray:#eee;
     border-width: 0px;
     left: 0px;
     top: 0px;
-    width: 22em;
+    width: 22.858em;
     margin-top: 25px;
   }
   

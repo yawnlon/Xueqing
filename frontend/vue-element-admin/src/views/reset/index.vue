@@ -1,7 +1,7 @@
 <template>
     <el-row class="container" :style="bg_img" type='flex' justify='center' align='middle'>
         <el-row class="main" type='flex' justify='center'>
-            <el-form ref="loginForm" :model="loginForm" :rules="loginRules" class="login-form u1_div ax_default" autocomplete="on" label-position="left">
+            <el-form ref="loginForm" :show-message='false' :model="loginForm" :rules="loginRules" class="login-form u1_div ax_default" autocomplete="on" label-position="left">
 
                 <el-col class="r_title"><img id="u18_img" class="img" :src="log_img" style="width:16em;margin-top:25px;"></el-col>
                 <el-col class="r_button"><el-button type="primary">重置密码</el-button></el-col>
@@ -19,11 +19,17 @@
                         <i class="el-icon-message"></i>
                     <el-input
                 v-model="loginForm.code"
+                ref='cdoe'
                 placeholder="请输入短信验证码"
                 name='code'
-                /><span class="show-pwd" style="font-size:0.8em;margin-right:0.8em" @click="sendCode">
+                />
+                <!-- <span class="show-pwd" style="font-size:0.8em;margin-right:0.8em" @click="sendCode">
                 发送验证码
-            </span></el-form-item>
+            </span> -->
+            <el-button type="text" class="show-pwd" style="font-size:0.8em;" :disabled="codeDisabled" @click.native.prevent="sendCode()">
+          {{ codeMsg }}
+        </el-button>
+            </el-form-item>
             </el-col>
 
                 <el-col class="r_button"><el-button type="primary"
@@ -50,7 +56,7 @@ export default {
               type: 'error',
               duration: 3 * 1000
             })
-        callback()
+        callback(true)
       } else {
         callback()
       }
@@ -65,6 +71,7 @@ export default {
         type:'error',
         duration: 3 * 1000
         })
+        callback(true)
       } else {
         callback()
       }
@@ -86,6 +93,15 @@ export default {
       timer : null,
       codeDisabled : false,
       bg_img:'background-image:url('+require('@/assets/front/bg-01.png')+');background-repeat: no-repeat;background-size:100% 100%;-moz-background-size:100% 100%;',
+      log_img:log_img,//+ '?' + +new Date(),
+        // 是否禁用按钮
+        codeDisabled: false,
+        // 倒计时秒数
+        countdown: 60,
+        // 按钮上的文字
+        codeMsg: '发送验证码',
+        // 定时器
+        timer: null
     }
   },
   methods:{
@@ -97,42 +113,59 @@ export default {
           })
       },
       sendCode() {
-      // 检查手机号
-      if (!this.loginForm.mobile) {
-        this.$refs['loginForm'].fields[1].validateMessage = '请输入手机号'
-        this.$refs['loginForm'].fields[1].validateState = 'error'
-        return
-      }
-      // 验证码60秒倒计时
-      if (!this.timer) {
-        this.codeDisabled = true
-        this.timer = setInterval(() => {
-          if (this.countdown > 0 && this.countdown <= 60) {
-            this.countdown--
-            if (this.countdown !== 0) {
-              this.codeMsg = '重新发送(' + this.countdown + ')'
-            } else {
-              clearInterval(this.timer)
-              this.codeMsg = '重发验证码'
-              this.countdown = 60
-              this.timer = null
-              this.codeDisabled = false
+          let self = this
+          this.$refs.loginForm.validateField('mobile',(error)=>{
+          if (!error) {
+          // 验证码60秒倒计时
+            if (!this.timer) {
+              this.codeDisabled = true
+              this.timer = setInterval(() => {
+                if (this.countdown > 0 && this.countdown <= 60) {
+                  this.countdown--
+                  if (this.countdown !== 0) {
+                    this.codeMsg = '重新发送(' + this.countdown + ')'
+                  } else {
+                    clearInterval(this.timer)
+                    this.codeMsg = '重发验证码'
+                    this.countdown = 60
+                    this.timer = null
+                    this.codeDisabled = false
+                  }
+                }
+              }, 1000)
+              axios
+                .post('/api/v1/sms/send',{mobile:this.loginForm.mobile,template:'SMS_167655080'})
+                .then(response => {
+                  // this.$router.push({ path: this.redirect || '/', query: this.otherQuery })
+                  // this.loading = false
+                  self.message&&self.message.close()
+                  self.message=Message({
+                        message: '验证码发送成功',
+                        type: 'sucess',
+                        duration: 5 * 1000
+                      })
+                })
+                .catch(function (error) { // 请求失败处理
+                      self.message&&self.message.close()
+                      self.message=Message({
+                            message: error.response.data.detail,
+                            type: 'error',
+                            duration: 5 * 1000
+                          })
+                      // console.log(error.response.data.detail)
+                })
             }
           }
-        }, 1000)
-        axios
-          .post('/api/v1/sms/send', {mobile:this.loginForm.mobile,template:'SMS_167655080'})
-          .then(response => (console.log(response)))
-          .catch(function(error) { // 请求失败处理
-            Message({
-              message: error.response.data.detail,
-              type: 'error',
-              duration: 3 * 1000
-            })
-            // console.log(error.response.data.detail)
-          })
+        })
       }
+  },
+  mounted() {
+    if (this.loginForm.mobile === '') {
+      this.$refs.mobile.focus()
+    } else if (this.loginForm.code === '') {
+      this.$refs.code.focus()
     }
+
   },
     watch:{
         'loginForm.code':{
@@ -144,11 +177,10 @@ export default {
                     this.disable=true
                 }
             }
-        }
+        },
+        
     }
 }
-
-
 </script>
 
 <style lang="scss">

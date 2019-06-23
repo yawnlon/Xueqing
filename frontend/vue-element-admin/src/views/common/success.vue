@@ -7,22 +7,22 @@
       <p class="tip2">请妥善保管您的账户信息</p>
       <el-button style="width:100%;margin-bottom:10px;margin-top:10px;background:#02a7f0" type="primary" @click.native.prevent="goHome">进入首页</el-button>
     </el-form>
-    <app-footer></app-footer>
+    <app-footer />
   </div>
 </template>
 <script>
 import Footer from '@/views/common/footer'
 export default {
   name: 'Success',
+  components: {
+    'app-footer': Footer
+  },
   data() {
     return {
       tip: '',
       logo_img: require('@/assets/front/logo-part3.png'),
-      bg_img: require('@/assets/front/bg-01.png'),
+      bg_img: require('@/assets/front/bg-01.png')
     }
-  },
-  components: {
-    'app-footer':Footer,
   },
   watch: {
     $route: {
@@ -47,7 +47,7 @@ export default {
   },
   methods: {
     goHome() {
-
+      this.$router.push({ path: '/dashboard' })
     },
     getOtherQuery(query) {
       return Object.keys(query).reduce((acc, cur) => {
@@ -94,14 +94,16 @@ export default {
   .success-form {
     position: relative;
     background:#ffffff;
-    width: 520px;
+    width: 350px;
+    height: 420px;
     max-width: 100%;
-    padding: 2% 3%;
+    padding: 1% 26px;
     margin: 5% auto;
     overflow: hidden;
     border-radius: 10px;
     text-align: center;
   }
+
   .logo-img {
     width: 100%;
     height: auto;
@@ -115,6 +117,7 @@ export default {
   .tip1 {
     font-size: 24px;
     color: #666666;
+    margin-bottom: 10px;
   }
   .tip2 {
     font-size: 14px;

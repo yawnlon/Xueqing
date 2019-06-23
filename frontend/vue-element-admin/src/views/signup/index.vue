@@ -103,7 +103,7 @@
         <p><router-link to="/login"><span>已有账号，立即登录</span></router-link></p>
       </div>
     </el-form>
-    <app-footer></app-footer>
+    <app-footer />
   </div>
 </template>
 <script>
@@ -112,12 +112,15 @@ import { MessageBox, Message } from 'element-ui'
 import Footer from '@/views/common/footer'
 export default {
   name: 'Signup',
+  components: {
+    'app-footer': Footer
+  },
   data() {
     var validatePassword = (rule, value, callback) => {
       value = value + ''
       if (value === '') {
         callback(new Error('请输入密码'))
-      } else if (value.length < 6 || value.length >20 ) {
+      } else if (value.length < 6 || value.length > 20) {
         callback(new Error('密码为6-20位字符'))
       } else {
         if (this.signupForm.cpassword !== '') {
@@ -130,7 +133,7 @@ export default {
       value = value + ''
       if (value === '') {
         callback(new Error('请再次输入密码'))
-      } else if (value !== this.signupForm.password)      {
+      } else if (value !== this.signupForm.password) {
         callback(new Error('两次输入密码不一致!'))
       } else {
         callback()
@@ -143,7 +146,7 @@ export default {
       signupRules: {
         phonenumber: [
           { required: true, trigger: 'blur', message: '请输入手机号' },
-          { pattern: /^((1[3,5,8][0-9])|(14[5,7])|(17[0,5,6,7,8])|(19[7]))\d{8}$/, message: '请检查手机号是否正确', trigger: 'blur'  }
+          { pattern: /^((1[3,5,8][0-9])|(14[5,7])|(17[0,5,6,7,8])|(19[7]))\d{8}$/, message: '请检查手机号是否正确', trigger: 'blur' }
         ],
         username: [
           { required: true, trigger: 'blur', message: '请输入用户名' }
@@ -175,9 +178,6 @@ export default {
       // 定时器
       timer: null
     }
-  },
-  components: {
-    'app-footer':Footer,
   },
   watch: {
     $route: {
@@ -225,28 +225,31 @@ export default {
     },
     sendCode(phoneNum) {
       this.$refs.signupForm.validateField('phonenumber', (phoneError) => {
-        console.log(`${phoneError}***************************`);
+        console.log(`${phoneError}***************************`)
         if (!phoneError) {
           // 验证码60秒倒计时
           if (!this.timer) {
-            this.codeDisabled = true
-            this.timer = setInterval(() => {
-              if (this.countdown > 0 && this.countdown <= 60) {
-                this.countdown--
-                if (this.countdown !== 0) {
-                  this.codeMsg = '重新发送(' + this.countdown + ')'
-                } else {
-                  clearInterval(this.timer)
-                  this.codeMsg = '重发验证码'
-                  this.countdown = 60
-                  this.timer = null
-                  this.codeDisabled = false
-                }
-              }
-            }, 1000)
             axios
               .post('/api/v1/sms/send', { 'mobile': this.signupForm.phonenumber, 'check_mobile_exist': false, 'template': 'SMS_167655084' })
-              .then(response => (console.log(response)))
+              .then(
+                (response) => {
+                  console.log(response)
+                  this.codeDisabled = true
+                  this.timer = setInterval(() => {
+                    if (this.countdown > 0 && this.countdown <= 60) {
+                      this.countdown--
+                      if (this.countdown !== 0) {
+                        this.codeMsg = '重新发送(' + this.countdown + ')'
+                      } else {
+                        clearInterval(this.timer)
+                        this.codeMsg = '重发验证码'
+                        this.countdown = 60
+                        this.timer = null
+                        this.codeDisabled = false
+                      }
+                    }
+                  }, 1000)
+                })
               .catch(function(error) { // 请求失败处理
                 Message({
                   message: error.response.data.detail,
@@ -257,40 +260,40 @@ export default {
               })
           }
         }
-      });
+      })
     },
     handleSignup(formName) {
       this.$refs[formName].validate((valid) => {
         if (!this.signupForm.checked) {
-            Message({
-              message: '注册请同意《用户服务协议》',
-              type: 'error',
-              duration: 5 * 1000
-            })
-            return false;
+          Message({
+            message: '注册请同意《用户服务协议》',
+            type: 'error',
+            duration: 5 * 1000
+          })
+          return false
         }
         if (valid) {
           // this.loading = true
           axios
-          .post('/api/v1/account/register', { 'name': this.signupForm.username, 'mobile': this.signupForm.phonenumber, 'code': this.signupForm.valicode, 'password': this.signupForm.password })
-          .then(
-            (response) => {
-              console.log(response)
-              this.loading = false
-              this.$router.push({ path: '/success', query: { tip: '恭喜您注册成功' }})
+            .post('/api/v1/account/register', { 'name': this.signupForm.username, 'mobile': this.signupForm.phonenumber, 'code': this.signupForm.valicode, 'password': this.signupForm.password })
+            .then(
+              (response) => {
+                console.log(response)
+                this.loading = false
+                this.$router.push({ path: '/success', query: { tip: '恭喜您注册成功' }})
+              })
+            .catch(function(error) { // 请求失败处理
+              Message({
+                message: error.response.data.detail,
+                type: 'error',
+                duration: 5 * 1000
+              })
             })
-          .catch(function(error) { // 请求失败处理
-            Message({
-              message: error.response.data.detail,
-              type: 'error',
-              duration: 5 * 1000
-            })
-          })
         } else {
-        console.log('error submit!!');
-        return false;
+          console.log('error submit!!')
+          return false
         }
-      });
+      })
     },
     getOtherQuery(query) {
       return Object.keys(query).reduce((acc, cur) => {
@@ -321,7 +324,7 @@ export default {
     text-align: left;
   .el-input {
       display: inline-block;
-      height: 47px;
+      height: 42px;
       width: 85%;
       input {
       font-weight: 400;
@@ -335,15 +338,18 @@ export default {
       border: 0px;
       -webkit-appearance: none;
       border-radius: 0px;
-      padding: 12px 5px 12px 15px;
-      height: 47px;
+      padding: 3px 2px;
+      height: 42px;
     }
   }
 
   .el-form-item {
-    border: 1px solid rgba(240, 242, 245, 1);
+    border: 1px solid #d3d3d3;
+    height:42px;
+    width:298px;
     border-radius: 5px;
     // color: #454545;
+    margin: 20px auto;
   }
 }
 </style>
@@ -363,9 +369,10 @@ export default {
   .signup-form {
     position: relative;
     background:#ffffff;
-    width: 520px;
+    width: 350px;
+    height: 589px;
     max-width: 100%;
-    padding: 2% 3%;
+    padding: 1% 26px;
     margin: 5% auto;
     overflow: hidden;
     border-radius: 10px;
@@ -398,17 +405,19 @@ export default {
   .logo-img {
     width: 100%;
     height: auto;
+    margin: 0;
   }
   .svg-container {
-    padding: 6px 5px 6px 15px;
+    padding: 0px 7px;
     vertical-align: middle;
     width: 30px;
+    height: 42px;
     display: inline-block;
   }
   .show-pwd {
     position: absolute;
     right: 10px;
-    top: 7px;
+    top: 3px;
     font-size: 16px;
     cursor: pointer;
     user-select: none;
