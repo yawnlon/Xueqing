@@ -108,9 +108,9 @@ export default {
   // components: { SocialSign },
   data() {
     const validateUsername = (rule, value, callback) => {
-      if (!validUsername(value)) {
+      if (!isPhone(value)) {
         // callback(new Error('Please enter the correct user name'))
-        callback()
+        callback(new Error(''))
       } else {
         callback()
       }
