@@ -80,7 +80,7 @@ export default {
       },
       message:"",
       disable:false,
-      log_img:log_img+ '?' + +new Date(),
+      log_img:log_img,//+ '?' + +new Date(),
       codeMsg : '重发验证码',
       countdown : 60,
       timer : null,

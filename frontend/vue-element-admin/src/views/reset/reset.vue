@@ -69,7 +69,7 @@ export default {
           newpwd: [{ required: true, trigger: 'blur', validator: validatePassword }]
         },
         message:'',
-        log_img:log_img+ '?' + +new Date(),
+        log_img:log_img,//+ '?' + +new Date(),
 
     }
   },

@@ -153,7 +153,7 @@ export default {
       showDialog: false,
       redirect: undefined,
       otherQuery: {},
-      log_img:log_img+ '?' + new Date(),
+      log_img:log_img,//+ '?' + new Date(),
       checked:false,
       bgImg:'background-image:url('+require('@/assets/front/bg-01.png')+');background-repeat: no-repeat;background-size:100% 100%;-moz-background-size:100% 100%;',
     }
