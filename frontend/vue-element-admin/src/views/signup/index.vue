@@ -275,7 +275,7 @@ export default {
         if (valid) {
           // this.loading = true
           axios
-            .post('/mock/account/register', { 'name': this.signupForm.username, 'mobile': this.signupForm.phonenumber, 'code': this.signupForm.valicode, 'password': this.signupForm.password })
+            .post('/api/v1/account/register', { 'name': this.signupForm.username, 'mobile': this.signupForm.phonenumber, 'code': this.signupForm.valicode, 'password': this.signupForm.password })
             .then(
               (response) => {
                 console.log(response)
