@@ -77,7 +77,6 @@ export default {
       codeMsg : '重发验证码',
       countdown : 60,
       timer : null,
-      codeDisabled : false,
       bg_img:'background-image:url('+require('@/assets/front/bg-01.png')+');background-repeat: no-repeat;background-size:100% 100%;-moz-background-size:100% 100%;',
       log_img:log_img,//+ '?' + +new Date(),
         // 是否禁用按钮
@@ -157,10 +156,16 @@ export default {
         'loginForm.code':{
             deep:true,
             handler(n,o){
+                // this.source = this.axios.CancelToken.source(); // 这里初始化source对象
                 if(n.length==6){
-                    this.disable=false
-                }else{
-                    this.disable=true
+                    axios
+                    .post('/api/v1/sms/verify',{mobile:this.loginForm.mobile,code:this.loginForm.code})
+                    .then(response=>{
+                        this.disable=false
+                    })
+                    .catch(error=>{
+                        this.disable=true
+                    })
                 }
             }
         },

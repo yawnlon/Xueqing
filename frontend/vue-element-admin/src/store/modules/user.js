@@ -152,6 +152,11 @@ const actions = {
       resolve()
     })
   }
+
+  registerSucc({commit},data){
+
+  }
+
 }
 
 export default {

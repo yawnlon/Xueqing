@@ -32,7 +32,7 @@
             </el-form-item>
             </el-col>
 
-                <el-col class="r_button"><el-button type="primary" @click="checkpwd">下一步</el-button></el-col>
+                <el-col class="r_button"><el-button type="primary" :disabled="disable" @click="checkpwd">下一步</el-button></el-col>
             </el-form>
         </el-row>
     </el-row>
@@ -65,7 +65,7 @@ export default {
         message:'',
         log_img:log_img,
         bg_img:'background-image:url('+require('@/assets/front/bg-01.png')+');background-repeat: no-repeat;background-size:100% 100%;-moz-background-size:100% 100%;',
-        
+        disable:true,
 
     }
   },
@@ -88,7 +88,7 @@ export default {
           .then(
                 (response)=>{
                   console.log(response)
-                  this.$router.push({ path: '/success', query: { tip: '密码重置成功' }})
+                  this.$router.push({ path: '/success', query: { tip: '密码重置成功',redirect:'/login',content:'重新登录' }})
                 })
           .catch(error=>{
             console.log(error.response)
@@ -102,10 +102,21 @@ export default {
     }
   },
   watch:{
-    
+    'loginForm.newpwd':{
+      deep:true,
+      handler(n,o){
+        if(this.loginForm.newpwd===this.loginForm.pwd&&this.loginForm.newpwd.length>=6){
+          this.disable=false
+        }else{
+          this.disable=true
+        }
+      }
+    },
+
   },
   created(){
     //Object.keys(a).length
+
     if(Object.keys(this.$route.params).length==0){
       this.$router.push({path:'/'})
     }

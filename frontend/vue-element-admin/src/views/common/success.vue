@@ -2,10 +2,10 @@
   <div class="success-container" :style="{backgroundImage: 'url(' + bg_img + ')' }">
     <el-form class="success-form" label-position="left">
       <img class="logo-img" :src="logo_img">
-      <img class="bingo" src="">
+      <img class="bingo" :src="suc_img">
       <h3 class="tip1">{{ tip }}</h3>
       <p class="tip2">请妥善保管您的账户信息</p>
-      <el-button style="width:100%;margin-bottom:10px;margin-top:10px;background:#02a7f0" type="primary" @click.native.prevent="goHome">进入首页</el-button>
+      <el-button style="width:100%;margin-bottom:10px;margin-top:10px;background:#02a7f0" type="primary" @click.native.prevent="goHome">{{content}}</el-button>
     </el-form>
     <app-footer />
   </div>
@@ -21,7 +21,11 @@ export default {
     return {
       tip: '',
       logo_img: require('@/assets/front/logo-part3.png'),
-      bg_img: require('@/assets/front/bg-01.png')
+      bg_img: require('@/assets/front/bg-01.png'),
+      suc_img:require('@/assets/front/suc.png'),
+      redirect:'',
+      otherQuery:'',
+      content:'',
     }
   },
   watch: {
@@ -39,15 +43,19 @@ export default {
   created() {
     // window.addEventListener('storage', this.afterQRScan)
   },
+  computed:{
+    
+  },
   mounted() {
     this.tip = this.$route.query.tip
+    this.content = this.$route.query.content
   },
   destroyed() {
     // window.removeEventListener('storage', this.afterQRScan)
   },
   methods: {
     goHome() {
-      this.$router.push({ path: '/dashboard' })
+      this.$router.push({ path: this.redirect||'/', query:this.otherQuery })
     },
     getOtherQuery(query) {
       return Object.keys(query).reduce((acc, cur) => {
