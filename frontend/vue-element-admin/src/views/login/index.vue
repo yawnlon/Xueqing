@@ -120,20 +120,7 @@ export default {
       if (value.length < 6&&value.length>0) {
         // callback(new Error('The password can not be less than 6 digits'))
         let error_msg = '密码不能低于6位'
-        if(m){
-          m.close()
-          m = Message({
-            message:error_msg,
-            type:'error',
-            duration: 5 * 1000
-          })
-        }else{
-          m = Message({
-            message:error_msg,
-            type:'error',
-            duration: 5 * 1000
-          })
-        }
+        callback(new Error(error_msg))
       } else {
         callback()
       }

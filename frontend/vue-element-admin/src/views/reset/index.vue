@@ -1,7 +1,7 @@
 <template>
     <el-row class="container" :style="bg_img" type='flex' justify='center' align='middle'>
         <el-row class="main" type='flex' justify='center'>
-            <el-form ref="loginForm" :show-message='false' :model="loginForm" :rules="loginRules" class="login-form u1_div ax_default" autocomplete="on" label-position="left">
+            <el-form ref="loginForm" :model="loginForm" :rules="loginRules" class="login-form u1_div ax_default" autocomplete="on" label-position="left">
 
                 <el-col class="r_title"><img id="u18_img" class="img" :src="log_img" style="width:16em;margin-top:25px;"></el-col>
                 <el-col class="r_button"><el-button type="primary">重置密码</el-button></el-col>
@@ -50,28 +50,14 @@ export default {
   data() {
     const validateMobile = (rule, value, callback) => {
       if (!isPhone(value)) {
-        this.message&&this.message.close()
-        this.message=Message({
-              message: '手机格式错误',
-              type: 'error',
-              duration: 3 * 1000
-            })
-        callback(true)
+        callback(new Error('手机格式错误'))
       } else {
         callback()
       }
     }
     const validateCode = (rule, value, callback) => {
       if (value.length!=6) {
-        // callback(new Error('The password can not be less than 6 digits'))
-        let error_msg = '验证码位数应为6位'
-        this.message&&this.message.close()
-        this.message = Message({
-        message:error_msg,
-        type:'error',
-        duration: 3 * 1000
-        })
-        callback(true)
+        callback(new Error('验证码位数应为6位'))
       } else {
         callback()
       }
@@ -86,7 +72,7 @@ export default {
         code: [{ required: true, trigger: 'blur', validator: validateCode,len:6 }]
       },
       message:"",
-      disable:false,
+      disable:true,
       log_img:log_img,//+ '?' + +new Date(),
       codeMsg : '重发验证码',
       countdown : 60,
@@ -160,11 +146,11 @@ export default {
       }
   },
   mounted() {
-    if (this.loginForm.mobile === '') {
-      this.$refs.mobile.focus()
-    } else if (this.loginForm.code === '') {
-      this.$refs.code.focus()
-    }
+    // if (this.loginForm.mobile === '') {
+    //   this.$refs.mobile.focus()
+    // } else if (this.loginForm.code === '') {
+    //   this.$refs.code.focus()
+    // }
 
   },
     watch:{

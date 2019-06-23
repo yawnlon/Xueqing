@@ -1,6 +1,6 @@
 <template>
   <div :style="bgImg" class="login-container">
-    <el-form ref="loginForm" :model="loginForm" :show-message='false' :rules="loginRules" class="login-form u1_div ax_default" autocomplete="on" label-position="left">
+    <el-form ref="loginForm" :model="loginForm" :rules="loginRules" class="login-form u1_div ax_default" autocomplete="on" label-position="left">
 
       <!-- <div class="title-container">
         <h3 class="title">Login Form</h3>
@@ -107,13 +107,7 @@ export default {
     const validateUsername = (rule, value, callback) => {
       // if (!validUsername(value)) {
         if (value.length!=11) {
-        this.message && this.message.close()
-          this.message = Message({
-            message:'请输入正确的手机号码格式',
-            type:'error',
-            duration: 5 * 1000
-          })
-        callback(true)
+        callback(new Error('请输入正确的手机号码格式'))
       } else {
         callback()
       }
@@ -121,14 +115,7 @@ export default {
     const validatePassword = (rule, value, callback) => {
       if (value.length!=6) {
         // callback(new Error('The password can not be less than 6 digits'))
-        let error_msg = '验证码格式错误'
-        this.message && this.message.close()
-          this.message = Message({
-            message:error_msg,
-            type:'error',
-            duration: 5 * 1000
-          })
-          callback(true)
+          callback(new Error('验证码格式错误'))
       } else {
         callback()
       }

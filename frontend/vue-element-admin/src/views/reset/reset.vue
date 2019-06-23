@@ -47,14 +47,7 @@ export default {
   data() {
     const validatePassword = (rule, value, callback) => {
       if (value.length < 6&&value.length>0) {
-        // callback(new Error('The password can not be less than 6 digits'))
-        let error_msg = '密码不能低于6位'
-        this.message && this.message.close()
-        this.message = Message({
-          message:error_msg,
-          type:'error',
-          duration: 5 * 1000
-        })
+        callback(new Error( '密码不能低于6位'))
       } else {
         callback()
       }
@@ -112,7 +105,8 @@ export default {
     
   },
   created(){
-    if(!this.$route.param){
+    //Object.keys(a).length
+    if(Object.keys(this.$route.params).length==0){
       this.$router.push({path:'/'})
     }
   }
