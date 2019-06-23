@@ -151,10 +151,29 @@ const actions = {
 
       resolve()
     })
-  }
+  },
 
-  registerSucc({commit},data){
+  registerSucc({ commit, dispatch }, data){
+    return new Promise(async resolve => {
+      let roles = data.type
 
+      const token = roles + '-token'
+      commit('SET_TOKEN', token)
+      setToken(token)
+
+      commit('SET_ROLES', roles)
+      commit('SET_NAME', data.name)
+      commit('SET_AVATAR', 'https://wpimg.wallstcn.com/f778738c-e4f8-4870-b634-56703b4acafe.gif')
+      commit('SET_INTRODUCTION', 'I am super admin')
+
+      // generate accessible routes map based on roles
+      const accessRoutes = await dispatch('permission/generateRoutes')
+
+      // dynamically add accessible routes
+      router.addRoutes(accessRoutes)
+
+      resolve()
+    })
   }
 
 }
