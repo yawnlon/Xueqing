@@ -6,14 +6,13 @@
         <h3 class="title">Login Form</h3>
       </div> -->
       <el-row>
-      <div id="u18" class="ax_default image">
-        <img id="u18_img" class="img" :src="log_img">
+        <div id="u18" class="ax_default image">
+          <img id="u18_img" class="img" :src="log_img">
         <!-- <div id="u2_text" class="text ">
           <p><span style="text-decoration:none;" class="login_title">学清书院单词速记</span></p>
         </div> -->
-      </div>
+        </div>
       </el-row>
-
 
       <el-form-item prop="username">
         <span class="svg-container">
@@ -48,7 +47,7 @@
             @blur="capsTooltip = false"
             @keyup.enter.native="handleLogin"
           />
-          
+
           <span class="show-pwd" @click="showPwd">
             <svg-icon :icon-class="passwordType === 'password' ? 'eye' : 'eye-open'" />
           </span>
@@ -58,12 +57,12 @@
         </el-form-item>
       </el-tooltip>
       <el-row class="login_font lgn_row_top">
-        <el-col :span="12"><div class="grid-content bg-purple left"><el-checkbox v-model="checked"></el-checkbox>&nbsp;记住登录状态</div></el-col>
+        <el-col :span="12"><div class="grid-content bg-purple left"><el-checkbox v-model="checked" />&nbsp;记住登录状态</div></el-col>
         <el-col :span="12"><div class="grid-content bg-purple-light right"><router-link to="/reset">忘记密码？</router-link></div></el-col>
       </el-row>
       <el-button :loading="loading" type="primary" class="u3_div" @click.native.prevent="handleLogin">登录</el-button>
       <el-row class="login_font lgn_row_bottom">
-        <el-col :span="12"><div class="grid-content bg-purple left"><router-link to='/signin'>手机验证码登录>></router-link></div></el-col>
+        <el-col :span="12"><div class="grid-content bg-purple left"><router-link to="/signin">手机验证码登录>></router-link></div></el-col>
         <el-col :span="12"><div class="grid-content bg-purple-light right"><router-link to="/signup">注册新账号</router-link></div></el-col>
       </el-row>
 
@@ -114,14 +113,14 @@ export default {
         callback()
       }
     }
-    let m = null
+    const m = null
 
     return {
       loginForm: {
         // username: '13051975811',
         // password: 'super_admin',
         username: '',
-        password: '',
+        password: ''
       },
       loginRules: {
         username: [
@@ -136,9 +135,9 @@ export default {
       showDialog: false,
       redirect: undefined,
       otherQuery: {},
-      log_img:log_img,//+ '?' + new Date(),
-      checked:Boolean(window.localStorage.getItem('checked')),
-      bgImg:'background-image:url('+require('@/assets/front/bg-01.png')+');background-repeat: no-repeat;background-size:100% 100%;-moz-background-size:100% 100%;',
+      log_img: log_img, // + '?' + new Date(),
+      checked: Boolean(window.localStorage.getItem('checked')),
+      bgImg: 'background-image:url(' + require('@/assets/front/bg-01.png') + ');background-repeat: no-repeat;background-size:100% 100%;-moz-background-size:100% 100%;'
     }
   },
   watch: {
@@ -152,21 +151,21 @@ export default {
       },
       immediate: true
     },
-    
-    checked(){
-      if(!this.checked){
-        window.localStorage.setItem('user','')
-        window.localStorage.setItem('pass','')
-        window.localStorage.setItem('checked','')
+
+    checked() {
+      if (!this.checked) {
+        window.localStorage.setItem('user', '')
+        window.localStorage.setItem('pass', '')
+        window.localStorage.setItem('checked', '')
       }
     }
   },
   created() {
     // window.addEventListener('storage', this.afterQRScan)
     // console.log(window.localStorage)
-    let username = window.localStorage.getItem('user')
+    const username = window.localStorage.getItem('user')
     let pwdstr = window.localStorage.getItem('pass')
-    if(pwdstr){
+    if (pwdstr) {
       pwdstr = Base64.decode(pwdstr)
     }
     this.loginForm.username = username
@@ -205,35 +204,35 @@ export default {
         this.$refs.password.focus()
       })
     },
-    sendCode(){
+    sendCode() {
       axios
-      .post('/api/v1/sms/send',{'mobile':this.loginForm.username,'template':'SMS_167655083'})
-      .then(response => {
-        this.$router.push({ path: this.redirect || '/', query: this.otherQuery })
-        this.loading = false
-      })
-      .catch(function (error) { // 请求失败处理
-            Message({
-              message: error.response.data.detail,
-              type: 'error',
-              duration: 5 * 1000
-            })
-            // console.log(error.response.data.detail)
-      })
+        .post('/api/v1/sms/send', { 'mobile': this.loginForm.username, 'template': 'SMS_167655083' })
+        .then(response => {
+          this.$router.push({ path: this.redirect || '/', query: this.otherQuery })
+          this.loading = false
+        })
+        .catch(function(error) { // 请求失败处理
+          Message({
+            message: error.response.data.detail,
+            type: 'error',
+            duration: 5 * 1000
+          })
+          // console.log(error.response.data.detail)
+        })
     },
     handleLogin() {
-      let self = this
+      const self = this
       this.$refs.loginForm.validate(valid => {
         if (valid) {
           this.loading = true
           this.$store.dispatch('user/login', this.loginForm)
             .then(() => {
-              if(self.checked){
-                window.localStorage.setItem('user',self.loginForm.username)
-                window.localStorage.setItem('pass',Base64.encode(self.loginForm.password))
-                window.localStorage.setItem('checked',true)
+              if (self.checked) {
+                window.localStorage.setItem('user', self.loginForm.username)
+                window.localStorage.setItem('pass', Base64.encode(self.loginForm.password))
+                window.localStorage.setItem('checked', true)
               }
-              
+
               this.$router.push({ path: this.redirect || '/', query: this.otherQuery })
               this.loading = false
             })
@@ -295,7 +294,7 @@ $mycursor:#666;
     display: inline-block;
     height: 47px;
     width: 85%;
-    
+
     input {
       background: transparent;
       border: 0px;
@@ -417,7 +416,7 @@ $light_gray:#eee;
     width: 22.858em;
     margin-top: 25px;
   }
-  
+
   .login_title{
     font-family: 'PingFangSC-Regular', 'PingFang SC';
     font-weight: 400;

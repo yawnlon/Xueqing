@@ -6,14 +6,13 @@
         <h3 class="title">Login Form</h3>
       </div> -->
       <el-row>
-      <div id="u18" class="ax_default image">
-        <img id="u18_img" class="img" :src="log_img">
+        <div id="u18" class="ax_default image">
+          <img id="u18_img" class="img" :src="log_img">
         <!-- <div id="u2_text" class="text ">
           <p><span style="text-decoration:none;" class="login_title">学清书院单词速记</span></p>
         </div> -->
-      </div>
+        </div>
       </el-row>
-
 
       <el-form-item prop="username">
         <span class="svg-container">
@@ -48,22 +47,22 @@
             @blur="capsTooltip = false"
             @keyup.enter.native="handleLogin"
           />
-          
+
           <!-- <span class="show-pwd" @click="showPwd">
             <svg-icon :icon-class="passwordType === 'password' ? 'eye' : 'eye-open'" />
           </span> -->
           <el-button type="text" class="show-pwd" style="font-size:0.8em;" :disabled="codeDisabled" @click.native.prevent="sendCode()">
-          {{ codeMsg }}
-        </el-button>
+            {{ codeMsg }}
+          </el-button>
         </el-form-item>
       </el-tooltip>
       <el-row class="login_font lgn_row_top">
-        <el-col :span="12"><div class="grid-content bg-purple left"><el-checkbox v-model="checked"></el-checkbox>&nbsp;记住登录状态</div></el-col>
+        <el-col :span="12"><div class="grid-content bg-purple left"><el-checkbox v-model="checked" />&nbsp;记住登录状态</div></el-col>
         <el-col :span="12"><div class="grid-content bg-purple-light right"><router-link to="/reset">忘记密码？</router-link></div></el-col>
       </el-row>
       <el-button :loading="loading" type="primary" class="u3_div" @click.native.prevent="handleLogin">登录</el-button>
       <el-row class="login_font lgn_row_bottom">
-        <el-col :span="12"><div class="grid-content bg-purple left"><router-link to='/login'>密码登录>></router-link></div></el-col>
+        <el-col :span="12"><div class="grid-content bg-purple left"><router-link to="/login">密码登录>></router-link></div></el-col>
         <el-col :span="12"><div class="grid-content bg-purple-light right"><router-link to="/signup">注册新账号</router-link></div></el-col>
       </el-row>
 
@@ -78,7 +77,7 @@
         </div>
          <el-button class="thirdparty-button" type="primary" @click="showDialog=true">
           Or connect with
-        </el-button> 
+        </el-button>
       </div>-->
     </el-form>
 
@@ -118,7 +117,7 @@ export default {
         // password: 'super_admin',
         username: '',
         password: '',
-        code:''
+        code: ''
       },
       loginRules: {
         username: [
@@ -133,10 +132,10 @@ export default {
       showDialog: false,
       redirect: undefined,
       otherQuery: {},
-      log_img:log_img,//+ '?' + new Date(),
-      checked:false,
-      bgImg:'background-image:url('+require('@/assets/front/bg-01.png')+');background-repeat: no-repeat;background-size:100% 100%;-moz-background-size:100% 100%;',
-      message:"",
+      log_img: log_img, // + '?' + new Date(),
+      checked: false,
+      bgImg: 'background-image:url(' + require('@/assets/front/bg-01.png') + ');background-repeat: no-repeat;background-size:100% 100%;-moz-background-size:100% 100%;',
+      message: '',
       // 是否禁用按钮
       codeDisabled: false,
       // 倒计时秒数
@@ -158,12 +157,12 @@ export default {
       },
       immediate: true
     },
-    'loginForm.password':{
-      deep:true,
-      handler(n,o){
-        this.loginForm.code=n
+    'loginForm.password': {
+      deep: true,
+      handler(n, o) {
+        this.loginForm.code = n
       }
-      
+
     }
   },
   created() {
@@ -202,51 +201,50 @@ export default {
         this.$refs.password.focus()
       })
     },
-    sendCode(){
-      this.$refs.loginForm.validateField('username',(error)=>{
-          if (!error) {
+    sendCode() {
+      this.$refs.loginForm.validateField('username', (error) => {
+        if (!error) {
           // 验证码60秒倒计时
-            if (!this.timer) {
-              axios
-                .post('/api/v1/sms/send',{'mobile':this.loginForm.username,'template':'SMS_167655083'})
-                .then(response => {
-                  this.codeDisabled = true
-                  this.timer = setInterval(() => {
-                    if (this.countdown > 0 && this.countdown <= 60) {
-                      this.countdown--
-                      if (this.countdown !== 0) {
-                        this.codeMsg = '重新发送(' + this.countdown + ')'
-                      } else {
-                        clearInterval(this.timer)
-                        this.codeMsg = '重发验证码'
-                        this.countdown = 60
-                        this.timer = null
-                        this.codeDisabled = false
-                      }
+          if (!this.timer) {
+            axios
+              .post('/api/v1/sms/send', { 'mobile': this.loginForm.username, 'template': 'SMS_167655083' })
+              .then(response => {
+                this.codeDisabled = true
+                this.timer = setInterval(() => {
+                  if (this.countdown > 0 && this.countdown <= 60) {
+                    this.countdown--
+                    if (this.countdown !== 0) {
+                      this.codeMsg = '重新发送(' + this.countdown + ')'
+                    } else {
+                      clearInterval(this.timer)
+                      this.codeMsg = '重发验证码'
+                      this.countdown = 60
+                      this.timer = null
+                      this.codeDisabled = false
                     }
-                  }, 1000)
-                  // this.$router.push({ path: this.redirect || '/', query: this.otherQuery })
-                  // this.loading = false
-                  this.message&&this.message.close()
-                  this.message=Message({
-                        message: '验证码发送成功',
-                        type: 'sucess',
-                        duration: 5 * 1000
-                      })
+                  }
+                }, 1000)
+                // this.$router.push({ path: this.redirect || '/', query: this.otherQuery })
+                // this.loading = false
+                this.message && this.message.close()
+                this.message = Message({
+                  message: '验证码发送成功',
+                  type: 'sucess',
+                  duration: 5 * 1000
                 })
-                .catch(function (error) { // 请求失败处理
-                      this.message&&this.message.close()
-                      this.message=Message({
-                            message: error.response.data.detail,
-                            type: 'error',
-                            duration: 5 * 1000
-                          })
-                      // console.log(error.response.data.detail)
+              })
+              .catch(function(error) { // 请求失败处理
+                this.message && this.message.close()
+                this.message = Message({
+                  message: error.response.data.detail,
+                  type: 'error',
+                  duration: 5 * 1000
                 })
-            }
+                // console.log(error.response.data.detail)
+              })
+          }
         }
       })
-      
     },
     handleLogin() {
       this.$refs.loginForm.validate(valid => {
@@ -333,7 +331,7 @@ $mycursor:#666;
     display: inline-block;
     height: 47px;
     width: 85%;
-    
+
     input {
       background: transparent;
       border: 0px;
@@ -455,7 +453,7 @@ $light_gray:#eee;
     width: 22.858em;
     margin-top: 25px;
   }
-  
+
   .login_title{
     font-family: 'PingFangSC-Regular', 'PingFang SC';
     font-weight: 400;

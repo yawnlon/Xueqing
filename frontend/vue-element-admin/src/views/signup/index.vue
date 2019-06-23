@@ -159,7 +159,7 @@ export default {
         ],
         valicode: [
           { required: true, trigger: 'blur', message: '请输入短信验证码' },
-          { len:6, message: '短信验证码为6位数字', trigger: 'blur' }
+          { len: 6, message: '短信验证码为6位数字', trigger: 'blur' }
         ]
       },
       passwordType: 'password',
