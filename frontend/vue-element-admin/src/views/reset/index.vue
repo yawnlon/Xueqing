@@ -3,7 +3,7 @@
         <el-row class="main" type='flex' justify='center'>
             <el-form ref="loginForm" :model="loginForm" :rules="loginRules" class="login-form u1_div ax_default" autocomplete="on" label-position="left">
 
-                <el-col class="r_title"><img id="u18_img" class="img" :src="log_img" style="width:16em"></el-col>
+                <el-col class="r_title"><img id="u18_img" class="img" :src="log_img" style="width:16em;margin-top:25px;"></el-col>
                 <el-col class="r_button"><el-button type="primary">重置密码</el-button></el-col>
                 <el-col class="r_input">
                     <el-form-item prop="mobile">

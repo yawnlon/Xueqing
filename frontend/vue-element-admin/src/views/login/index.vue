@@ -416,7 +416,7 @@ $light_gray:#eee;
     border-width: 0px;
     left: 0px;
     top: 0px;
-    width: 22em;
+    width: 22.858em;
     margin-top: 25px;
   }
   
