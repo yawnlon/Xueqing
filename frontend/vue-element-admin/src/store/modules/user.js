@@ -152,7 +152,6 @@ const actions = {
       resolve()
     })
   },
-
   registerSucc({ commit, dispatch }, data){
     return new Promise(async resolve => {
       let roles = data.type
