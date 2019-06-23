@@ -170,15 +170,14 @@ export default {
   },
   created() {
     // window.addEventListener('storage', this.afterQRScan)
-    console.log(window.localStorage)
+    // console.log(window.localStorage)
     let username = window.localStorage.getItem('user')
     let pwdstr = window.localStorage.getItem('pass')
     if(pwdstr){
       pwdstr = Base64.decode(pwdstr)
     }
-    this.username = username
-    this.password = pwdstr
-
+    this.loginForm.username = username
+    this.loginForm.password = pwdstr
   },
   mounted() {
     if (this.loginForm.username === '') {
