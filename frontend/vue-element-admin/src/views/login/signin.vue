@@ -419,7 +419,10 @@ $light_gray:#eee;
     font-style: normal;
     font-size: 18px;
     color: #FFFFFF;
-}
+  }
+  .u3_div:hover{
+    background-color: rgba(2, 167, 240, 0.8);
+  }
   .u1_div {
     border-width: 0px;
     position: absolute;
