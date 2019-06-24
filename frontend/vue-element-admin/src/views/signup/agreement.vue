@@ -1,7 +1,7 @@
 <template>
     <el-container :style="bg_img">
         <el-row type="flex" class="row-bg" justify="center">
-  <el-col :span="12">
+  <el-col :span="12" style="min-width: 350px;">
         <div class="agree_main">
             <h1>用户隐私和服务条款</h1>
 
@@ -194,10 +194,9 @@ export default {
         min-height: 100%;
         width: 100%;
         .agree_main {
-            max-height: 700px;
+            max-height: 500px;
             overflow:scroll;
             margin-top: 100px;
-            min-width: 700px;
             overflow-x: auto;
             margin-bottom: 150px;
             padding: 30px 85px;
