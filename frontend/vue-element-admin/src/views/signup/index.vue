@@ -368,6 +368,7 @@ svg{
     // color: #454545;
     margin: 20px auto;
   }
+ 
   .el-checkbox__input.is-checked .el-checkbox__inner{
     background-color: rgba(2, 167, 240, 1);
     border-color: rgba(2, 167, 240, 1);
@@ -375,6 +376,10 @@ svg{
   .el-form-item__error{
     font-weight: bold;
    }
+
+   .el-form-item:focus-within {
+      border:1px solid rgba(2, 167, 240, 1);
+    }
 
 }
 </style>
