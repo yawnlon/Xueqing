@@ -180,6 +180,9 @@ svg{
             margin-right:25px;
             padding-left:10px;
         }
+        .el-form-item:focus-within {
+          border:1px solid rgba(2, 167, 240, 1);
+        }
 
         .r_title{
             text-align: center;

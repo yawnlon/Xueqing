@@ -337,6 +337,9 @@ svg{
     // margin-right:25px;
     margin:20px 25px;
   }
+  .el-form-item:focus-within {
+      border:1px solid rgba(2, 167, 240, 1);
+    }
   .el-form-item__error{
     font-weight: bold;
     margin-bottom: 2px;
