@@ -338,7 +338,7 @@ svg{
 .login-container {
   .el-input {
     display: inline-block;
-    height: 47px;
+    height: 42px;
     width: 85%;
 
     input {
@@ -346,9 +346,9 @@ svg{
       border: 0px;
       -webkit-appearance: none;
       border-radius: 0px;
-      padding: 12px 5px 12px 15px;
+      // padding: 12px 5px 12px 15px;
       color: $more_gray;
-      height: 47px;
+      height: 35px;
       caret-color: $mycursor;
       &:-webkit-autofill {
         box-shadow: 0 0 0px 1000px white inset !important;
