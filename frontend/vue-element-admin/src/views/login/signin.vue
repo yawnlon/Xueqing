@@ -59,12 +59,12 @@
       </el-tooltip>
       <el-row class="login_font lgn_row_top">
         <!-- <el-col :span="12"><div class="grid-content bg-purple left"><el-checkbox v-model="checked" />&nbsp;记住登录状态</div></el-col> -->
-        <el-col :span="12" :offset="12"><div class="grid-content bg-purple-light right"><router-link to="/reset">忘记密码？</router-link></div></el-col>
+        <el-col :span="12" :offset="12"><div class="grid-content bg-purple-light right f12"><router-link to="/reset">忘记密码？</router-link></div></el-col>
       </el-row>
       <el-button :loading="loading" type="primary" class="u3_div" @click.native.prevent="handleLogin">登录</el-button>
       <el-row class="login_font lgn_row_bottom">
-        <el-col :span="12"><div class="grid-content bg-purple left"><router-link to="/login">密码登录>></router-link></div></el-col>
-        <el-col :span="12"><div class="grid-content bg-purple-light right"><router-link to="/signup">注册新账号</router-link></div></el-col>
+        <el-col :span="12"><div class="grid-content bg-purple left f12"><router-link to="/login">密码登录>></router-link></div></el-col>
+        <el-col :span="12"><div class="grid-content bg-purple-light right f12"><router-link to="/signup">注册新账号>></router-link></div></el-col>
       </el-row>
 
       <!--<div style="position:relative">
@@ -336,6 +336,9 @@ svg{
 }
 /* reset element-ui css */
 .login-container {
+  .f12{
+    font-size: 12px;
+  }
   .el-input {
     display: inline-block;
     height: 42px;
@@ -348,7 +351,7 @@ svg{
       border-radius: 0px;
       // padding: 12px 5px 12px 15px;
       color: $more_gray;
-      height: 35px;
+      height: 40px;
       caret-color: $mycursor;
       &:-webkit-autofill {
         box-shadow: 0 0 0px 1000px white inset !important;
@@ -400,7 +403,7 @@ $light_gray:#eee;
     left: 0px;
     top: 0px;
     width: 300px;
-    height: 50px;
+    height: 36px;
     background: inherit;
     background-color: rgba(2, 167, 240, 1);
     border: none;
@@ -503,7 +506,7 @@ $light_gray:#eee;
     }
   }
   .svg-container {
-    padding: 6px 5px 6px 15px;
+    // padding: 6px 5px 6px 15px;
     color: $dark_gray;
     vertical-align: middle;
     width: 30px;
