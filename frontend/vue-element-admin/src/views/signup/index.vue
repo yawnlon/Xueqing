@@ -23,6 +23,7 @@
           ref="phonenumber"
           v-model="signupForm.phonenumber"
           placeholder="请输入手机号码"
+          name="username"
           type="text"
           tabindex="2"
           autocomplete="off"
