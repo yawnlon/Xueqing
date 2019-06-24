@@ -11,7 +11,6 @@
             <el-input
               ref="pwd"
               v-model="loginForm.pwd"
-              name="pwd"
               type="password"
               placeholder="设置6至20位登录密码"
             /></el-form-item>
@@ -22,7 +21,6 @@
           <el-input
             ref="newpwd"
             v-model="loginForm.newpwd"
-            name="newpwd"
             type="password"
             placeholder="请再次输入登录密码"
           >
