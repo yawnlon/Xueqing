@@ -16,7 +16,9 @@
             /></el-form-item>
         </el-col>
 
-        <el-col class="r_input"><el-form-item prop="newpwd">
+        <el-col class="r_input">
+
+          <el-form-item prop="newpwd">
           <i class="el-icon-message" />
           <el-input
             ref="newpwd"
@@ -28,8 +30,8 @@
                 发送验证码
             </span> -->
           </el-input>
-
         </el-form-item>
+
         </el-col>
            
         <el-col class="r_button"><el-button type="primary" :disabled="disable" @click="checkpwd">下一步</el-button></el-col>
@@ -85,9 +87,9 @@ export default {
   },
   created() {
     // Object.keys(a).length
-    if (Object.keys(this.$route.params).length == 0) {
-      this.$router.push({ path: '/' })
-    }
+    // if (Object.keys(this.$route.params).length == 0) {
+    //   this.$router.push({ path: '/' })
+    // }
   },
   methods: {
     

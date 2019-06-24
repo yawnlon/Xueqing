@@ -148,3 +148,4 @@ dmypy.json
 # node dependency
 #./frontend/node_modules/
 *.pid
+./frontend/vue-element-admin/mock/user.js

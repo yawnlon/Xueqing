@@ -50,7 +50,7 @@
           <span class="svg-container">
             <svg-icon icon-class="password" />
           </span>
-          <el-input
+          <el-input style="width:16.8em;"
             :key="passwordType"
             ref="password"
             v-model="signupForm.password"
@@ -72,7 +72,7 @@
           <span class="svg-container">
             <svg-icon icon-class="password" />
           </span>
-          <el-input
+          <el-input style="width:16.8em;"
             :key="passwordType"
             ref="cpassword"
             v-model="signupForm.cpassword"
@@ -352,6 +352,7 @@ $more_gray:#999999;
         -webkit-text-fill-color: $more_gray !important;
       }
     }
+
   }
 
   .el-form-item {

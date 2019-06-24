@@ -303,6 +303,7 @@ $mycursor:#666;
     display: inline-block;
     height: 47px;
     width: 85%;
+    text-align: left;
 
     input {
       background: transparent;
@@ -317,6 +318,7 @@ $mycursor:#666;
         box-shadow: 0 0 0px 1000px white inset !important;
         -webkit-text-fill-color: $more_gray !important;
       }
+      width: 16.8em
     }
   }
   .el-form-item {
@@ -479,6 +481,7 @@ $light_gray:#eee;
     width: 30px;
     display: inline-block;
   }
+
   .title-container {
     position: relative;
     .title {
