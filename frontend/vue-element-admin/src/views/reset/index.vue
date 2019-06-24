@@ -27,7 +27,7 @@
           <!-- <span class="show-pwd" style="font-size:0.8em;margin-right:0.8em" @click="sendCode">
                 发送验证码
             </span> -->
-          <el-button type="text" class="show-pwd" style="font-size:0.8em;" :disabled="codeDisabled" @click.native.prevent="sendCode()">
+          <el-button type="text" class="show-pwd" style="font-size:0.8em;color:#02A7F0" :disabled="codeDisabled" @click.native.prevent="sendCode()">
             {{ codeMsg }}
           </el-button>
         </el-form-item>

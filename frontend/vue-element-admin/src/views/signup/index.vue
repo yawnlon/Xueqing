@@ -41,7 +41,7 @@
           tabindex="3"
           autocomplete="off"
         />
-        <el-button type="text" class="show-pwd" style="font-size:0.8em;" :disabled="codeDisabled" @click.native.prevent="sendCode(signupForm.phonenumber)">
+        <el-button type="text" class="show-pwd" style="font-size:0.8em;color:#02A7F0" :disabled="codeDisabled" @click.native.prevent="sendCode(signupForm.phonenumber)">
           {{ codeMsg }}
         </el-button>
       </el-form-item>
@@ -173,7 +173,8 @@ export default {
       // 按钮上的文字
       codeMsg: '发送验证码',
       // 定时器
-      timer: null
+      timer: null,
+      message:'',
     }
   },
   watch: {
@@ -225,6 +226,7 @@ export default {
         console.log(`${phoneError}***************************`)
         if (!phoneError) {
           // 验证码60秒倒计时
+          let self = this
           if (!this.timer) {
             axios
               .post('/api/v1/sms/send', { 'mobile': this.signupForm.phonenumber, 'check_mobile_exist': false, 'template': 'SMS_167655084' })
@@ -246,6 +248,12 @@ export default {
                       }
                     }
                   }, 1000)
+                  self.message && self.message.close()
+                  self.message = Message({
+                    message: '验证码发送成功',
+                    type: 'sucess',
+                    duration: 5 * 1000
+                  })
                 })
               .catch(function(error) { // 请求失败处理
                 Message({

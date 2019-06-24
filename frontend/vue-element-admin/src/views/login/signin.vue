@@ -52,7 +52,7 @@
           <!-- <span class="show-pwd" @click="showPwd">
             <svg-icon :icon-class="passwordType === 'password' ? 'eye' : 'eye-open'" />
           </span> -->
-          <el-button type="text" class="show-pwd" style="font-size:0.8em;" :disabled="codeDisabled" @click.native.prevent="sendCode()">
+          <el-button type="text" class="show-pwd" style="font-size:0.8em;color:#02A7F0" :disabled="codeDisabled" @click.native.prevent="sendCode()">
             {{ codeMsg }}
           </el-button>
         </el-form-item>

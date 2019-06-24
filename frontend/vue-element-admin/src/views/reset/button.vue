@@ -25,7 +25,7 @@
                         </span>
                     <el-input
                 v-model="input"
-                placeholder="请输入短信验证码"><span class="show-pwd" style="font-size:0.8em" @click="function(){}">
+                placeholder="请输入短信验证码"><span class="show-pwd" style="font-size:0.8em;" @click="function(){}">
                 发送验证码
             </span></el-input></el-form-item>
             </el-col>
