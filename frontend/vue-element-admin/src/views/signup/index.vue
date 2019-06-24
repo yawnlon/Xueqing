@@ -268,7 +268,7 @@ export default {
       })
     },
     handleSignup(formName) {
-      this.$refs[formName].validate((valid) => {
+      this.$refs.signupForm.validate((valid) => {
         if (!this.signupForm.checked) {
           Message({
             message: '注册请同意《用户服务协议》',
