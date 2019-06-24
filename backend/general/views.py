@@ -4,6 +4,9 @@ from utils import webhook as utils_webhook
 from utils import permissions as utils_permissions
 from utils import paginations as utils_paginations
 from users.serializers import SelfVerifySerializer
+from django.http import HttpResponseBadRequest, JsonResponse
+from django.views.decorators.csrf import csrf_exempt
+from django.utils.decorators import method_decorator
 from rest_framework import status
 from rest_framework import filters
 from rest_framework.exceptions import NotFound
@@ -33,24 +36,29 @@ class GithubWebhookView(WebHookView):
 
 class GiteeWebhookView(View):
     secret = utils_webhook.SECRET
+
+    @method_decorator(csrf_exempt)
+    def dispatch(self, request, *args, **kwargs):
+        return super().dispatch(request, *args, **kwargs)
+
     def post(self, request, *args, **kwargs):
         secret = self.secret
         if not secret:
             raise utils_http.APIException400('Webhook secret ist not defined.')
         if 'X-Gitee-Token' not in request.META:
-            return utils_http.gen_error_response('Request does not contain X-Gitee-Token header')
+            return HttpResponseBadRequest('Request does not contain X-Gitee-Token header')
         if request.META['X-Gitee-Token'] != secret:
-            return utils_http.gen_error_response('Password Wrong!')
+            return HttpResponseBadRequest('Password Wrong!')
         try:
             data = request.data
             if data['password'] != secret:
-                return utils_http.gen_error_response('Password Wrong!')
+                return HttpResponseBadRequest('Password Wrong!')
             if data['hook_name'] == 'push_hooks':
                 utils_webhook.reload()
-                return utils_http.gen_success_response()
+                return JsonResponse({'detail': 'Success!!'})
         except:
-            return utils_http.gen_error_response('Unknown Error!!!')
-        return utils_http.gen_error_response('Event does not Support!')
+            return HttpResponseBadRequest('Unknown Error!!!')
+        return HttpResponseBadRequest('Event does not Support!')
          
 github_web_hook_view = GithubWebhookView.as_view()
 gitee_web_hook_view = GiteeWebhookView.as_view()
