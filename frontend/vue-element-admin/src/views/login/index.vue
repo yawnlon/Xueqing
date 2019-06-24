@@ -1,5 +1,8 @@
 <template>
-  <div :style="bgImg" class="login-container">
+<el-container :style="bgImg">
+<el-row type="flex" class="row-bg" justify="center">
+  <el-col :span="12">
+  <div class="login-container">
     <el-form ref="loginForm" :model="loginForm" :rules="loginRules" class="login-form u1_div ax_default" autocomplete="on" label-position="left">
 
       <!-- <div class="title-container">
@@ -89,6 +92,10 @@
       <social-sign />
     </el-dialog>
   </div>
+  </el-col>
+</el-row>
+<Footer/>
+</el-container>
 </template>
 
 <script>
@@ -98,10 +105,11 @@ import log_img from '@/assets/front/logo-part3.png'
 import SocialSign from './components/SocialSignin'
 import axios from 'axios'
 import { MessageBox, Message } from 'element-ui'
+
 const Base64 = require('js-base64').Base64
 export default {
   name: 'Login',
-  // components: { SocialSign },
+  components: { Footer:require('@/views/common/footer').default},
   data() {
     var validatePassword = (rule, value, callback) => {
       value = value + ''
@@ -318,6 +326,10 @@ $mycursor:#666;
     margin-left: 25px;
     margin-right:25px;
   }
+  .el-form-item__error{
+    font-weight: bold;
+  }
+  
 }
 </style>
 
@@ -325,6 +337,10 @@ $mycursor:#666;
 $bg:rgba(105, 43, 128, 1);
 $dark_gray:#889aa4;
 $light_gray:#eee;
+.el-container{
+    width:100%;
+    height: 100%;
+  }
 .login-container {
   min-height: 100%;
   width: 100%;
@@ -488,5 +504,7 @@ $light_gray:#eee;
       display: none;
     }
   }
+  
 }
+
 </style>

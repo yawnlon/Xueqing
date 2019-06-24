@@ -1,5 +1,7 @@
 <template>
     <el-container :style="bg_img">
+        <el-row type="flex" class="row-bg" justify="center">
+  <el-col :span="12">
         <div class="agree_main">
             <h1>用户隐私和服务条款</h1>
 
@@ -166,6 +168,8 @@
 </el-row>
 
         </div>
+        </el-col>
+</el-row>
         <app-footer />
     </el-container>
 </template>
@@ -189,19 +193,20 @@ export default {
     .el-container {
         min-height: 100%;
         width: 100%;
-        padding: 0px 455px;
-        min-width: 768px;
         .agree_main {
             max-height: 700px;
             overflow:scroll;
-            width: 1000px;
             margin-top: 100px;
+            min-width: 700px;
+            overflow-x: auto;
             margin-bottom: 150px;
             padding: 30px 85px;
             background-color: white;
             font-family: "微软雅黑 Bold", "微软雅黑 Regular", 微软雅黑;
             font-style: normal;
             color: rgb(153, 153, 153);
+            /* 大屏幕 ：大于等于1200px*/
+
             h1 {
                 font-weight: 700;
                 font-size: 20px;
@@ -230,5 +235,19 @@ export default {
             }
         }
     }
+    @media (min-width: 1200px) {  }
+
+    /*默认*/
+    @media (min-width: 980px){  }
+
+    /* 平板电脑和小屏电脑之间的分辨率 */
+    @media (min-width: 768px) and (max-width: 979px) {  }
+
+    /* 横向放置的手机和竖向放置的平板之间的分辨率 */
+    @media (max-width: 767px) {  }
+
+    /* 横向放置的手机及分辨率更小的设备 */
+    @media (max-width: 480px) {  }
+
     
 </style>

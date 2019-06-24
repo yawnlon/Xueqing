@@ -41,6 +41,7 @@
         <!-- <router-link :to="{ name: 'reset_input', params: { username:'asdfasd' }}"></router-link> -->
       </el-form>
     </el-row>
+    <Footer/>
   </el-row>
 </template>
 
@@ -50,6 +51,7 @@ import { MessageBox, Message } from 'element-ui'
 // import { validUsername, isPhone } from '@/utils/validate'
 import log_img from '@/assets/front/logo-part3.png'
 export default {
+  components: { Footer:require('@/views/common/footer').default},
   data() {
     return {
       loginForm: {

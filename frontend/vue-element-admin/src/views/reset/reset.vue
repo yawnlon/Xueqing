@@ -37,6 +37,7 @@
         <el-col class="r_button"><el-button type="primary" :disabled="disable" @click="checkpwd">下一步</el-button></el-col>
       </el-form>
     </el-row>
+    <Footer/>
   </el-row>
 </template>
 
@@ -46,6 +47,7 @@ import { MessageBox, Message } from 'element-ui'
 import { validUsername, isPhone } from '@/utils/validate'
 import log_img from '@/assets/front/logo-part3.png'
 export default {
+  components: { Footer:require('@/views/common/footer').default},
   data() {
     const validatePassword = (rule, value, callback) => {
       if(this.loginForm.pwd===this.loginForm.newpwd){
