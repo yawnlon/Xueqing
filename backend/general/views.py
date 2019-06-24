@@ -9,6 +9,7 @@ from rest_framework import filters
 from rest_framework.exceptions import NotFound
 from rest_framework import viewsets
 from rest_framework import permissions
+from rest_framework import views
 from rest_framework.decorators import list_route
 from django_github_webhook.views import WebHookView
 from rest_framework import viewsets
@@ -23,14 +24,38 @@ def handler_404(request):
     # return utils_http.gen_error_response('请求的连接不存在', status.HTTP_404_NOT_FOUND)
     raise NotFound(detail="Error 404, page not found", code=404)
 
-class WebhookView(WebHookView):
+class GithubWebhookView(WebHookView):
     secret = utils_webhook.SECRET
 
     def push(self, payload, request):
         utils_webhook.reload()
         return {'detail': 'Success!!'}
 
-web_hook_view = WebhookView.as_view()
+class GiteeWebhookView(views.APIView):
+    secret = utils_webhook.SECRET
+    def post(self, request):
+        secret = self.secret
+        if not secret:
+            raise utils_http.APIException400('Webhook secret ist not defined.')
+        if 'X-Gitee-Token' not in request.META:
+            return utils_http.gen_error_response('Request does not contain X-Gitee-Token header')
+        if request.META['X-Gitee-Token'] != secret:
+            return utils_http.gen_error_response('Password Wrong!')
+        try:
+            data = request.data
+            if data['password'] != secret:
+                return utils_http.gen_error_response('Password Wrong!')
+            if data['hook_name'] == 'push_hooks':
+                utils_webhook.reload()
+                return utils_http.gen_success_response()
+        except:
+            return utils_http.gen_error_response('Unknown Error!!!')
+        return utils_http.gen_error_response('Event does not Support!')
+         
+github_web_hook_view = GithubWebhookView.as_view()
+gitee_web_hook_view = GiteeWebhookView.as_view()
+       
+
 
 class XQModelViewSet(viewsets.ModelViewSet):
     authentication_classes=[JSONWebTokenAuthentication]
