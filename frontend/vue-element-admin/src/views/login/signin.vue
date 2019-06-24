@@ -104,9 +104,9 @@ export default {
     var validatePassword = (rule, value, callback) => {
       value = value + ''
       if (value === '') {
-        callback(new Error('请输入密码'))
-      } else if (value.length < 6 || value.length > 20) {
-        callback(new Error('密码为6-20位字符'))
+        callback(new Error('请输入短信验证码'))
+      } else if (value.length!=6) {
+        callback(new Error('短信验证码格式错误'))
       } else {
         callback()
       }
@@ -202,6 +202,7 @@ export default {
       })
     },
     sendCode() {
+      let self = this
       this.$refs.loginForm.validateField('username', (error) => {
         if (!error) {
           // 验证码60秒倒计时
@@ -226,21 +227,20 @@ export default {
                 }, 1000)
                 // this.$router.push({ path: this.redirect || '/', query: this.otherQuery })
                 // this.loading = false
-                this.message && this.message.close()
-                this.message = Message({
+                self.message && self.message.close()
+                self.message = Message({
                   message: '验证码发送成功',
                   type: 'sucess',
                   duration: 5 * 1000
                 })
               })
-              .catch(function(error) { // 请求失败处理
-                this.message && this.message.close()
-                this.message = Message({
+              .catch(error=>{
+                self.message && self.message.close()
+                self.message = Message({
                   message: error.response.data.detail,
                   type: 'error',
                   duration: 5 * 1000
                 })
-                // console.log(error.response.data.detail)
               })
           }
         }

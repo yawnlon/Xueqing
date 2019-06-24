@@ -190,7 +190,10 @@ export default {
         min-height: 100%;
         width: 100%;
         padding: 0px 455px;
+        min-width: 768px;
         .agree_main {
+            max-height: 700px;
+            overflow:scroll;
             width: 1000px;
             margin-top: 100px;
             margin-bottom: 150px;

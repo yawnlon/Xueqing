@@ -1,9 +1,9 @@
 <template>
   <el-row class="container" :style="bg_img" type="flex" justify="center" align="middle">
     <el-row class="main" type="flex" justify="center">
-      <el-form ref="loginForm" :model="loginForm" :rules="loginRules" class="login-form u1_div ax_default" autocomplete="on" label-position="left">
+      <el-form ref="loginForm" :model="loginForm" :rules="loginRules" class="login-form u1_div ax_default" autocomplete="off" label-position="left">
         <el-col class="r_title"><img id="u18_img" class="img" :src="log_img" style="width:16em;margin-top:25px;"></el-col>
-        <el-col class="r_button"><el-button type="primary">重置密码</el-button></el-col>
+        <el-col class="r_button"><el-button type="primary" class="reset-button">重置密码</el-button></el-col>
 
         <el-col class="r_input">
           <el-form-item prop="pwd">
@@ -33,7 +33,7 @@
 
         </el-form-item>
         </el-col>
-
+           
         <el-col class="r_button"><el-button type="primary" :disabled="disable" @click="checkpwd">下一步</el-button></el-col>
       </el-form>
     </el-row>
@@ -48,25 +48,26 @@ import log_img from '@/assets/front/logo-part3.png'
 export default {
   data() {
     const validatePassword = (rule, value, callback) => {
-      if (value.length < 6 || value.length > 20) {
-        callback(new Error('密码为6-20位字符'))
-      } else {
+      if(this.loginForm.pwd===this.loginForm.newpwd){
         callback()
+      }else{
+        callback('两次密码不一致')
       }
     }
+   
     return {
       loginForm: {
         pwd: '',
         newpwd: ''
       },
       loginRules: {
-        pwd: [{ required: true, trigger: 'blur', validator: validatePassword }],
-        newpwd: [{ required: true, trigger: 'blur', validator: validatePassword }]
+        pwd: [{ required: true, trigger: 'blur', message:'请输入密码'},{ trigger: 'blur', min:6,max:20,message:'密码为6-20位字符'}],
+        newpwd: [{ required: true, trigger: 'blur', message:'请再次输入密码'},{trigger:'mouseout',min:6,max:20, validator: validatePassword }],
       },
       message: '',
       log_img: log_img,
       bg_img: 'background-image:url(' + require('@/assets/front/bg-01.png') + ');background-repeat: no-repeat;background-size:100% 100%;-moz-background-size:100% 100%;',
-      disable: true
+      disable: true,
     }
   },
   watch: {
@@ -75,8 +76,9 @@ export default {
       handler(n, o) {
         if (this.loginForm.newpwd === this.loginForm.pwd && this.loginForm.newpwd.length >= 6) {
           this.disable = false
-        } else {
+        } else if(this.loginForm.newpwd.length>=6) {
           this.disable = true
+          this.$refs.loginForm.validateField('newpwd');
         }
       }
     }
@@ -88,6 +90,7 @@ export default {
     }
   },
   methods: {
+    
     checkpwd() {
       this.$refs['loginForm'].validate(valid => {
         if (!valid) {
@@ -204,6 +207,9 @@ $cursor: #fff;
                 width: 300px;
                 height: 36px;
             }
+            .reset-button{
+              background-color: rgba(2, 167, 240, 1);
+            }
     }
     .show-pwd {
         position: absolute;
@@ -238,5 +244,8 @@ $cursor: #fff;
         line-height: 20px;
     }
 
+}
+.el-button--primary{
+    background-color: rgba(2, 167, 240, 1);
 }
 </style>

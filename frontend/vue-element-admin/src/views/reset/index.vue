@@ -4,7 +4,7 @@
       <el-form ref="loginForm" :model="loginForm" :rules="loginRules" class="login-form u1_div ax_default" autocomplete="on" label-position="left">
 
         <el-col class="r_title"><img id="u18_img" class="img" :src="log_img" style="width:16em;margin-top:25px;"></el-col>
-        <el-col class="r_button"><el-button type="primary">重置密码</el-button></el-col>
+        <el-col class="r_button"><el-button type="primary" class="reset-button">重置密码</el-button></el-col>
         <el-col class="r_input">
           <el-form-item prop="mobile">
             <i class="el-icon-mobile-phone" />
@@ -254,7 +254,13 @@ $cursor: #fff;
                 width: 300px;
                 height: 36px;
             }
+            .reset-button{
+              background-color: rgba(2, 167, 240, 1);
+            }
+            
     }
+    
+
     .show-pwd {
         position: absolute;
         right: 10px;
@@ -288,5 +294,8 @@ $cursor: #fff;
         line-height: 20px;
     }
 
+}
+.el-button--primary{
+    background-color: rgba(2, 167, 240, 1);
 }
 </style>

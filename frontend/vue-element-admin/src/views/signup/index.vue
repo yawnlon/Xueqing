@@ -94,7 +94,7 @@
         </el-form-item>
       </el-tooltip>
       <el-checkbox v-model="signupForm.checked" style="color:#999999">勾选同意
-        <router-link to="/signup/agreement" target="_blank">
+        <router-link to="/agree" target="_blank">
           <span style="color:#666666">《用户服务协议》</span>
         </router-link>
       </el-checkbox>
