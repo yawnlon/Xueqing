@@ -77,4 +77,7 @@ $cursor: #fff;
         margin-left: 25px;
         margin-right:25px;
     }
+    .el-form-item:focus-within {
+      border:1px solid rgba(2, 167, 240, 1);
+    }
 </style>
