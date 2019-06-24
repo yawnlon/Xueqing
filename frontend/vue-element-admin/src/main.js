@@ -31,9 +31,9 @@ import * as filters from './filters' // global filters
  * please remove it before going online! ! !
  */
 import { mockXHR } from '../mock'
-// if (process.env.NODE_ENV === 'production') {//development
-//   mockXHR()
-// }
+if (process.env.NODE_ENV === 'production') {//development
+  mockXHR()
+}
 
 console.log('current_ENV: '+process.env.NODE_ENV)
 
