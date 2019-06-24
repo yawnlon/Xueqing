@@ -45,25 +45,19 @@ class GiteeWebhookView(View):
         secret = self.secret
         if not secret:
             raise utils_http.APIException400('Webhook secret ist not defined.')
-        if 'X-Gitee-Token' not in request.META:
-            return HttpResponseBadRequest('Request does not contain X-Gitee-Token header')
-        if request.META['X-Gitee-Token'] != secret:
+        if 'HTTP_X_GITEE_TOKEN' not in request.META:
+            return HttpResponseBadRequest('Request does not contain HTTP_X_GITEE_TOKEN header')
+        if request.META['HTTP_X_GITEE_TOKEN'] != secret:
             return HttpResponseBadRequest('Password Wrong!')
-        try:
-            data = request.data
-            if data['password'] != secret:
-                return HttpResponseBadRequest('Password Wrong!')
-            if data['hook_name'] == 'push_hooks':
-                utils_webhook.reload()
-                return JsonResponse({'detail': 'Success!!'})
-        except:
-            return HttpResponseBadRequest('Unknown Error!!!')
-        return HttpResponseBadRequest('Event does not Support!')
+        if 'HTTP_X_GITEE_EVENT' not in request.META:
+            return HttpResponseBadRequest('Request does not contain HTTP_X_GITEE_EVENT header')
+        if request.META['HTTP_X_GITEE_EVENT'] != 'Push Hook':
+            HttpResponseBadRequest('Event does not Support!')
+        utils_webhook.reload()
+        return JsonResponse({'detail': 'Success!!'})
          
 github_web_hook_view = GithubWebhookView.as_view()
 gitee_web_hook_view = GiteeWebhookView.as_view()
-       
-
 
 class XQModelViewSet(viewsets.ModelViewSet):
     authentication_classes=[JSONWebTokenAuthentication]
