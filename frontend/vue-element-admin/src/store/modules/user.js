@@ -54,14 +54,14 @@ const actions = {
         //introduction: 'I am a super administrator',
         //avatar: 'https://wpimg.wallstcn.com/f778738c-e4f8-4870-b634-56703b4acafe.gif',
         //name: 'Super Admin'
-        // data.avatar='https://wpimg.wallstcn.com/f778738c-e4f8-4870-b634-56703b4acafe.gif'
-        // data.introduction='I am a super administrator'
-        // if(data.user.id){
-        //   commit('SET_ROLES', [data.user.type])
-        //   commit('SET_NAME', data.user.username)
-        //   commit('SET_AVATAR', data.avatar)//菜单栏，导航栏管理
-        //   commit('SET_INTRODUCTION', data.introduction)//介绍信息
-        // }
+        data.avatar='https://wpimg.wallstcn.com/f778738c-e4f8-4870-b634-56703b4acafe.gif'
+        data.introduction='I am a super administrator'
+        if(data.user.id){
+          commit('SET_ROLES', [data.user.type])
+          commit('SET_NAME', data.user.username)
+          commit('SET_AVATAR', data.avatar)//菜单栏，导航栏管理
+          commit('SET_INTRODUCTION', data.introduction)//介绍信息
+        }
         resolve()
       }).catch(error => {
         reject(error)
@@ -73,10 +73,10 @@ const actions = {
   getInfo({ commit, state }) {
     
     return new Promise((resolve, reject) => {
-      // if(state.roles.length>0){
-      //   //已经登录，不再用token去获取用户信息，直接跳转
-      //   resolve({roles:state.roles})
-      // }
+      if(state.roles.length>0){
+        //已经登录，不再用token去获取用户信息，直接跳转
+        resolve({roles:state.roles})
+      }
 
       getInfo(state.token).then(response => {
         const { data } = response
