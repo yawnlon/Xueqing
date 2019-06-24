@@ -325,6 +325,10 @@ $light_gray:#fff;
 $cursor: #fff;
 $more_gray:#999999;
 $mycursor:#666;
+
+svg{
+  font-size: 18px;
+}
 @supports (-webkit-mask: none) and (not (cater-color: $cursor)) {
   .login-container .el-input input {
     color: $cursor;

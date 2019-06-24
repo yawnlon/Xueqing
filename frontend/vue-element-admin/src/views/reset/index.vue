@@ -7,7 +7,7 @@
         <el-col class="r_button"><el-button type="primary" class="reset-button">重置密码</el-button></el-col>
         <el-col class="r_input">
           <el-form-item prop="mobile">
-            <i class="el-icon-mobile-phone" />
+            <svg-icon icon-class="mobile" />
             <el-input
               ref="mobile"
               v-model="loginForm.mobile"
@@ -17,7 +17,7 @@
         </el-col>
 
         <el-col class="r_input"><el-form-item prop="code">
-          <i class="el-icon-message" />
+         <svg-icon icon-class="email" />
           <el-input
             ref="cdoe"
             v-model="loginForm.code"
@@ -176,6 +176,10 @@ $dark_gray:#889aa4;
 $mycursor:#666;
 $more_gray:#999999;
 $cursor: #fff;
+
+svg{
+  font-size: 18px;
+}
 .container{
 
     height: inherit;

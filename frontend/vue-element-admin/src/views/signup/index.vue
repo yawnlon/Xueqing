@@ -17,7 +17,7 @@
       </el-form-item>
       <el-form-item prop="phonenumber">
         <span class="svg-container">
-          <svg-icon icon-class="user" />
+          <svg-icon icon-class="mobile" />
         </span>
         <el-input
           ref="phonenumber"
@@ -31,7 +31,7 @@
       </el-form-item>
       <el-form-item prop="valicode">
         <span class="svg-container">
-          <svg-icon icon-class="user" />
+          <svg-icon icon-class="email" />
         </span>
         <el-input
           ref="valicode"
@@ -319,6 +319,11 @@ export default {
 
 /* reset element-ui css */
 $more_gray:#999999;
+
+
+svg{
+  font-size: 18px;
+}
 .signup-container {
     margin: 0px;
     background-color: rgba(240, 242, 245, 1);

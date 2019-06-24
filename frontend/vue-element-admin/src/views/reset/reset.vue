@@ -7,7 +7,7 @@
 
         <el-col class="r_input">
           <el-form-item prop="pwd">
-            <i class="el-icon-mobile-phone" />
+            <svg-icon icon-class="password" />
             <el-input
               ref="pwd"
               v-model="loginForm.pwd"
@@ -19,7 +19,7 @@
         <el-col class="r_input">
 
           <el-form-item prop="newpwd">
-          <i class="el-icon-message" />
+          <svg-icon icon-class="password" />
           <el-input
             ref="newpwd"
             v-model="loginForm.newpwd"
@@ -129,6 +129,9 @@ $dark_gray:#889aa4;
 $mycursor:#666;
 $more_gray:#999999;
 $cursor: #fff;
+svg{
+  font-size: 18px;
+}
 .container{
 
     height: inherit;
