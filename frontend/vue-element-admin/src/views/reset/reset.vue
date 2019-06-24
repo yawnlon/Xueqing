@@ -87,9 +87,9 @@ export default {
   },
   created() {
     // Object.keys(a).length
-    // if (Object.keys(this.$route.params).length == 0) {
-    //   this.$router.push({ path: '/' })
-    // }
+    if (Object.keys(this.$route.params).length == 0) {
+      this.$router.push({ path: '/' })
+    }
   },
   methods: {
     
@@ -160,7 +160,7 @@ svg{
                 border-radius: 0px;
                 // padding: 12px 5px 12px 15px;
                 color: $more_gray;
-                height: 35px;
+                height: 40px;
                 caret-color: $mycursor;
                 &:-webkit-autofill {
                     box-shadow: 0 0 0px 1000px $bg inset !important;

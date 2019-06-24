@@ -504,7 +504,7 @@ $light_gray:#eee;
   .show-pwd {
     position: absolute;
     right: 10px;
-    top: 7px;
+    top: 4px;
     font-size: 16px;
     color: $dark_gray;
     cursor: pointer;
