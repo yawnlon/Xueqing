@@ -23,8 +23,8 @@
           ref="phonenumber"
           v-model="signupForm.phonenumber"
           placeholder="请输入手机号码"
-          name="username"
           type="text"
+          name="username"
           tabindex="2"
           autocomplete="off"
         />
@@ -89,9 +89,9 @@
           </span>
         </el-form-item>
       </el-tooltip>
-      <el-checkbox v-model="signupForm.checked" style="color:#999999">
+      <el-checkbox v-model="signupForm.checked" style="color:#999999">勾选同意
         <router-link to="/agree" target="_blank">
-          <span style="color:#666666">勾选同意《用户服务协议》</span>
+          <span style="color:#666666">《用户服务协议》</span>
         </router-link>
       </el-checkbox>
       <el-button :loading="loading" type="primary" class="btn" @click.native.prevent="handleSignup('signupForm')">注册</el-button>
@@ -272,11 +272,12 @@ export default {
         if (valid) {
           // this.loading = true
           axios
-            .post('/mock/account/register', { 'name': this.signupForm.username, 'mobile': this.signupForm.phonenumber, 'code': this.signupForm.valicode, 'password': this.signupForm.password })
+            .post('/api/v1/account/register', { 'name': this.signupForm.username, 'mobile': this.signupForm.phonenumber, 'code': this.signupForm.valicode, 'password': this.signupForm.password })
             .then(
               (response) => {
-                this.loading = false
                 this.$store.dispatch('user/registerSucc',response.data)
+                console.log(response)
+                this.loading = false
                 this.$router.push({ path: '/success', query: { tip: '恭喜您注册成功', redirect: '/', content: '进入首页' }})
               })
             .catch(function(error) { // 请求失败处理
@@ -308,7 +309,6 @@ export default {
 /* 修复input 背景不协调 和光标变色 */
 /* Detail see https://github.com/PanJiaChen/vue-element-admin/pull/927 */
 
-
 /* reset element-ui css */
 $more_gray:#999999;
 .signup-container {
@@ -338,9 +338,9 @@ $more_gray:#999999;
       -webkit-appearance: none;
       border-radius: 0px;
       padding: 3px 2px;
-      height: 42px;
+      height: 40px;
       &:-webkit-autofill {
-        box-shadow: 0 0 0px 1000px white inset !important;
+       box-shadow: 0 0 0px 1000px white inset !important;
         -webkit-text-fill-color: $more_gray !important;
       }
     }
@@ -353,7 +353,6 @@ $more_gray:#999999;
     border-radius: 5px;
     // color: #454545;
     margin: 20px auto;
-    overflow: hidden;
   }
   .el-checkbox__input.is-checked .el-checkbox__inner{
     background-color: rgba(2, 167, 240, 1);
@@ -361,7 +360,8 @@ $more_gray:#999999;
   }
   .el-form-item__error{
     font-weight: bold;
-  }
+   }
+
 }
 </style>
 
