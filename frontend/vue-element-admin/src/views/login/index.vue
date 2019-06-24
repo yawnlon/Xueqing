@@ -291,6 +291,7 @@ $light_gray:#fff;
 $cursor: #fff;
 $more_gray:#999999;
 $mycursor:#666;
+
 @supports (-webkit-mask: none) and (not (cater-color: $cursor)) {
   .login-container .el-input input {
     color: $cursor;
@@ -313,8 +314,8 @@ $mycursor:#666;
       height: 47px;
       caret-color: $mycursor;
       &:-webkit-autofill {
-        box-shadow: 0 0 0px 1000px $bg inset !important;
-        -webkit-text-fill-color: $cursor !important;
+        box-shadow: 0 0 0px 1000px white inset !important;
+        -webkit-text-fill-color: $more_gray !important;
       }
     }
   }
@@ -329,7 +330,10 @@ $mycursor:#666;
   .el-form-item__error{
     font-weight: bold;
   }
-  
+  .el-checkbox__input.is-checked .el-checkbox__inner{
+    background-color: rgba(2, 167, 240, 1);
+    border-color: rgba(2, 167, 240, 1);
+  }
 }
 </style>
 

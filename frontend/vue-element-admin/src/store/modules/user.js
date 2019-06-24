@@ -154,7 +154,7 @@ const actions = {
   },
 
   //register successfuly
-  registerSucc({ commit, dispatch }, data){
+  registerSucc({ commit,}, data){
     return new Promise(async resolve => {
       // const roles = data.data.user.type //学生类型，暂时先写死为admin类型，后期写权限的时候，在修改
       const roles = 'admin'

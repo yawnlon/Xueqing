@@ -60,8 +60,8 @@
         </el-form-item>
       </el-tooltip>
       <el-row class="login_font lgn_row_top">
-        <el-col :span="12"><div class="grid-content bg-purple left"><el-checkbox v-model="checked" />&nbsp;记住登录状态</div></el-col>
-        <el-col :span="12"><div class="grid-content bg-purple-light right"><router-link to="/reset">忘记密码？</router-link></div></el-col>
+        <!-- <el-col :span="12"><div class="grid-content bg-purple left"><el-checkbox v-model="checked" />&nbsp;记住登录状态</div></el-col> -->
+        <el-col :span="12" :offset="12"><div class="grid-content bg-purple-light right"><router-link to="/reset">忘记密码？</router-link></div></el-col>
       </el-row>
       <el-button :loading="loading" type="primary" class="u3_div" @click.native.prevent="handleLogin">登录</el-button>
       <el-row class="login_font lgn_row_bottom">
@@ -349,8 +349,8 @@ $mycursor:#666;
       height: 47px;
       caret-color: $mycursor;
       &:-webkit-autofill {
-        box-shadow: 0 0 0px 1000px $bg inset !important;
-        -webkit-text-fill-color: $cursor !important;
+        box-shadow: 0 0 0px 1000px white inset !important;
+        -webkit-text-fill-color: $more_gray !important;
       }
     }
   }
