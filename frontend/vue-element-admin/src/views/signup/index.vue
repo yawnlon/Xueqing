@@ -448,7 +448,7 @@ svg{
     background-color: rgba(2, 167, 240, 0.8);
   }
   .svg-container {
-    padding: 0px 7px;
+    padding: 3px 7px;
     vertical-align: middle;
     color: #889aa4;
     width: 30px;
