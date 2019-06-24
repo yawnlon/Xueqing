@@ -9,10 +9,10 @@ from rest_framework import filters
 from rest_framework.exceptions import NotFound
 from rest_framework import viewsets
 from rest_framework import permissions
-from rest_framework import views
 from rest_framework.decorators import list_route
 from django_github_webhook.views import WebHookView
 from rest_framework import viewsets
+from django.views.generic import View
 from rest_framework import permissions
 from rest_framework_jwt.authentication import JSONWebTokenAuthentication
 
@@ -31,9 +31,9 @@ class GithubWebhookView(WebHookView):
         utils_webhook.reload()
         return {'detail': 'Success!!'}
 
-class GiteeWebhookView(views.APIView):
+class GiteeWebhookView(View):
     secret = utils_webhook.SECRET
-    def post(self, request):
+    def post(self, request, *args, **kwargs):
         secret = self.secret
         if not secret:
             raise utils_http.APIException400('Webhook secret ist not defined.')
