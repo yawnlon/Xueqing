@@ -1,5 +1,5 @@
 <template>
-  <div class="signup-container" :style="{backgroundImage: 'url(' + bg_img + ')' }">
+<el-container :style="{backgroundImage: 'url(' + bg_img + ')' }" class="signup-container">
     <el-form ref="signupForm" :model="signupForm" :rules="signupRules" class="signup-form" autocomplete="on" label-position="left">
       <img class="logo-img" :src="logo_img">
       <el-form-item prop="username">
@@ -100,7 +100,7 @@
       </div>
     </el-form>
     <app-footer />
-  </div>
+</el-container>
 </template>
 <script>
 import axios from 'axios'
@@ -325,7 +325,6 @@ svg{
   font-size: 18px;
 }
 .signup-container {
-    margin: 0px;
     background-color: rgba(240, 242, 245, 1);
     background-image: none;
     position: relative;
@@ -403,7 +402,7 @@ svg{
     height: 589px;
     max-width: 100%;
     padding: 1% 26px;
-    margin: 5% auto;
+    margin:auto;
     overflow: hidden;
     border-radius: 10px;
     .login-container {

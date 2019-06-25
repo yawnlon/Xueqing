@@ -68,7 +68,7 @@ export default {
       },
       message: '',
       log_img: log_img,
-      bg_img: 'background-image:url(' + require('@/assets/front/bg-01.png') + ');background-repeat: no-repeat;background-size:100% 100%;-moz-background-size:100% 100%;',
+      bgImg: 'background-image:url(' + require('@/assets/front/bg-01.png') + ');background-repeat: repeat;background-color: #02a7f0;',
       disable: true,
     }
   },

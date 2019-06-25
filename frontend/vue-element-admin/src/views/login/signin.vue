@@ -19,7 +19,7 @@
 
       <el-form-item prop="username">
         <span class="svg-container">
-          <svg-icon icon-class="user" />
+          <svg-icon icon-class="mobile" />
         </span>
         <el-input
           ref="username"
@@ -139,7 +139,7 @@ export default {
       otherQuery: {},
       log_img: log_img, // + '?' + new Date(),
       checked: false,
-      bgImg: 'background-image:url(' + require('@/assets/front/bg-01.png') + ');background-repeat: no-repeat;background-size:100% 100%;-moz-background-size:100% 100%;',
+      bgImg: 'background-image:url(' + require('@/assets/front/bg-01.png') + ');background-repeat: repeat;background-color: #02a7f0;',
       message: '',
       // 是否禁用按钮
       codeDisabled: false,

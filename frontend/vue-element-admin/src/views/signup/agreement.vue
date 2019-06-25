@@ -182,7 +182,7 @@ export default {
     },
     data(){
         return {
-            bg_img:'background-image:url('+require('@/assets/front/bg-01.png')+');background-repeat: no-repeat;background-size:100% 100%;-moz-background-size:100% 100%;',
+            bg_img: 'background-image:url(' + require('@/assets/front/bg-01.png') + ');background-repeat: repeat;background-color: #02a7f0;',
         }
     }
 }
