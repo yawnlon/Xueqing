@@ -21,10 +21,6 @@
 * 安装Nginx（sudo apt-get install nginx）
 * 修改Nginx的配置文件
 
-# 第三方账号
-* 阿里云: 601748004lyx Xueqing2019.
-* 七牛云: juicecwc@qq.com Xueqing.
-
 # 产品原型
 https://b9zvtw.axshare.com/
 
